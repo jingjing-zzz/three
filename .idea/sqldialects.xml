@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/database/base/ai-2025-08-29.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/bpm-2025-10-04.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/crm-2024-09-30.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/erp-2024-05-03.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/iot-2026-02-10.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/mall-2025-05-12.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/member-2024-01-18.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/mp-2025-12-07.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/pay-2025-07-27.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/database/base/ruoyi-vue-pro.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/database/new/new-i18n-ar.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/database/new/new-i18n.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/database/new/new-large-file-upload.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/database/new/new-mall-i18n.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/database/replace-en/dict_data_label_to_english.sql" dialect="MySQL" />
+  </component>
+</project>
