@@ -66,6 +66,24 @@ if [ -d "$SQL_NEW_DIR" ]; then
         echo "Executing: new-large-file-upload.sql"
         mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-large-file-upload.sql"
     fi
+
+    # 4.6 执行 new-crm-business-fields.sql (商机字段扩展: source + competitor)
+    if [ -f "${SQL_NEW_DIR}/new-crm-business-fields.sql" ]; then
+        echo "Executing: new-crm-business-fields.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-crm-business-fields.sql"
+    fi
+
+    # 4.7 执行 new-crm-business-quotation.sql (商机报价表: quotation + quotation_item)
+    if [ -f "${SQL_NEW_DIR}/new-crm-business-quotation.sql" ]; then
+        echo "Executing: new-crm-business-quotation.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-crm-business-quotation.sql"
+    fi
+
+    # 4.8 执行 new-crm-business-source-dict.sql (商机来源字典)
+    if [ -f "${SQL_NEW_DIR}/new-crm-business-source-dict.sql" ]; then
+        echo "Executing: new-crm-business-source-dict.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-crm-business-source-dict.sql"
+    fi
 fi
 
 echo "MySQL initialization completed successfully!"
