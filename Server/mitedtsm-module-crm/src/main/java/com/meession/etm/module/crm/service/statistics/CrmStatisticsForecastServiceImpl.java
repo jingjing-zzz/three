@@ -1,6 +1,7 @@
 package com.meession.etm.module.crm.service.statistics;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.meession.etm.framework.common.pojo.PageResult;
 import com.meession.etm.framework.mybatis.core.query.LambdaQueryWrapperX;
 import com.meession.etm.module.crm.controller.admin.statistics.vo.forecast.CrmStatisticsForecastDetailRespVO;
@@ -197,7 +198,7 @@ public class CrmStatisticsForecastServiceImpl implements CrmStatisticsForecastSe
   /**
    * 构建查询条件：排除已流失商机（endStatus != 2），按负责人、预计成交时间、状态组筛选
    */
-  private LambdaQueryWrapperX<CrmBusinessDO> buildQueryWrapper(CrmStatisticsForecastReqVO reqVO) {
+  private LambdaQueryWrapper<CrmBusinessDO> buildQueryWrapper(CrmStatisticsForecastReqVO reqVO) {
     return new LambdaQueryWrapperX<CrmBusinessDO>()
         .inIfPresent(CrmBusinessDO::getOwnerUserId, reqVO.getUserIds())
         .eqIfPresent(CrmBusinessDO::getStatusTypeId, reqVO.getStatusTypeId())
