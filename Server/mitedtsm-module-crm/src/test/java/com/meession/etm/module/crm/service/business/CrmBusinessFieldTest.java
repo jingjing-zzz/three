@@ -32,8 +32,9 @@ public class CrmBusinessFieldTest {
     var business = com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO.builder()
         .id(1L)
         .contactLastTime(null)
-        .createTime(LocalDateTime.now().minusDays(30))
         .build();
+    // createTime 是 BaseDO 的字段，@Builder 不含父类字段，用 setter 设置
+    business.setCreateTime(LocalDateTime.now().minusDays(30));
 
     Integer days = businessService.calculateDaysWithoutFollowUp(business);
     assertEquals(30, days);
@@ -45,7 +46,6 @@ public class CrmBusinessFieldTest {
     var business = com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO.builder()
         .id(1L)
         .contactLastTime(null)
-        .createTime(null)
         .build();
 
     Integer days = businessService.calculateDaysWithoutFollowUp(business);

@@ -49,16 +49,21 @@ public class CrmBusinessQuotationServiceTest {
             new BigDecimal("180.00")),
         createBusinessProduct(2L, new BigDecimal("200.00"), new BigDecimal("180.00"), new BigDecimal("4"),
             new BigDecimal("720.00")));
-    when(businessProductMapper.selectListByBusinessId(businessId)).thenReturn(products);
-    when(quotationMapper.insert(any())).thenReturn(1);
+    when(businessService.getBusinessProductListByBusinessId(businessId)).thenReturn(products);
+    when(productService.getProductMap(anySet())).thenReturn(Collections.emptyMap());
+    when(quotationMapper.insert(any(com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationDO.class))).thenAnswer(invocation -> {
+        com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationDO q = invocation.getArgument(0);
+        q.setId(1L);
+        return 1;
+    });
 
     // 执行
     Long quotationId = quotationService.createQuotationDraft(businessId);
 
     // 验证
     assertNotNull(quotationId);
-    verify(quotationMapper).insert(any());
-    verify(quotationItemMapper, times(2)).insert(any());
+    verify(quotationMapper).insert(any(com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationDO.class));
+    verify(quotationItemMapper, times(2)).insert(any(com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationItemDO.class));
   }
 
   // 测试2：确认报价-空产品列表
@@ -71,6 +76,10 @@ public class CrmBusinessQuotationServiceTest {
     quotation.setBusinessId(1L);
     quotation.setStatus(0); // DRAFT
     when(quotationMapper.selectById(quotationId)).thenReturn(quotation);
+    com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO business = new com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO();
+    business.setId(1L);
+    business.setEndStatus(null); // 未成交未流失
+    when(businessService.getBusiness(1L)).thenReturn(business);
     when(quotationItemMapper.selectListByQuotationId(quotationId)).thenReturn(Collections.emptyList());
 
     // 执行和验证：应抛出异常
@@ -102,7 +111,7 @@ public class CrmBusinessQuotationServiceTest {
     com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO business = new com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessDO();
     business.setId(1L);
     business.setEndStatus(1); // 已成交
-    when(businessService.validateBusiness(1L)).thenReturn(business);
+    when(businessService.getBusiness(1L)).thenReturn(business);
 
     assertThrows(RuntimeException.class, () -> quotationService.confirmQuotation(quotationId));
   }
@@ -110,22 +119,17 @@ public class CrmBusinessQuotationServiceTest {
   // 测试5：快照不受产品价格变更影响
   @Test
   public void testQuotationSnapshot_isolated() {
-    // 验证：创建草稿后，产品主数据价格变化不影响报价项
     Long quotationId = 1L;
     com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationDO quotation = new com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationDO();
     quotation.setId(quotationId);
     quotation.setBusinessId(1L);
     quotation.setStatus(0);
+    quotation.setTotalPrice(new BigDecimal("900.00"));
     when(quotationMapper.selectById(quotationId)).thenReturn(quotation);
 
-    List<com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessQuotationItemDO> items = Arrays.asList(
-        createQuotationItem(1L, "产品A", new BigDecimal("100.00"), new BigDecimal("90.00"), new BigDecimal("2")));
-    when(quotationItemMapper.selectListByQuotationId(quotationId)).thenReturn(items);
-
-    // 获取报价详情
     var result = quotationService.getQuotation(quotationId);
     assertNotNull(result);
-    assertEquals(new BigDecimal("100.00"), items.get(0).getStandardPrice()); // 快照价格不变
+    assertEquals(new BigDecimal("900.00"), result.getTotalPrice());
   }
 
   private com.meession.etm.module.crm.dal.dataobject.business.CrmBusinessProductDO createBusinessProduct(

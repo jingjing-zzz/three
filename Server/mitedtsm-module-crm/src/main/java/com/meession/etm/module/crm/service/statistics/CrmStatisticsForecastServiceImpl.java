@@ -51,6 +51,10 @@ public class CrmStatisticsForecastServiceImpl implements CrmStatisticsForecastSe
   public CrmStatisticsForecastSummaryRespVO getForecastSummary(CrmStatisticsForecastReqVO reqVO) {
     // 1. 查询非流失商机（endStatus IS NULL 或 endStatus != 2），按负责人、预计成交时间、状态组筛选
     List<CrmBusinessDO> list = businessMapper.selectList(buildQueryWrapper(reqVO));
+    // 在 Java 层再次过滤流失商机，确保即使数据库查询未过滤也不会计入
+    list = list.stream()
+        .filter(b -> !Integer.valueOf(CrmBusinessEndStatusEnum.LOSE.getStatus()).equals(b.getEndStatus()))
+        .collect(Collectors.toList());
     CrmStatisticsForecastSummaryRespVO resp = new CrmStatisticsForecastSummaryRespVO();
     if (CollUtil.isEmpty(list)) {
       resp.setBusinessCount(0);
@@ -120,6 +124,11 @@ public class CrmStatisticsForecastServiceImpl implements CrmStatisticsForecastSe
   public PageResult<CrmStatisticsForecastDetailRespVO> getForecastPage(CrmStatisticsForecastReqVO reqVO) {
     // 1. 分页查询非流失商机
     PageResult<CrmBusinessDO> pageResult = businessMapper.selectPage(reqVO, buildQueryWrapper(reqVO));
+    // 在 Java 层再次过滤流失商机
+    List<CrmBusinessDO> filteredList = pageResult.getList().stream()
+        .filter(b -> !Integer.valueOf(CrmBusinessEndStatusEnum.LOSE.getStatus()).equals(b.getEndStatus()))
+        .collect(Collectors.toList());
+    pageResult = new PageResult<>(filteredList, (long) filteredList.size());
     if (CollUtil.isEmpty(pageResult.getList())) {
       return new PageResult<>(Collections.emptyList(), pageResult.getTotal());
     }
