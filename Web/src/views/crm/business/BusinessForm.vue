@@ -85,6 +85,18 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="商机来源" prop="source">
+            <el-input v-model="formData.source" placeholder="请输入商机来源" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="竞争对手" prop="competitor">
+            <el-input v-model="formData.competitor" placeholder="请输入竞争对手" />
+          </el-form-item>
+        </el-col>
+      </el-row>
       <!-- 子表的表单 -->
       <ContentWrap>
         <el-tabs v-model="subTabsName" class="-mt-15px -mb-10px">
@@ -166,6 +178,8 @@ const formData = ref({
   totalProductPrice: undefined,
   totalPrice: undefined,
   remark: undefined,
+  source: undefined,
+  competitor: undefined,
   products: [],
   contactId: undefined,
   customerDefault: false
@@ -282,6 +296,8 @@ const resetForm = () => {
     totalProductPrice: undefined,
     totalPrice: undefined,
     remark: undefined,
+    source: undefined,
+    competitor: undefined,
     products: [],
     contactId: undefined,
     customerDefault: false

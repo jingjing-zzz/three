@@ -40,6 +40,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -317,6 +318,18 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
     @CrmPermission(bizType = CrmBizTypeEnum.CRM_BUSINESS, bizId = "#id", level = CrmPermissionLevelEnum.READ)
     public CrmBusinessDO getBusiness(Long id) {
         return businessMapper.selectById(id);
+    }
+
+    @Override
+    public Integer calculateDaysWithoutFollowUp(CrmBusinessDO business) {
+        // 规则：若有 contactLastTime，用当前时间减去它；若无，用当前时间减去 createTime
+        LocalDateTime baseTime = business.getContactLastTime() != null
+                ? business.getContactLastTime()
+                : business.getCreateTime();
+        if (baseTime == null) {
+            return 0;
+        }
+        return (int) ChronoUnit.DAYS.between(baseTime, LocalDateTime.now());
     }
 
     @Override
