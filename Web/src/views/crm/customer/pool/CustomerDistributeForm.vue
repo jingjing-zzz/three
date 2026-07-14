@@ -36,7 +36,7 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const userOptions = ref<UserApi.UserVO[]>([]) // 用户列表
 const formData = ref({
-  id: undefined,
+  ids: [] as number[],
   ownerUserId: undefined
 })
 const formRules = reactive({
@@ -45,10 +45,10 @@ const formRules = reactive({
 const formRef = ref() // 表单 Ref
 
 /** 打开弹窗 */
-const open = async (id: number) => {
+const open = async (ids: number[]) => {
   dialogVisible.value = true
   resetForm()
-  formData.value.id = id
+  formData.value.ids = ids
   // 获得用户列表
   userOptions.value = await UserApi.getSimpleUserList()
 }
@@ -64,7 +64,7 @@ const submitForm = async () => {
   // 提交请求
   formLoading.value = true
   try {
-    await CustomerApi.distributeCustomer([formData.value.id], formData.value.ownerUserId)
+    await CustomerApi.distributeCustomer(formData.value.ids, formData.value.ownerUserId)
     message.success(t('assignSuccess'))
     dialogVisible.value = false
     // 发送操作成功的事件
@@ -77,7 +77,7 @@ const submitForm = async () => {
 /** 重置表单 */
 const resetForm = () => {
   formData.value = {
-    id: undefined,
+    ids: [],
     ownerUserId: undefined
   }
   formRef.value?.resetFields()

@@ -6,114 +6,176 @@
       type="primary"
       @click="openForm"
     >
-      {{ t('edit') }}
-    </el-button>
-    <el-button v-if="permissionListRef?.validateOwnerUser" type="primary" @click="transfer">
-      {{ t('transfer') }}
-    </el-button>
-    <el-button v-if="permissionListRef?.validateWrite" @click="handleUpdateDealStatus">
-      {{ t('changeDealStatus') }}
+      {{ t('customer.edit') }}
     </el-button>
     <el-button
-      v-if="customer.lockStatus && permissionListRef?.validateOwnerUser"
-      @click="handleUnlock"
+      v-if="permissionListRef?.validateOwnerUser"
+      type="primary"
+      @click="handleTransfer"
     >
-      {{ t('unlock') }}
+      {{ t('customer.transfer') }}
     </el-button>
     <el-button
-      v-if="!customer.lockStatus && permissionListRef?.validateOwnerUser"
-      @click="handleLock"
+      v-if="permissionListRef?.validateOwnerUser && !customer.lockStatus"
+      type="warning"
+      @click="handleLock(true)"
     >
-      {{ t('lock') }}
-    </el-button>
-    <el-button v-if="!customer.ownerUserId" type="primary" @click="handleReceive"> {{ t('receive') }}</el-button>
-    <el-button v-if="!customer.ownerUserId" type="primary" @click="handleDistributeForm">
-      {{ t('assign') }}
+      {{ t('customer.lock') }}
     </el-button>
     <el-button
-      v-if="customer.ownerUserId && permissionListRef?.validateOwnerUser"
+      v-if="permissionListRef?.validateOwnerUser && customer.lockStatus"
+      type="success"
+      @click="handleLock(false)"
+    >
+      {{ t('customer.unlock') }}
+    </el-button>
+    <el-button
+      v-if="permissionListRef?.validateOwnerUser"
+      type="primary"
+      @click="handleChangeDealStatus"
+    >
+      {{ t('customer.changeDealStatus') }}
+    </el-button>
+    <el-button
+      v-if="permissionListRef?.validateOwnerUser"
+      type="danger"
       @click="handlePutPool"
     >
-      {{ t('putPool') }}
+      {{ t('customer.putPool') }}
     </el-button>
   </CustomerDetailsHeader>
   <el-col>
-    <el-tabs>
-      <el-tab-pane :label="t('followUpTab')">
+    <el-tabs v-model="activeTab">
+      <el-tab-pane :label="t('customer.followUpTab')" name="followUp">
         <FollowUpList :biz-id="customerId" :biz-type="BizTypeEnum.CRM_CUSTOMER" />
       </el-tab-pane>
-      <el-tab-pane :label="t('basicInfoTab')">
+      <el-tab-pane :label="t('customer.basicInfoTab')" name="basicInfo">
         <CustomerDetailsInfo :customer="customer" />
       </el-tab-pane>
-      <el-tab-pane :label="t('contactTab')" lazy>
-        <ContactList
-          :biz-id="customer.id!"
-          :customer-id="customer.id!"
-          :biz-type="BizTypeEnum.CRM_CUSTOMER"
-        />
-      </el-tab-pane>
-      <el-tab-pane :label="t('teamMemberTab')">
+      <el-tab-pane :label="t('customer.teamMemberTab')" name="teamMember">
         <PermissionList
           ref="permissionListRef"
-          :biz-id="customer.id!"
+          :biz-id="customerId"
           :biz-type="BizTypeEnum.CRM_CUSTOMER"
-          :show-action="!permissionListRef?.isPool || false"
+          :show-action="true"
           @quit-team="close"
         />
       </el-tab-pane>
-      <el-tab-pane :label="t('businessTab')" lazy>
-        <BusinessList
-          :biz-id="customer.id!"
-          :customer-id="customer.id!"
-          :biz-type="BizTypeEnum.CRM_CUSTOMER"
-        />
+      <el-tab-pane :label="t('customer.contactTab')" name="contact">
+        <CustomerContactList :customer-id="customerId" />
       </el-tab-pane>
-      <el-tab-pane :label="t('contractTab')" lazy>
-        <ContractList :biz-id="customer.id!" :biz-type="BizTypeEnum.CRM_CUSTOMER" />
+      <el-tab-pane :label="t('customer.businessTab')" name="business">
+        <el-empty v-if="businessList.length === 0" :description="t('common.noData')" />
+        <el-table v-else :data="businessList" :show-overflow-tooltip="true" :stripe="true">
+          <el-table-column align="center" :label="t('business.name')" prop="name" min-width="160">
+            <template #default="scope">
+              <el-link :underline="false" type="primary" @click="openBusinessDetail(scope.row.id)">
+                {{ scope.row.name }}
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('business.statusType')" prop="statusTypeName" min-width="120" />
+          <el-table-column align="center" :label="t('business.totalPrice')" prop="totalPrice" min-width="120">
+            <template #default="scope">
+              {{ scope.row.totalPrice }}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('common.createTime')" min-width="160">
+            <template #default="scope">
+              {{ formatDate(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="t('receivableTab')" lazy>
-        <ReceivablePlanList :customer-id="customer.id!" @create-receivable="createReceivable" />
-        <ReceivableList ref="receivableListRef" :customer-id="customer.id!" />
+      <el-tab-pane :label="t('customer.contractTab')" name="contract">
+        <el-empty v-if="contractList.length === 0" :description="t('common.noData')" />
+        <el-table v-else :data="contractList" :show-overflow-tooltip="true" :stripe="true">
+          <el-table-column align="center" :label="t('contract.name')" prop="name" min-width="160">
+            <template #default="scope">
+              <el-link :underline="false" type="primary" @click="openContractDetail(scope.row.id)">
+                {{ scope.row.name }}
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('contract.totalPrice')" prop="totalPrice" min-width="120">
+            <template #default="scope">
+              {{ scope.row.totalPrice }}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('contract.auditStatus')" prop="auditStatus" min-width="100">
+            <template #default="scope">
+              <dict-tag :type="DICT_TYPE.CRM_AUDIT_STATUS" :value="scope.row.auditStatus" />
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('common.createTime')" min-width="160">
+            <template #default="scope">
+              {{ formatDate(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+        </el-table>
       </el-tab-pane>
-      <el-tab-pane :label="t('operateLogTab')">
+      <el-tab-pane :label="t('customer.receivableTab')" name="receivable">
+        <el-empty v-if="receivableList.length === 0" :description="t('common.noData')" />
+        <el-table v-else :data="receivableList" :show-overflow-tooltip="true" :stripe="true">
+          <el-table-column align="center" :label="t('receivable.planName')" prop="planName" min-width="160">
+            <template #default="scope">
+              <el-link :underline="false" type="primary" @click="openReceivableDetail(scope.row.id)">
+                {{ scope.row.planName }}
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('receivable.price')" prop="price" min-width="120">
+            <template #default="scope">
+              {{ scope.row.price }}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" :label="t('receivable.auditStatus')" prop="auditStatus" min-width="100" />
+          <el-table-column align="center" :label="t('common.createTime')" min-width="160">
+            <template #default="scope">
+              {{ formatDate(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane :label="t('customer.operateLogTab')" name="operateLog">
         <OperateLogV2 :log-list="logList" />
       </el-tab-pane>
     </el-tabs>
   </el-col>
 
-  <!-- 表单弹窗：添加/修改 -->
+  <!-- 表单弹窗：编辑 -->
   <CustomerForm ref="formRef" @success="getCustomer" />
-  <CustomerDistributeForm ref="distributeForm" @success="getCustomer" />
+  <!-- 转移弹窗 -->
   <CrmTransferForm ref="transferFormRef" :biz-type="BizTypeEnum.CRM_CUSTOMER" @success="close" />
 </template>
 <script lang="ts" setup>
+import { DICT_TYPE } from '@/utils/dict'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import * as CustomerApi from '@/api/crm/customer'
 import CustomerForm from '@/views/crm/customer/CustomerForm.vue'
-import CustomerDetailsInfo from './CustomerDetailsInfo.vue' // 客户明细 - 详细信息
-import CustomerDetailsHeader from './CustomerDetailsHeader.vue' // 客户明细 - 头部
-import ContactList from '@/views/crm/contact/components/ContactList.vue' // 联系人列表
-import ContractList from '@/views/crm/contract/components/ContractList.vue' // 合同列表
-import BusinessList from '@/views/crm/business/components/BusinessList.vue' // 商机列表
-import ReceivableList from '@/views/crm/receivable/components/ReceivableList.vue' // 回款列表
-import ReceivablePlanList from '@/views/crm/receivable/plan/components/ReceivablePlanList.vue' // 回款计划列表
-import PermissionList from '@/views/crm/permission/components/PermissionList.vue' // 团队成员列表（权限）
+import CustomerDetailsHeader from './CustomerDetailsHeader.vue'
+import CustomerDetailsInfo from './CustomerDetailsInfo.vue'
+import PermissionList from '@/views/crm/permission/components/PermissionList.vue'
 import CrmTransferForm from '@/views/crm/permission/components/TransferForm.vue'
 import FollowUpList from '@/views/crm/followup/index.vue'
+import CustomerContactList from './CustomerContactList.vue'
 import { BizTypeEnum } from '@/api/crm/permission'
 import type { OperateLogVO } from '@/api/system/operatelog'
 import { getOperateLogPage } from '@/api/crm/operateLog'
-import CustomerDistributeForm from '@/views/crm/customer/pool/CustomerDistributeForm.vue'
+import { formatDate } from '@/utils/formatTime'
+
 
 defineOptions({ name: 'CrmCustomerDetail' })
+
+const { t } = useI18n('crm') // 国际化
 
 const customerId = ref(0) // 客户编号
 const loading = ref(true) // 加载中
 const message = useMessage() // 消息弹窗
-const { t } = useI18n('crm.customer') // 国际化
 const { delView } = useTagsViewStore() // 视图操作
-const { push, currentRoute } = useRouter() // 路由
+const { currentRoute, push } = useRouter() // 路由
 
+const activeTab = ref('followUp') // 当前激活的 Tab
 const permissionListRef = ref<InstanceType<typeof PermissionList>>() // 团队成员列表 Ref
 
 /** 获取详情 */
@@ -134,71 +196,66 @@ const openForm = () => {
   formRef.value?.open('update', customerId.value)
 }
 
-/** 更新成交状态操作 */
-const handleUpdateDealStatus = async () => {
-  const dealStatus = !customer.value.dealStatus
+/** 客户转移 */
+const transferFormRef = ref<InstanceType<typeof CrmTransferForm>>() // 客户转移表单 ref
+const handleTransfer = () => {
+  transferFormRef.value?.open(customerId.value)
+}
+
+/** 锁定/解锁 */
+const handleLock = async (lockStatus: boolean) => {
+  const action = lockStatus ? t('customer.lock') : t('customer.unlock')
+  const confirmMsg = lockStatus
+    ? t('customer.lockConfirm', { name: customer.value.name })
+    : t('customer.unlockConfirm', { name: customer.value.name })
   try {
-    // 更新状态的二次确认
-    await message.confirm(t('updateDealStatusConfirm', { status: dealStatus ? t('dealStatusYes') : t('dealStatusNo') }))
-    // 发起更新
-    await CustomerApi.updateCustomerDealStatus(customerId.value, dealStatus)
-    message.success(t('updateDealStatusSuccess'))
-    // 刷新数据
+    await message.confirm(confirmMsg)
+    await CustomerApi.lockCustomer(customerId.value, lockStatus)
+    message.success(t(lockStatus ? 'customer.lockSuccess' : 'customer.unlockSuccess', { name: customer.value.name }))
     await getCustomer()
   } catch {}
 }
 
-/** 客户转移 */
-const transferFormRef = ref<InstanceType<typeof CrmTransferForm>>() // 客户转移表单 ref
-const transfer = () => {
-  transferFormRef.value?.open(customerId.value)
+/** 更改成交状态 */
+const handleChangeDealStatus = async () => {
+  const newStatus = !customer.value.dealStatus
+  const statusLabel = newStatus ? t('customer.dealStatusYes') : t('customer.dealStatusNo')
+  try {
+    await message.confirm(t('customer.updateDealStatusConfirm', { status: statusLabel }))
+    await CustomerApi.updateCustomerDealStatus(customerId.value, newStatus)
+    message.success(t('customer.updateDealStatusSuccess'))
+    await getCustomer()
+  } catch {}
 }
 
-/** 锁定客户 */
-const handleLock = async () => {
-  await message.confirm(t('lockConfirm', { name: customer.value.name }))
-  await CustomerApi.lockCustomer(unref(customerId.value), true)
-  message.success(t('lockSuccess', { name: customer.value.name }))
-  await getCustomer()
-}
-
-/** 解锁客户 */
-const handleUnlock = async () => {
-  await message.confirm(t('unlockConfirm', { name: customer.value.name }))
-  await CustomerApi.lockCustomer(unref(customerId.value), false)
-  message.success(t('unlockSuccess', { name: customer.value.name }))
-  await getCustomer()
-}
-
-/** 领取客户 */
-const handleReceive = async () => {
-  await message.confirm(t('receiveConfirm', { name: customer.value.name }))
-  await CustomerApi.receiveCustomer([unref(customerId.value)])
-  message.success(t('receiveSuccess', { name: customer.value.name }))
-  await getCustomer()
-}
-
-/** 分配客户 */
-const distributeForm = ref<InstanceType<typeof CustomerDistributeForm>>() // 分配客户表单 Ref
-const handleDistributeForm = async () => {
-  distributeForm.value?.open(customerId.value)
-}
-
-/** 客户放入公海 */
+/** 放入公海 */
 const handlePutPool = async () => {
-  await message.confirm(t('putPoolConfirm', { name: customer.value.name }))
-  await CustomerApi.putCustomerPool(unref(customerId.value))
-  message.success(t('putPoolSuccess', { name: customer.value.name }))
-  // 加载
-  close()
+  try {
+    await message.confirm(t('customer.putPoolConfirm', { name: customer.value.name }))
+    await CustomerApi.putCustomerPool(customerId.value)
+    message.success(t('customer.putPoolSuccess'))
+    close()
+  } catch {}
+}
+
+/** 打开商机详情 */
+const openBusinessDetail = (id: number) => {
+  push({ name: 'CrmBusinessDetail', params: { id } })
+}
+
+/** 打开合同详情 */
+const openContractDetail = (id: number) => {
+  push({ name: 'CrmContractDetail', params: { id } })
+}
+
+/** 打开回款详情 */
+const openReceivableDetail = (id: number) => {
+  push({ name: 'CrmReceivableDetail', params: { id } })
 }
 
 /** 获取操作日志 */
 const logList = ref<OperateLogVO[]>([]) // 操作日志列表
 const getOperateLog = async () => {
-  if (!customerId.value) {
-    return
-  }
   const data = await getOperateLogPage({
     bizType: BizTypeEnum.CRM_CUSTOMER,
     bizId: customerId.value
@@ -206,22 +263,20 @@ const getOperateLog = async () => {
   logList.value = data.list
 }
 
-/** 从回款计划创建回款 */
-const receivableListRef = ref<InstanceType<typeof ReceivableList>>() // 回款列表 Ref
-const createReceivable = (planData: any) => {
-  receivableListRef.value?.createReceivable(planData)
-}
+// 关联列表数据（后续对接 API）
+const businessList = ref([]) // 商机列表
+const contractList = ref([]) // 合同列表
+const receivableList = ref([]) // 回款列表
 
 const close = () => {
   delView(unref(currentRoute))
-  push({ name: 'CrmCustomer' })
 }
 
 /** 初始化 */
 const { params } = useRoute()
 onMounted(() => {
   if (!params.id) {
-    message.warning(t('paramError'))
+    message.warning(t('customer.paramError'))
     close()
     return
   }

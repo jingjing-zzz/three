@@ -1,10 +1,13 @@
 import { loadEnv } from 'vite';
 import uni from '@dcloudio/vite-plugin-uni';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 // import viteCompression from 'vite-plugin-compression';
 import uniReadPagesV3Plugin from './sheep/router/utils/uni-read-pages-v3';
 import mpliveMainfestPlugin from './sheep/libs/mplive-manifest-plugin';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default (command, mode) => {

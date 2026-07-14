@@ -19,6 +19,7 @@ import com.meession.etm.module.crm.dal.dataobject.contract.CrmContractDO;
 import com.meession.etm.module.crm.dal.dataobject.customer.CrmCustomerDO;
 import com.meession.etm.module.crm.dal.dataobject.customer.CrmCustomerLimitConfigDO;
 import com.meession.etm.module.crm.dal.dataobject.customer.CrmCustomerPoolConfigDO;
+import com.meession.etm.module.crm.dal.mysql.contact.CrmContactMapper;
 import com.meession.etm.module.crm.dal.mysql.customer.CrmCustomerMapper;
 import com.meession.etm.module.crm.enums.common.CrmBizTypeEnum;
 import com.meession.etm.module.crm.enums.common.CrmSceneTypeEnum;
@@ -77,6 +78,9 @@ public class CrmCustomerServiceImpl implements CrmCustomerService {
     @Resource
     @Lazy
     private CrmContactService contactService;
+    @Resource
+    @Lazy
+    private CrmContactMapper contactMapper;
     @Resource
     @Lazy
     private CrmBusinessService businessService;
@@ -454,19 +458,21 @@ public class CrmCustomerServiceImpl implements CrmCustomerService {
 
     @Transactional(rollbackFor = Exception.class) // 需要 protected 修饰，因为需要在事务中调用
     protected void putCustomerPool(CrmCustomerDO customer) {
-        // 1. 设置负责人为 NULL
+        // 0. 保存原负责人ID，后续操作用（定时任务无登录用户，不能走含权限检查的 Service 方法）
+        Long ownerUserId = customer.getOwnerUserId();
+
+        // 1. 先删除负责人数据权限（必须在更新负责人之前，否则缓存会查 null userId 报错）
+        permissionService.deletePermission(CrmBizTypeEnum.CRM_CUSTOMER.getType(), customer.getId(),
+                CrmPermissionLevelEnum.OWNER.getLevel());
+
+        // 2. 设置客户负责人为 NULL
         int updateOwnerUserIncr = customerMapper.updateOwnerUserIdById(customer.getId(), null);
         if (updateOwnerUserIncr == 0) {
             throw exception(CUSTOMER_UPDATE_OWNER_USER_FAIL);
         }
 
-        // 2. 联系人的负责人，也要设置为 null。因为：因为领取后，负责人也要关联过来，这块和 receiveCustomer 是对应的
-        contactService.updateOwnerUserIdByCustomerId(customer.getId(), null);
-
-        // 3. 删除负责人数据权限
-        // 注意：需要放在 contactService 后面，不然【客户】数据权限已经被删除，无法操作！
-        permissionService.deletePermission(CrmBizTypeEnum.CRM_CUSTOMER.getType(), customer.getId(),
-                CrmPermissionLevelEnum.OWNER.getLevel());
+        // 3. 联系人的负责人，也要设置为 null。直接走 Mapper 绕过权限 AOP（定时任务无登录用户）
+        contactMapper.updateOwnerUserIdByCustomerId(customer.getId(), null);
     }
 
     @LogRecord(type = CRM_CUSTOMER_TYPE, subType = CRM_CUSTOMER_RECEIVE_SUB_TYPE, bizNo = "{{#customer.id}}",
