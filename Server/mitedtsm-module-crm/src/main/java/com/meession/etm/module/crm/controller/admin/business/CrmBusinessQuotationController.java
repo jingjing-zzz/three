@@ -1,5 +1,6 @@
 package com.meession.etm.module.crm.controller.admin.business;
 
+import cn.hutool.core.collection.CollUtil;
 import com.meession.etm.framework.common.pojo.CommonResult;
 import com.meession.etm.framework.common.pojo.PageResult;
 import com.meession.etm.framework.common.util.object.BeanUtils;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.meession.etm.framework.common.pojo.CommonResult.success;
@@ -67,7 +69,6 @@ public class CrmBusinessQuotationController {
         }
         CrmBusinessQuotationRespVO respVO = BeanUtils.toBean(quotation, CrmBusinessQuotationRespVO.class);
         respVO.setStatusName(getStatusName(quotation.getStatus()));
-        // 拼接报价产品项
         List<CrmBusinessQuotationItemDO> items = businessQuotationService.getQuotationItems(id);
         respVO.setItems(BeanUtils.toBean(items, CrmBusinessQuotationRespVO.Item.class));
         return success(respVO);
@@ -78,7 +79,8 @@ public class CrmBusinessQuotationController {
     @PreAuthorize("@ss.hasPermission('crm:business-quotation:query')")
     public CommonResult<PageResult<CrmBusinessQuotationRespVO>> getQuotationPage(@Valid CrmBusinessQuotationPageReqVO reqVO) {
         PageResult<CrmBusinessQuotationDO> pageResult = businessQuotationService.getQuotationPage(reqVO);
-        return success(BeanUtils.toBean(pageResult, CrmBusinessQuotationRespVO.class));
+        List<CrmBusinessQuotationRespVO> respVOList = buildQuotationList(pageResult.getList());
+        return success(new PageResult<>(respVOList, pageResult.getTotal()));
     }
 
     @GetMapping("/latest-confirmed")
@@ -90,7 +92,23 @@ public class CrmBusinessQuotationController {
         if (quotation == null) {
             return success(null);
         }
-        return success(BeanUtils.toBean(quotation, CrmBusinessQuotationRespVO.class));
+        CrmBusinessQuotationRespVO respVO = BeanUtils.toBean(quotation, CrmBusinessQuotationRespVO.class);
+        respVO.setStatusName(getStatusName(quotation.getStatus()));
+        return success(respVO);
+    }
+
+    private List<CrmBusinessQuotationRespVO> buildQuotationList(List<CrmBusinessQuotationDO> list) {
+        if (CollUtil.isEmpty(list)) {
+            return Collections.emptyList();
+        }
+        List<CrmBusinessQuotationRespVO> respVOList = BeanUtils.toBean(list, CrmBusinessQuotationRespVO.class);
+        for (int i = 0; i < respVOList.size(); i++) {
+            CrmBusinessQuotationRespVO respVO = respVOList.get(i);
+            respVO.setStatusName(getStatusName(list.get(i).getStatus()));
+            List<CrmBusinessQuotationItemDO> items = businessQuotationService.getQuotationItems(list.get(i).getId());
+            respVO.setItems(BeanUtils.toBean(items, CrmBusinessQuotationRespVO.Item.class));
+        }
+        return respVOList;
     }
 
     private String getStatusName(Integer status) {

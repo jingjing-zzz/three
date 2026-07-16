@@ -21,7 +21,11 @@
             {{ business.statusTypeName }}
           </el-descriptions-item>
           <el-descriptions-item :label="t('crm.business.statusName')">{{ business.statusName }}</el-descriptions-item>
+          <el-descriptions-item label="商机来源">{{ getSourceLabel(business.source) }}</el-descriptions-item>
+          <el-descriptions-item label="竞争对手">{{ business.competitor }}</el-descriptions-item>
           <el-descriptions-item :label="t('crm.business.remark')">{{ business.remark }}</el-descriptions-item>
+          <el-descriptions-item :label="''">&nbsp;</el-descriptions-item>
+          <el-descriptions-item :label="''">&nbsp;</el-descriptions-item>
         </el-descriptions>
       </el-collapse-item>
       <el-collapse-item name="systemInfo">
@@ -49,15 +53,30 @@
 </template>
 <script setup lang="ts">
 import * as BusinessApi from '@/api/crm/business'
+import * as DictDataApi from '@/api/system/dict/dict.data'
 import { formatDate } from '@/utils/formatTime'
 import { erpPriceInputFormatter } from '@/utils'
 
-const { t } = useI18n() // 国际化
+const { t } = useI18n()
 
 const { business } = defineProps<{
   business: BusinessApi.BusinessVO
 }>()
 
-// 展示的折叠面板
 const activeNames = ref(['basicInfo', 'systemInfo'])
+
+const sourceDictMap = ref<Record<string, string>>({})
+
+const loadSourceDict = async () => {
+  const list = await DictDataApi.getDictDataByType('crm_business_source')
+  list.forEach(item => {
+    sourceDictMap.value[item.value] = item.label
+  })
+}
+
+const getSourceLabel = (source: string) => {
+  return sourceDictMap.value[source] || source
+}
+
+loadSourceDict()
 </script>

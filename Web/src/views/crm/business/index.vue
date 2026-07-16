@@ -3,7 +3,6 @@
   <doc-alert title="【通用】数据权限" url="https://doc.iocoder.cn/crm/permission/" />
 
   <ContentWrap>
-    <!-- 搜索工作栏 -->
     <el-form
       ref="queryFormRef"
       :model="queryParams"
@@ -54,7 +53,6 @@
     </el-form>
   </ContentWrap>
 
-  <!-- 列表 -->
   <ContentWrap>
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane :label="t('crm.customer.myResponsible')" name="1" />
@@ -111,6 +109,14 @@
         prop="contactLastTime"
         min-width="180"
       />
+      <el-table-column align="center" label="未跟进天数" prop="daysWithoutFollowUp" min-width="100">
+        <template #default="scope">
+          <span :style="{ color: scope.row.daysWithoutFollowUp >= 7 ? '#F56C6C' : '' }">
+            {{ scope.row.daysWithoutFollowUp }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="竞争对手" prop="competitor" min-width="150" />
       <el-table-column
         :formatter="dateFormatter"
         align="center"
@@ -140,8 +146,16 @@
         prop="statusName"
         min-width="120"
       />
-      <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="150">
+      <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">
         <template #default="scope">
+          <el-button
+            v-hasPermi="['crm:business:query']"
+            link
+            type="primary"
+            @click="openDetail(scope.row.id)"
+          >
+            {{ t('common.detail') }}
+          </el-button>
           <el-button
             v-hasPermi="['crm:business:update']"
             link
@@ -149,6 +163,14 @@
             @click="openForm('update', scope.row.id)"
           >
             {{ t('common.edit') }}
+          </el-button>
+          <el-button
+            v-hasPermi="['crm:business:update']"
+            link
+            type="success"
+            @click="openDetail(scope.row.id)"
+          >
+            {{ t('crm.business.followUp') }}
           </el-button>
           <el-button
             v-hasPermi="['crm:business:delete']"
@@ -161,7 +183,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
     <Pagination
       v-model:limit="queryParams.pageSize"
       v-model:page="queryParams.pageNo"
@@ -170,7 +191,6 @@
     />
   </ContentWrap>
 
-  <!-- 表单弹窗：添加/修改 -->
   <BusinessForm ref="formRef" @success="getList" />
 </template>
 
@@ -184,22 +204,21 @@ import { TabsPaneContext } from 'element-plus'
 
 defineOptions({ name: 'CrmBusiness' })
 
-const message = useMessage() // 消息弹窗
-const { t } = useI18n() // 国际化
-const loading = ref(true) // 列表的加载中
-const total = ref(0) // 列表的总页数
-const list = ref([]) // 列表的数据
+const message = useMessage()
+const { t } = useI18n()
+const loading = ref(true)
+const total = ref(0)
+const list = ref([])
 const queryParams = reactive({
   pageNo: 1,
   pageSize: 10,
-  sceneType: '1', // 默认与 activeName 相等
+  sceneType: '1',
   name: null
 })
-const queryFormRef = ref() // 搜索的表单
-const exportLoading = ref(false) // 导出的加载中
-const activeName = ref('1') // 列表 tab
+const queryFormRef = ref()
+const exportLoading = ref(false)
+const activeName = ref('1')
 
-/** 查询列表 */
 const getList = async () => {
   loading.value = true
   try {
@@ -211,60 +230,47 @@ const getList = async () => {
   }
 }
 
-/** 搜索按钮操作 */
 const handleQuery = () => {
   queryParams.pageNo = 1
   getList()
 }
 
-/** 重置按钮操作 */
 const resetQuery = () => {
   queryFormRef.value.resetFields()
   handleQuery()
 }
 
-/** tab 切换 */
 const handleTabClick = (tab: TabsPaneContext) => {
   queryParams.sceneType = tab.paneName
   handleQuery()
 }
 
-/** 打开客户详情 */
 const { push } = useRouter()
 const openDetail = (id: number) => {
   push({ name: 'CrmBusinessDetail', params: { id } })
 }
 
-/** 打开客户详情 */
 const openCustomerDetail = (id: number) => {
   push({ name: 'CrmCustomerDetail', params: { id } })
 }
 
-/** 添加/修改操作 */
 const formRef = ref()
 const openForm = (type: string, id?: number) => {
   formRef.value.open(type, id)
 }
 
-/** 删除按钮操作 */
 const handleDelete = async (id: number) => {
   try {
-    // 删除的二次确认
     await message.delConfirm()
-    // 发起删除
     await BusinessApi.deleteBusiness(id)
     message.success(t('common.delSuccess'))
-    // 刷新列表
     await getList()
   } catch {}
 }
 
-/** 导出按钮操作 */
 const handleExport = async () => {
   try {
-    // 导出的二次确认
     await message.exportConfirm()
-    // 发起导出
     exportLoading.value = true
     const data = await BusinessApi.exportBusiness(queryParams)
     download.excel(data, '商机.xls')
@@ -274,7 +280,6 @@ const handleExport = async () => {
   }
 }
 
-/** 初始化 **/
 onMounted(() => {
   getList()
 })
