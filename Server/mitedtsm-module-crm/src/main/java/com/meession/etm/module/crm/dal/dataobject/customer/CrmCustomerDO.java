@@ -120,6 +120,18 @@ public class CrmCustomerDO extends BaseDO {
      */
     private Integer source;
     /**
+     * 客户星级
+     *
+     * 对应字典 {@link DictTypeConstants#CRM_CUSTOMER_STAR}
+     */
+    private Integer star;
+    /**
+     * 客户状态
+     *
+     * 对应字典 {@link DictTypeConstants#CRM_CUSTOMER_STATUS}
+     */
+    private Integer status;
+    /**
      * 备注
      */
     private String remark;

@@ -1,10 +1,8 @@
 package com.meession.etm.module.crm.controller.admin.clue.vo;
 
-import com.meession.etm.framework.common.validation.InEnum;
 import com.meession.etm.framework.common.validation.Mobile;
 import com.meession.etm.framework.common.validation.Telephone;
 import com.meession.etm.framework.excel.core.annotations.DictFormat;
-import com.meession.etm.module.crm.enums.customer.CrmCustomerLevelEnum;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerIndustryParseFunction;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerLevelParseFunction;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerSourceParseFunction;
@@ -90,7 +88,6 @@ public class CrmClueSaveReqVO {
 
     @Schema(description = "客户等级", example = "2")
     @DiffLogField(name = "客户等级", function = CrmCustomerLevelParseFunction.NAME)
-    @InEnum(CrmCustomerLevelEnum.class)
     private Integer level;
 
     @Schema(description = "客户来源", example = "3")

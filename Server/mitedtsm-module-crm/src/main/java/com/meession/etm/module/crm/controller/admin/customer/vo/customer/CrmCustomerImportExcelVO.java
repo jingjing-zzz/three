@@ -62,6 +62,16 @@ public class CrmCustomerImportExcelVO {
     @ExcelColumnSelect(dictType = CRM_CUSTOMER_SOURCE)
     private Integer source;
 
+    @ExcelProperty(value = "客户星级", converter = DictConvert.class)
+    @DictFormat(CRM_CUSTOMER_STAR)
+    @ExcelColumnSelect(dictType = CRM_CUSTOMER_STAR)
+    private Integer star;
+
+    @ExcelProperty(value = "客户状态", converter = DictConvert.class)
+    @DictFormat(CRM_CUSTOMER_STATUS)
+    @ExcelColumnSelect(dictType = CRM_CUSTOMER_STATUS)
+    private Integer status;
+
     @ExcelProperty("备注")
     private String remark;
 

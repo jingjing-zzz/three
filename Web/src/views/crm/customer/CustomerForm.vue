@@ -101,6 +101,32 @@
       </el-row>
       <el-row>
         <el-col :span="12">
+          <el-form-item :label="t('star')" prop="star">
+            <el-select v-model="formData.star" :placeholder="t('starPlaceholder')" class="w-1/1">
+              <el-option
+                v-for="dict in getIntDictOptions(DICT_TYPE.CRM_CUSTOMER_STAR)"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="t('status')" prop="status">
+            <el-select v-model="formData.status" :placeholder="t('statusPlaceholder')" class="w-1/1">
+              <el-option
+                v-for="dict in getIntDictOptions(DICT_TYPE.CRM_CUSTOMER_STATUS)"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
           <el-form-item :label="t('areaId')" prop="areaId">
             <el-cascader
               v-model="formData.areaId"
@@ -176,6 +202,8 @@ const formData = ref({
   industryId: undefined,
   level: undefined,
   source: undefined,
+  star: undefined,
+  status: undefined,
   remark: undefined
 })
 const formRules = reactive({
@@ -253,6 +281,8 @@ const resetForm = () => {
     industryId: undefined,
     level: undefined,
     source: undefined,
+    star: undefined,
+    status: undefined,
     remark: undefined
   }
   formRef.value?.resetFields()

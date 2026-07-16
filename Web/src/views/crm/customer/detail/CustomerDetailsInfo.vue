@@ -33,6 +33,12 @@
           <el-descriptions-item :label="t('customer.level')">
             <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_LEVEL" :value="customer.level" />
           </el-descriptions-item>
+          <el-descriptions-item :label="t('customer.star')">
+            <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_STAR" :value="customer.star" />
+          </el-descriptions-item>
+          <el-descriptions-item :label="t('customer.status')">
+            <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_STATUS" :value="customer.status" />
+          </el-descriptions-item>
           <el-descriptions-item :label="t('customer.areaId')">
             {{ customer.areaName }}
           </el-descriptions-item>

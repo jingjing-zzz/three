@@ -25,12 +25,14 @@ docker-compose/
 
 | 服务名 | 容器名 | 镜像 | 端口 | 说明 |
 |--------|--------|------|------|------|
-| mysql | mitedtsm-mysql | mysql:8 | 3306 | MySQL数据库 |
+| mysql | mitedtsm-mysql | mysql:8.0 | 3306 | MySQL数据库 |
 | redis | mitedtsm-redis | redis:6-alpine | 6379 | Redis缓存 |
-| tdengine | mitedtsm-tdengine | tdengine/tdengine:3.3.6.0 | 6041 | TDengine时序数据库 |
+| rabbitmq | mitedtsm-rabbitmq | rabbitmq:3-management-alpine | 5672, 15672 | RabbitMQ消息队列 |
+| tdengine | mitedtsm-tdengine | tdengine/tdengine:3.3.6.0 | 6030, 6041, 6043-6049 | TDengine时序数据库 |
+| init-service | mitedtsm-init-service | 自建 | - | 初始化服务（TDengine表结构） |
 | server | mitedtsm-server | 自建 | 8080 | Spring Boot后端服务 |
-| web | mitedtsm-web | nginx:alpine | 80 | 管理后台前端(Vue3) |
-| mall | mitedtsm-mall | nginx:alpine | 81 | 商城H5前端(uni-app) |
+| web | mitedtsm-web | nginx:stable-alpine | 80 | 管理后台前端(Vue3) |
+| mall | mitedtsm-mall | nginx:stable-alpine | 81 | 商城H5前端(uni-app) |
 
 ---
 
@@ -99,16 +101,19 @@ MALL_PORT=81
   1. `base/quartz.sql`
   2. `base/ruoyi-vue-pro.sql`
   3. `base/` 其余 SQL 文件（按字母顺序）
-  4. `new/` 目录下所有 SQL 文件
+  4. `new/` 目录下 SQL 文件（按依赖顺序：new-i18n.sql → new-mall-i18n.sql → new-i18n-ar.sql → new-product-category-i18n.sql → new-large-file-upload.sql）
 
 **注意**: 仅在首次启动且数据库为空时执行。
 
 ### 6. init/init-tdengine.sh
 
-**作用**: TDengine 容器启动时自动执行的初始化脚本。
+**作用**: TDengine 数据库初始化脚本（手动执行或参考）。
 
 **功能**:
-- 创建 `ruoyi_vue_pro` 数据库
+- 等待 TDengine 启动完成
+- 创建 `mitedtsm_database` 数据库
+
+**注意**: TDengine 的表结构初始化由 InitService 容器自动完成，此脚本仅用于手动创建数据库。
 
 ### 7. Dockerfile.server
 
@@ -140,7 +145,7 @@ MALL_PORT=81
 
 **不需要打包**，直接使用官方镜像 `tdengine/tdengine:3.3.6.0`。
 
-**初始化**: 通过 `init/init-tdengine.sh` 自动创建数据库。
+**初始化**: 数据库创建可通过 `init/init-tdengine.sh` 手动执行，表结构由 InitService 容器自动初始化。
 
 ### 4. Server 后端服务
 

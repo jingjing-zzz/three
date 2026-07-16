@@ -240,7 +240,9 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
             permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
                     .setLevel(transferReqBO.getOldOwnerPermissionLevel()));
         } else {
-            permissionMapper.deleteById(oldPermission.getId());
+            // 移除时标记为 NONE（而非删除），用于后续查询中排除该用户（如下属视图）
+            permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
+                    .setLevel(CrmPermissionLevelEnum.NONE.getLevel()));
         }
     }
 
@@ -260,10 +262,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
 
     @Override
     public void deletePermission(Integer bizType, Long bizId) {
-        int deletedCount = permissionMapper.deletePermission(bizType, bizId);
-        if (deletedCount == 0) {
-            throw exception(CRM_PERMISSION_NOT_EXISTS);
-        }
+        permissionMapper.deletePermission(bizType, bizId);
     }
 
     @Override
