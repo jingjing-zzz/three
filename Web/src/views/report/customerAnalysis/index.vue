@@ -235,7 +235,7 @@ defineOptions({ name: 'CrmCustomerAnalysisReport' })
 // ========== 查询参数 ==========
 const queryParams = reactive({
   interval: 2, // 默认按周
-  deptId: 100,
+  deptId: 103,
   userId: undefined as number | undefined,
   times: [
     formatDate(beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 30))),
