@@ -36,20 +36,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="部门" prop="deptId">
-            <el-tree-select
-              v-model="queryParams.deptId"
-              :data="deptList"
-              :props="defaultProps"
-              check-strictly
-              class="!w-240px"
-              node-key="id"
-              placeholder="请选择部门"
-              @change="(queryParams.userId = undefined), handleQuery()"
-            />
-          </el-form-item>
-        </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
@@ -62,8 +48,8 @@
               @change="handleQuery"
             >
               <el-option
-                v-for="(user, index) in userListByDeptId"
-                :key="index"
+                v-for="user in userList"
+                :key="user.id"
                 :label="user.nickname"
                 :value="user.id"
               />
@@ -215,12 +201,10 @@
 </template>
 
 <script setup lang="ts">
-import * as DeptApi from '@/api/system/dept'
 import * as UserApi from '@/api/system/user'
 import { useUserStore } from '@/store/modules/user'
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { beginOfDay, defaultShortcuts, endOfDay, formatDate } from '@/utils/formatTime'
-import { defaultProps, handleTree } from '@/utils/tree'
 import { erpCalculatePercentage, erpPriceTableColumnFormatter } from '@/utils'
 import {
   StatisticsCustomerApi,
@@ -235,7 +219,6 @@ defineOptions({ name: 'CrmCustomerAnalysisReport' })
 // ========== 查询参数 ==========
 const queryParams = reactive({
   interval: 2, // 默认按周
-  deptId: 100,
   userId: undefined as number | undefined,
   times: [
     formatDate(beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 30))),
@@ -244,14 +227,7 @@ const queryParams = reactive({
 })
 
 const queryFormRef = ref()
-const deptList = ref<Tree[]>([])
 const userList = ref<UserApi.UserVO[]>([])
-
-const userListByDeptId = computed(() =>
-  queryParams.deptId
-    ? userList.value.filter((u: UserApi.UserVO) => u.deptId === queryParams.deptId)
-    : []
-)
 
 // ========== 概览数据 ==========
 const overviewData = reactive({
@@ -465,8 +441,7 @@ const resetQuery = () => {
 
 /** 初始化 */
 onMounted(async () => {
-  deptList.value = handleTree(await DeptApi.getSimpleDeptList())
-  userList.value = handleTree(await UserApi.getSimpleUserList())
+  userList.value = await UserApi.getSimpleUserList()
   await handleQuery()
 })
 </script>
