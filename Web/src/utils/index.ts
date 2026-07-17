@@ -506,6 +506,8 @@ export const areaReplace = (areaName: string) => {
     .replace('回族自治区', '')
     .replace('自治区', '')
     .replace('省', '')
+    .replace('市', '')
+    .replace('市', '')
 }
 
 /**

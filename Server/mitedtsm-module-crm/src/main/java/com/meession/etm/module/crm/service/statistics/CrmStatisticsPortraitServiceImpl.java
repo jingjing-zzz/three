@@ -120,11 +120,17 @@ public class CrmStatisticsPortraitServiceImpl implements CrmStatisticsPortraitSe
         if (ObjUtil.isNotNull(reqVO.getUserId())) {
             return ListUtil.of(reqVO.getUserId());
         }
-        // 情况二：选中某个部门
-        // 2.1 获得部门列表
+        // 情况二：未选部门，返回全部用户
+        if (ObjUtil.isNull(reqVO.getDeptId())) {
+            return convertList(adminUserApi.getUserListByDeptIds(
+                    convertList(deptApi.getSimpleDeptList(), DeptRespDTO::getId)),
+                    AdminUserRespDTO::getId);
+        }
+        // 情况三：选中某个部门
+        // 3.1 获得部门列表（含子部门）
         List<Long> deptIds = convertList(deptApi.getChildDeptList(reqVO.getDeptId()), DeptRespDTO::getId);
         deptIds.add(reqVO.getDeptId());
-        // 2.2 获得用户编号
+        // 3.2 获得用户编号
         return convertList(adminUserApi.getUserListByDeptIds(deptIds), AdminUserRespDTO::getId);
     }
 

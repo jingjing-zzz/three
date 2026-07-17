@@ -69,6 +69,12 @@ if [ -d "$SQL_NEW_DIR" ]; then
         echo "Executing: new-large-file-upload.sql"
         ${MYSQL_CMD} "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-large-file-upload.sql"
     fi
+
+    # 4.6 执行 new-crm-customer-analysis-report.sql（CRM客户分析报表数据集）
+    if [ -f "${SQL_NEW_DIR}/new-crm-customer-analysis-report.sql" ]; then
+        echo "Executing: new-crm-customer-analysis-report.sql"
+        ${MYSQL_CMD} "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-crm-customer-analysis-report.sql"
+    fi
 fi
 
 echo "MySQL initialization completed successfully!"
