@@ -32,6 +32,7 @@
               class="!w-240px"
               node-key="id"
               :placeholder="t('dept')"
+              :default-expanded-keys="[100, 101]"
             />
           </el-form-item>
         </el-col>
@@ -93,7 +94,7 @@ defineOptions({ name: 'CrmStatisticsPortrait' })
 const { t } = useI18n('crm.statistics') // 国际化
 
 const queryParams = reactive({
-  deptId: 100,
+  deptId: 103,
   times: [
     // 默认显示最近一周的数据
     formatDate(beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 7))),
