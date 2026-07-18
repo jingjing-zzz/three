@@ -1,6 +1,10 @@
 *.class
 *.log
 *.ctxt
+<<<<<<< HEAD
+=======
+.mtj.tmp/
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 *.jar
 *.war
 *.nar
@@ -14,6 +18,7 @@ replay_pid*
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+<<<<<<< HEAD
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -23,6 +28,9 @@ target/
 rebel.xml
 application-my.yaml
 
+=======
+### STS ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 .apt_generated
 .classpath
 .factorypath
@@ -31,31 +39,65 @@ application-my.yaml
 .springBeans
 .sts4-cache
 
+<<<<<<< HEAD
+=======
+### IDEA ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 .idea/
 *.iws
 *.iml
 *.ipr
 out/
 
+<<<<<<< HEAD
 .nb-gradle/
 
+=======
+### Eclipse ###
+.settings/
+.project
+.classpath
+bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 .vscode/
 *.swp
 *.swo
 *~
+<<<<<<< HEAD
 .history
 
 .hbuilderx/
 
+=======
+
+### macOS ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 .DS_Store
 .AppleDouble
 .LSOverride
 
+<<<<<<< HEAD
+=======
+### Windows ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
+<<<<<<< HEAD
+=======
+### Node.js ###
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -64,16 +106,22 @@ pnpm-debug.log*
 .eslintcache
 *.local
 
+<<<<<<< HEAD
 **/.env
 **/.env.*
 
 Web/dist/
 Web/dist-ssr/
+=======
+### Web ###
+Web/dist/
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 Web/.nuxt/
 Web/.next/
 Web/.output/
 Web/data/
 
+<<<<<<< HEAD
 MallFrontend/dist/
 MallFrontend/node_modules/
 MallFrontend/unpackage/
@@ -105,3 +153,19 @@ stop.sh
 /EDIT_GUIDE_BY_3031.md
 /README_BY_3031.md
 /营销域*.md
+=======
+### Mall ###
+MallFrontend/dist/
+MallFrontend/node_modules/
+
+### Database ###
+database/*.sql
+database/*.bak
+
+### Docker ###
+docker-compose/.env
+
+### Other ###
+*.md.backup
+*.md.bak
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572

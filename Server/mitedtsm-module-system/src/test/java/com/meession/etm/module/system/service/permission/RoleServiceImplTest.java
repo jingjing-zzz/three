@@ -17,7 +17,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Collection;
+<<<<<<< HEAD
 import java.util.Collections;
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +68,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void testCreateRole_superAdminForbidden() {
         RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class)
                 .setId(null)
@@ -75,6 +79,8 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
     public void testUpdateRole() {
         // mock 数据
         RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
@@ -126,6 +132,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void testDeleteRole_notExist() {
         assertServiceException(() -> roleService.deleteRole(randomLongId()), ROLE_NOT_EXISTS);
     }
@@ -180,6 +187,8 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
     public void testValidateRoleDuplicate_success() {
         // 调用，不会抛异常
         roleService.validateRoleDuplicate(randomString(), randomString(), null);
@@ -434,6 +443,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 调用, 并断言异常
         assertServiceException(() -> roleService.validateRoleList(ids), ROLE_IS_DISABLE, RoleDO.getName());
     }
+<<<<<<< HEAD
 
     @Test
     public void testUpdateRole_nameDuplicate() {
@@ -562,4 +572,6 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         assertEquals(1, pageResult.getTotal());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), pageResult.getList().get(0).getStatus());
     }
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 }

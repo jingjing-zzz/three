@@ -1,0 +1,1 @@
+import{T as r,h as e}from"./consts-n4AtpOb0.js";const s=(a,o)=>o?"\u5176\u5B83\u60C5\u51B5":"\u6761\u4EF6"+(a+1),c=(a,o)=>o?"\u5176\u5B83\u60C5\u51B5":"\u5305\u5BB9\u6761\u4EF6"+(a+1),l=a=>a==="M"?r.MINUTE:a==="H"?r.HOUR:a==="D"?r.DAY:r.HOUR,H=a=>{let o="";return e.forEach(t=>{t.value!==a||(o=t.label)}),o};export{s as a,c as b,l as c,H as g};

@@ -588,6 +588,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
           activeMenu: '/crm/product'
         },
         component: () => import('@/views/crm/product/detail/index.vue')
+<<<<<<< HEAD
       },
       {
         path: 'marketing/campaign',
@@ -654,6 +655,8 @@ const remainingRouter: AppRouteRecordRaw[] = [
           activeMenu: '/crm/marketing/send-record'
         },
         component: () => import('@/views/crm/marketing/sendRecord/index.vue')
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
       }
     ]
   },

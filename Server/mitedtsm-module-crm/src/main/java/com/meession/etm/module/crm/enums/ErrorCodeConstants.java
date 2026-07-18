@@ -105,6 +105,7 @@ public interface ErrorCodeConstants {
 
     // ========== 数据统计 1_020_014_000 ==========
 
+<<<<<<< HEAD
     // ========== 营销活动 1_020_015_000 ==========
     ErrorCode MARKETING_CAMPAIGN_NOT_EXISTS = new ErrorCode(1_020_015_000, "营销活动不存在");
 
@@ -123,4 +124,6 @@ public interface ErrorCodeConstants {
     // ========== 发送记录 1_020_020_000 ==========
     ErrorCode MARKETING_SEND_RECORD_NOT_EXISTS = new ErrorCode(1_020_020_000, "发送记录不存在");
 
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 }

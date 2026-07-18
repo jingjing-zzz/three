@@ -832,6 +832,7 @@ export default {
     count: '数量',
     amount: '金额',
     ratio: '占比'
+<<<<<<< HEAD
   },
   marketing: {
     title: '营销管理',
@@ -977,5 +978,7 @@ export default {
       errorMessage: '错误信息',
       sendTime: '发送时间'
     }
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
   }
 }

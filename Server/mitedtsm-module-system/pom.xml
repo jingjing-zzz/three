@@ -121,6 +121,7 @@
 
     </dependencies>
 
+<<<<<<< HEAD
     <build>
         <plugins>
             <plugin>
@@ -167,4 +168,6 @@
         </plugins>
     </build>
 
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 </project>

@@ -1,7 +1,10 @@
 package com.meession.etm.module.bpm.api.task.dto;
 
 import lombok.Data;
+<<<<<<< HEAD
 import lombok.experimental.Accessors;
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
@@ -13,7 +16,10 @@ import java.util.Map;
  * @author 密讯
  */
 @Data
+<<<<<<< HEAD
 @Accessors(chain = true)
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 public class BpmProcessInstanceCreateReqDTO {
 
     /**

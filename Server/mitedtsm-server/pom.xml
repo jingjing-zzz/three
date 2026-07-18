@@ -149,6 +149,7 @@
                         </goals>
                     </execution>
                 </executions>
+<<<<<<< HEAD
                 <configuration>
                     <requiresUnpack>
                         <dependency>
@@ -165,6 +166,8 @@
                         </dependency>
                     </requiresUnpack>
                 </configuration>
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
             </plugin>
         </plugins>
     </build>

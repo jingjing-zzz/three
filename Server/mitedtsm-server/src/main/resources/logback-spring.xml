@@ -19,10 +19,17 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
         <!-- 日志文件名 -->
+<<<<<<< HEAD
         <file>/tmp/logs/mitedtsm-server.log</file>
         <!-- 滚动策略：基于【每天 + 大小】创建日志文件 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/tmp/logs/mitedtsm-server.%d{yyyy-MM-dd}.%i.log</fileNamePattern> <!-- 日志文件输出的文件名 -->
+=======
+        <file>${LOG_FILE}</file>
+        <!-- 滚动策略：基于【每天 + 大小】创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern> <!-- 日志文件输出的文件名 -->
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
             <maxHistory>30</maxHistory> <!-- 日志文件的保留天数 -->
             <maxFileSize>10MB</maxFileSize> <!-- 日志文件，到达多少容量，进行滚动 -->
         </rollingPolicy>
