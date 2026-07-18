@@ -17,6 +17,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Collection;
+<<<<<<< HEAD
+import java.util.Collections;
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 import java.util.List;
 import java.util.Set;
 
@@ -64,6 +68,19 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+<<<<<<< HEAD
+    public void testCreateRole_superAdminForbidden() {
+        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class)
+                .setId(null)
+                .setCode("super_admin")
+                .setStatus(randomCommonStatus());
+
+        assertServiceException(() -> roleService.createRole(reqVO, null), ROLE_ADMIN_CODE_ERROR, "super_admin");
+    }
+
+    @Test
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
     public void testUpdateRole() {
         // mock 数据
         RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
@@ -115,6 +132,63 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+<<<<<<< HEAD
+    public void testDeleteRole_notExist() {
+        assertServiceException(() -> roleService.deleteRole(randomLongId()), ROLE_NOT_EXISTS);
+    }
+
+    @Test
+    public void testDeleteRole_systemRoleForbidden() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        roleMapper.insert(roleDO);
+
+        assertServiceException(() -> roleService.deleteRole(roleDO.getId()),
+                ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+    }
+
+    @Test
+    public void testDeleteRoleList_normal() {
+        RoleDO roleDO1 = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleDO1);
+        RoleDO roleDO2 = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleDO2);
+
+        roleService.deleteRoleList(List.of(roleDO1.getId(), roleDO2.getId()));
+
+        assertNull(roleMapper.selectById(roleDO1.getId()));
+        assertNull(roleMapper.selectById(roleDO2.getId()));
+        verify(permissionService).processRoleDeleted(roleDO1.getId());
+        verify(permissionService).processRoleDeleted(roleDO2.getId());
+    }
+
+    @Test
+    public void testDeleteRoleList_containsNotExist() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleDO);
+
+        assertServiceException(() -> roleService.deleteRoleList(List.of(roleDO.getId(), randomLongId())),
+                ROLE_NOT_EXISTS);
+    }
+
+    @Test
+    public void testDeleteRoleList_containsSystemRole() {
+        RoleDO customRole = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(customRole);
+        RoleDO systemRole = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        roleMapper.insert(systemRole);
+
+        assertServiceException(() -> roleService.deleteRoleList(List.of(customRole.getId(), systemRole.getId())),
+                ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+    }
+
+    @Test
+    public void testDeleteRoleList_emptyList() {
+        roleService.deleteRoleList(Collections.emptyList());
+    }
+
+    @Test
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
     public void testValidateRoleDuplicate_success() {
         // 调用，不会抛异常
         roleService.validateRoleDuplicate(randomString(), randomString(), null);
@@ -369,4 +443,135 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         // 调用, 并断言异常
         assertServiceException(() -> roleService.validateRoleList(ids), ROLE_IS_DISABLE, RoleDO.getName());
     }
+<<<<<<< HEAD
+
+    @Test
+    public void testUpdateRole_nameDuplicate() {
+        RoleDO existingRole = randomPojo(RoleDO.class, o -> {
+            o.setName("existing_role");
+            o.setType(RoleTypeEnum.CUSTOM.getType());
+        });
+        roleMapper.insert(existingRole);
+
+        RoleDO updateRole = randomPojo(RoleDO.class, o -> {
+            o.setName("other_role");
+            o.setType(RoleTypeEnum.CUSTOM.getType());
+        });
+        roleMapper.insert(updateRole);
+
+        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class, o -> {
+            o.setId(updateRole.getId());
+            o.setName("existing_role");
+        });
+
+        assertServiceException(() -> roleService.updateRole(reqVO), ROLE_NAME_DUPLICATE, "existing_role");
+    }
+
+    @Test
+    public void testUpdateRole_codeDuplicate() {
+        RoleDO existingRole = randomPojo(RoleDO.class, o -> {
+            o.setCode("existing_code");
+            o.setType(RoleTypeEnum.CUSTOM.getType());
+        });
+        roleMapper.insert(existingRole);
+
+        RoleDO updateRole = randomPojo(RoleDO.class, o -> {
+            o.setCode("other_code");
+            o.setType(RoleTypeEnum.CUSTOM.getType());
+        });
+        roleMapper.insert(updateRole);
+
+        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class, o -> {
+            o.setId(updateRole.getId());
+            o.setCode("existing_code");
+        });
+
+        assertServiceException(() -> roleService.updateRole(reqVO), ROLE_CODE_DUPLICATE, "existing_code");
+    }
+
+    @Test
+    public void testUpdateRoleDataScope_selfDept() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleDO);
+
+        roleService.updateRoleDataScope(roleDO.getId(), DataScopeEnum.SELF.getScope(), null);
+
+        RoleDO dbRoleDO = roleMapper.selectById(roleDO.getId());
+        assertEquals(DataScopeEnum.SELF.getScope(), dbRoleDO.getDataScope());
+    }
+
+    @Test
+    public void testUpdateRoleDataScope_deptCustom() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.CUSTOM.getType()));
+        roleMapper.insert(roleDO);
+
+        Set<Long> deptIds = Set.of(1L, 2L, 3L);
+        roleService.updateRoleDataScope(roleDO.getId(), DataScopeEnum.DEPT_CUSTOM.getScope(), deptIds);
+
+        RoleDO dbRoleDO = roleMapper.selectById(roleDO.getId());
+        assertEquals(DataScopeEnum.DEPT_CUSTOM.getScope(), dbRoleDO.getDataScope());
+        assertEquals(deptIds, dbRoleDO.getDataScopeDeptIds());
+    }
+
+    @Test
+    public void testUpdateRoleDataScope_notExist() {
+        assertServiceException(() -> roleService.updateRoleDataScope(randomLongId(),
+                DataScopeEnum.ALL.getScope(), null), ROLE_NOT_EXISTS);
+    }
+
+    @Test
+    public void testUpdateRoleDataScope_systemRoleForbidden() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        roleMapper.insert(roleDO);
+
+        assertServiceException(() -> roleService.updateRoleDataScope(roleDO.getId(),
+                DataScopeEnum.ALL.getScope(), null), ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+    }
+
+    @Test
+    public void testUpdateRole_notExist() {
+        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class, o -> o.setId(randomLongId()));
+        assertServiceException(() -> roleService.updateRole(reqVO), ROLE_NOT_EXISTS);
+    }
+
+    @Test
+    public void testUpdateRole_systemRoleForbidden() {
+        RoleDO roleDO = randomPojo(RoleDO.class, o -> o.setType(RoleTypeEnum.SYSTEM.getType()));
+        roleMapper.insert(roleDO);
+
+        RoleSaveReqVO reqVO = randomPojo(RoleSaveReqVO.class, o -> o.setId(roleDO.getId()));
+        assertServiceException(() -> roleService.updateRole(reqVO), ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+    }
+
+    @Test
+    public void testGetRolePage_filterByName() {
+        RoleDO role1 = randomPojo(RoleDO.class, o -> o.setName("test_role_1"));
+        roleMapper.insert(role1);
+        RoleDO role2 = randomPojo(RoleDO.class, o -> o.setName("other_role"));
+        roleMapper.insert(role2);
+
+        RolePageReqVO reqVO = new RolePageReqVO();
+        reqVO.setName("test_role");
+
+        PageResult<RoleDO> pageResult = roleService.getRolePage(reqVO);
+        assertEquals(1, pageResult.getTotal());
+        assertEquals("test_role_1", pageResult.getList().get(0).getName());
+    }
+
+    @Test
+    public void testGetRolePage_filterByStatus() {
+        RoleDO role1 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        roleMapper.insert(role1);
+        RoleDO role2 = randomPojo(RoleDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        roleMapper.insert(role2);
+
+        RolePageReqVO reqVO = new RolePageReqVO();
+        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+
+        PageResult<RoleDO> pageResult = roleService.getRolePage(reqVO);
+        assertEquals(1, pageResult.getTotal());
+        assertEquals(CommonStatusEnum.ENABLE.getStatus(), pageResult.getList().get(0).getStatus());
+    }
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
 }

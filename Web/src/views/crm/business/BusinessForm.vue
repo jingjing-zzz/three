@@ -85,7 +85,30 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 子表的表单 -->
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="商机来源" prop="source">
+            <el-select
+              v-model="formData.source"
+              :placeholder="t('crm.business.sourcePlaceholder')"
+              clearable
+              class="w-1/1"
+            >
+              <el-option
+                v-for="item in sourceOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="竞争对手" prop="competitor">
+            <el-input v-model="formData.competitor" placeholder="请输入竞争对手" maxlength="100" show-word-limit />
+          </el-form-item>
+        </el-col>
+      </el-row>
       <ContentWrap>
         <el-tabs v-model="subTabsName" class="-mt-15px -mb-10px">
           <el-tab-pane :label="t('crm.business.productList')" name="product">
@@ -144,17 +167,18 @@ import * as BusinessApi from '@/api/crm/business'
 import * as BusinessStatusApi from '@/api/crm/business/status'
 import * as CustomerApi from '@/api/crm/customer'
 import * as UserApi from '@/api/system/user'
+import * as DictDataApi from '@/api/system/dict/dict.data'
 import { useUserStore } from '@/store/modules/user'
 import BusinessProductForm from './components/BusinessProductForm.vue'
 import { erpPriceMultiply, erpPriceInputFormatter } from '@/utils'
 
-const { t } = useI18n() // 国际化
-const message = useMessage() // 消息弹窗
+const { t } = useI18n()
+const message = useMessage()
 
-const dialogVisible = ref(false) // 弹窗的是否展示
-const dialogTitle = ref('') // 弹窗的标题
-const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
-const formType = ref('') // 表单的类型：create - 新增；update - 修改
+const dialogVisible = ref(false)
+const dialogTitle = ref('')
+const formLoading = ref(false)
+const formType = ref('')
 const formData = ref({
   id: undefined,
   name: undefined,
@@ -166,6 +190,8 @@ const formData = ref({
   totalProductPrice: undefined,
   totalPrice: undefined,
   remark: undefined,
+  source: undefined,
+  competitor: undefined,
   products: [],
   contactId: undefined,
   customerDefault: false
@@ -176,16 +202,15 @@ const formRules = reactive({
   ownerUserId: [{ required: true, message: t('crm.business.ownerUserRequired'), trigger: 'blur' }],
   statusTypeId: [{ required: true, message: t('crm.business.statusTypeRequired'), trigger: 'blur' }]
 })
-const formRef = ref() // 表单 Ref
-const userOptions = ref<UserApi.UserVO[]>([]) // 用户列表
-const statusTypeList = ref([]) // 商机状态类型列表
-const customerList = ref([]) // 客户列表的数据
+const formRef = ref()
+const userOptions = ref<UserApi.UserVO[]>([])
+const statusTypeList = ref([])
+const customerList = ref([])
+const sourceOptions = ref<DictDataApi.DictDataVO[]>([])
 
-/** 子表的表单 */
 const subTabsName = ref('product')
 const productFormRef = ref()
 
-/** 计算 discountPrice、totalPrice 价格 */
 watch(
   () => formData.value,
   (val) => {
@@ -198,20 +223,17 @@ watch(
         ? erpPriceMultiply(totalProductPrice, val.discountPercent / 100.0)
         : 0
     const totalPrice = totalProductPrice - discountPrice
-    // 赋值
     formData.value.totalProductPrice = totalProductPrice
     formData.value.totalPrice = totalPrice
   },
   { deep: true }
 )
 
-/** 打开弹窗 */
 const open = async (type: string, id?: number, customerId?: number, contactId?: number) => {
   dialogVisible.value = true
   dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
-  // 修改时，设置数据
   if (id) {
     formLoading.value = true
     try {
@@ -222,35 +244,32 @@ const open = async (type: string, id?: number, customerId?: number, contactId?: 
   } else {
     if (customerId) {
       formData.value.customerId = customerId
-      formData.value.customerDefault = true // 默认客户的选择，不允许变
+      formData.value.customerDefault = true
     }
-    // 自动关联 contactId 联系人编号
     if (contactId) {
       formData.value.contactId = contactId
     }
   }
-  // 获得客户列表
   customerList.value = await CustomerApi.getCustomerSimpleList()
-  // 加载商机状态类型列表
-  statusTypeList.value = await BusinessStatusApi.getBusinessStatusTypeSimpleList()
-  // 获得用户列表
+  const statusPage = await BusinessStatusApi.getBusinessStatusPage({ pageNo: 1, pageSize: 100 })
+  const statusLists = await Promise.all(
+    statusPage.list.map((statusType) => BusinessStatusApi.getBusinessStatusSimpleList(statusType.id))
+  )
+  statusTypeList.value = statusPage.list.filter((_, index) => statusLists[index].length > 0)
   userOptions.value = await UserApi.getSimpleUserList()
-  // 默认新建时选中自己
+  sourceOptions.value = await DictDataApi.getDictDataByType('crm_business_source')
   if (formType.value === 'create') {
     formData.value.ownerUserId = useUserStore().getUser.id
   }
 }
-defineExpose({ open }) // 提供 open 方法，用于打开弹窗
+defineExpose({ open })
 
-/** 提交表单 */
-const emit = defineEmits(['success']) // 定义 success 事件，用于操作成功后的回调
+const emit = defineEmits(['success'])
 const submitForm = async () => {
-  // 校验表单
   if (!formRef) return
   const valid = await formRef.value.validate()
   if (!valid) return
   await productFormRef.value.validate()
-  // 提交请求
   formLoading.value = true
   try {
     const data = formData.value as unknown as BusinessApi.BusinessVO
@@ -262,14 +281,12 @@ const submitForm = async () => {
       message.success(t('common.updateSuccess'))
     }
     dialogVisible.value = false
-    // 发送操作成功的事件
     emit('success')
   } finally {
     formLoading.value = false
   }
 }
 
-/** 重置表单 */
 const resetForm = () => {
   formData.value = {
     id: undefined,
@@ -282,6 +299,8 @@ const resetForm = () => {
     totalProductPrice: undefined,
     totalPrice: undefined,
     remark: undefined,
+    source: undefined,
+    competitor: undefined,
     products: [],
     contactId: undefined,
     customerDefault: false

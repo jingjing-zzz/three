@@ -28,6 +28,16 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
             port: env.VITE_PORT, // 端口号
             host: "0.0.0.0",
             open: env.VITE_OPEN === 'true',
+<<<<<<< HEAD
+            proxy: {
+              ['/admin-api']: {
+                target: env.VITE_BASE_URL,
+                ws: false,
+                changeOrigin: true,
+                rewrite: (path) => path.replace(new RegExp(`^/admin-api`), ''),
+              },
+            },
+=======
             // 本地跨域代理. 目前注释的原因：暂时没有用途，server 端已经支持跨域
             // proxy: {
             //   ['/admin-api']: {
@@ -37,15 +47,22 @@ export default ({command, mode}: ConfigEnv): UserConfig => {
             //     rewrite: (path) => path.replace(new RegExp(`^/admin-api`), ''),
             //   },
             // },
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
         },
         // 项目使用的vite插件。 单独提取到build/vite/plugin中管理
         plugins: createVitePlugins(),
         css: {
             preprocessorOptions: {
                 scss: {
+<<<<<<< HEAD
+                    additionalData: `@use "${pathResolve('src/styles/variables.scss')}" as *;`,
+                    javascriptEnabled: true,
+                    silenceDeprecations: ["legacy-js-api"],
+=======
                     additionalData: '@use "@/styles/variables.scss" as *;',
                     javascriptEnabled: true,
                     silenceDeprecations: ["legacy-js-api"], // 参考自 https://stackoverflow.com/questions/78997907/the-legacy-js-api-is-deprecated-and-will-be-removed-in-dart-sass-2-0-0
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
                 }
             }
         },

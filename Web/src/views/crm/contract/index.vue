@@ -213,6 +213,7 @@
       </el-table-column>
       <el-table-column fixed="right" :label="t('common.action')" min-width="250">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             v-if="scope.row.auditStatus === 0"
             v-hasPermi="['crm:contract:update']"
@@ -256,6 +257,7 @@
           >
             {{ t('common.del') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

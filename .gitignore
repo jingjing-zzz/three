@@ -15,6 +15,15 @@ replay_pid*
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+.flattened-pom.xml
+
+*.xml.versionsBackup
+rebel.xml
+application-my.yaml
+
 ### STS ###
 .apt_generated
 .classpath
@@ -49,6 +58,9 @@ bin/
 *.swp
 *.swo
 *~
+.history
+
+.hbuilderx/
 
 ### macOS ###
 .DS_Store
@@ -70,8 +82,12 @@ pnpm-debug.log*
 .eslintcache
 *.local
 
+**/.env
+**/.env.*
+
 ### Web ###
 Web/dist/
+Web/dist-ssr/
 Web/.nuxt/
 Web/.next/
 Web/.output/
@@ -80,14 +96,38 @@ Web/data/
 ### Mall ###
 MallFrontend/dist/
 MallFrontend/node_modules/
+MallFrontend/unpackage/
 
 ### Database ###
 database/*.sql
 database/*.bak
+Server/sql/**/*.sql
 
 ### Docker ###
-docker-compose/.env
+docker-compose/
+docker-images/
+dev/
 
 ### Other ###
 *.md.backup
 *.md.bak
+three/Web/dist-prod/
+
+.image/
+docs/
+
+auto-*.d.ts
+
+7.13.txt
+git_objects.txt
+git_objects2.txt
+start.sh
+stop.sh
+
+/01-*.md
+/EDIT_GUIDE_BY_3031.md
+/README_BY_3031.md
+/营销域*.md
+
+docker-compose/docker-compose.local.yml
+docker-compose/nginx/*.local.conf

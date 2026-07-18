@@ -87,6 +87,18 @@ public class CrmBusinessRespVO {
     @ExcelProperty("商机总金额")
     private BigDecimal totalPrice;
 
+    @Schema(description = "商机来源", example = "1")
+    @ExcelProperty("商机来源")
+    private String source;
+
+    @Schema(description = "竞争对手", example = "竞争对手A")
+    @ExcelProperty("竞争对手")
+    private String competitor;
+
+    @Schema(description = "未跟进天数", example = "5")
+    @ExcelProperty("未跟进天数")
+    private Integer daysWithoutFollowUp;
+
     @Schema(description = "备注", example = "随便")
     @ExcelProperty("备注")
     private String remark;

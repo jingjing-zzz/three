@@ -103,7 +103,9 @@
       </el-table-column>
       <el-table-column align="center" :label="t('common.action')" fixed="right">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button link type="danger" @click="handleDelete(scope.row.id)"> {{ t('common.delete') }} </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

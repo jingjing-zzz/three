@@ -104,6 +104,16 @@ public class CrmBusinessDO extends BaseDO {
      */
     private BigDecimal totalPrice;
     /**
+     * 商机来源
+     *
+     * 字典 {@link com.meession.etm.module.crm.enums.DictTypeConstants#CRM_BUSINESS_SOURCE}
+     */
+    private String source;
+    /**
+     * 竞争对手
+     */
+    private String competitor;
+    /**
      * 备注
      */
     private String remark;

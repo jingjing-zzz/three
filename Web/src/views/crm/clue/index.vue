@@ -145,8 +145,9 @@
         min-width="180"
       />
       <el-table-column align="center" :label="t('clue.creatorName')" prop="creatorName" min-width="100" />
-      <el-table-column :label="t('common.action')" align="center" min-width="150" fixed="right">
+      <el-table-column :label="t('common.action')" align="center" min-width="250" fixed="right">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             link
             type="primary"
@@ -163,6 +164,7 @@
           >
             {{ t('common.delete') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

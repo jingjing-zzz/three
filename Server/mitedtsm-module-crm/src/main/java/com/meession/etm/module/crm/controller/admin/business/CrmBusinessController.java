@@ -194,7 +194,7 @@ public class CrmBusinessController {
         Map<Long, CrmBusinessStatusDO> statusMap = businessStatusService.getBusinessStatusMap(
                 convertSet(list, CrmBusinessDO::getStatusId));
         // 2. 拼接数据
-        return BeanUtils.toBean(list, CrmBusinessRespVO.class, businessVO -> {
+        List<CrmBusinessRespVO> businessList = BeanUtils.toBean(list, CrmBusinessRespVO.class, businessVO -> {
             // 2.1 设置客户名称
             MapUtils.findAndThen(customerMap, businessVO.getCustomerId(), customer -> businessVO.setCustomerName(customer.getName()));
             // 2.2 设置创建人、负责人名称
@@ -209,6 +209,11 @@ public class CrmBusinessController {
             MapUtils.findAndThen(statusMap, businessVO.getStatusId(), status -> businessVO.setStatusName(
                     businessService.getBusinessStatusName(businessVO.getEndStatus(), status)));
         });
+        // 2.4 设置未跟进天数
+        for (int i = 0; i < businessList.size(); i++) {
+            businessList.get(i).setDaysWithoutFollowUp(businessService.calculateDaysWithoutFollowUp(list.get(i)));
+        }
+        return businessList;
     }
 
     @PutMapping("/transfer")

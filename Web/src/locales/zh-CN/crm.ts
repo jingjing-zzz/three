@@ -1,4 +1,8 @@
 export default {
+  dialog: {
+    confirm: "确认",
+    cancel: "取消"
+  },
   customer: {
     title: '客户管理',
     name: '客户名称',
@@ -249,6 +253,7 @@ export default {
     statusRequired: '商机阶段不能为空',
     // 操作按钮
     createBusiness: '创建商机',
+    followUp: '跟进',
     relate: '关联',
     unrelate: '解除关联',
     changeStatus: '变更商机状态',
@@ -289,6 +294,7 @@ export default {
     applyDeptTip: '不选择部门时，默认全公司生效',
     wholeCompany: '全公司',
     stageSetting: '阶段设置',
+    noStageConfig: '当前状态组未配置阶段',
     stage: '阶段',
     stageName: '阶段名称',
     endStage: '结束',
@@ -832,5 +838,153 @@ export default {
     count: '数量',
     amount: '金额',
     ratio: '占比'
+<<<<<<< HEAD
+  },
+  marketing: {
+    title: '营销管理',
+    campaign: {
+      title: '营销活动',
+      name: '活动名称',
+      namePlaceholder: '请输入活动名称',
+      type: {
+        label: '活动类型',
+        sms: '短信营销',
+        email: '邮件营销',
+        wechat: '微信营销'
+      },
+      status: {
+        label: '活动状态',
+        draft: '草稿',
+        active: '进行中',
+        completed: '已完成',
+        paused: '已暂停'
+      },
+      startTime: '开始时间',
+      endTime: '结束时间',
+      targetFilter: '目标客户筛选条件',
+      description: '活动描述',
+      totalTargetCount: '目标客户总数',
+      sendCount: '已发送数量',
+      successCount: '发送成功数量',
+      failCount: '发送失败数量'
+    },
+    smsBatch: {
+      title: '短信群发批次',
+      campaignName: '活动名称',
+      templateName: '模板名称',
+      content: '短信内容',
+      totalCount: '目标总数',
+      sendCount: '已发送数',
+      successCount: '成功数',
+      failCount: '失败数',
+      campaignId: '活动ID',
+      templateId: '模板ID',
+      status: {
+        label: '状态',
+        pending: '待发送',
+        sending: '发送中',
+        completed: '已完成',
+        failed: '发送失败'
+      }
+    },
+    emailBatch: {
+      title: '邮件群发批次',
+      campaignName: '活动名称',
+      templateName: '模板名称',
+      subject: '邮件主题',
+      content: '邮件内容',
+      totalCount: '目标总数',
+      sendCount: '已发送数',
+      successCount: '成功数',
+      failCount: '失败数',
+      campaignId: '活动ID',
+      templateId: '模板ID',
+      status: {
+        label: '状态',
+        pending: '待发送',
+        sending: '发送中',
+        completed: '已完成',
+        failed: '发送失败'
+      }
+    },
+    customerCare: {
+      title: '客户关怀规则',
+      name: '规则名称',
+      type: {
+        label: '规则类型',
+        birthday: '生日关怀',
+        anniversary: '纪念日关怀',
+        custom: '自定义规则'
+      },
+      triggerType: {
+        label: '触发类型',
+        automatic: '自动触发',
+        manual: '手动触发'
+      },
+      triggerCondition: '触发条件',
+      sendChannel: {
+        label: '发送渠道',
+        sms: '短信',
+        email: '邮件',
+        wechat: '微信'
+      },
+      templateId: '模板ID',
+      content: '内容',
+      subject: '主题',
+      status: {
+        label: '状态',
+        enabled: '启用',
+        disabled: '禁用'
+      },
+      executeCount: '执行次数',
+      remark: '备注'
+    },
+    approval: {
+      title: '群发审批',
+      campaignName: '活动名称',
+      campaignId: '活动ID',
+      type: {
+        label: '审批类型',
+        sms: '短信群发',
+        email: '邮件群发'
+      },
+      applicant: '申请人',
+      targetCount: '目标数量',
+      contentPreview: '内容预览',
+      status: {
+        label: '审批状态',
+        pending: '待审批',
+        approved: '已通过',
+        rejected: '已拒绝'
+      },
+      approver: '审批人',
+      approveRemark: '审批意见',
+      applyTime: '申请时间',
+      approveTime: '审批时间',
+      approve: '通过',
+      approveConfirm: '确定通过该审批吗？',
+      approveSuccess: '审批通过成功',
+      reject: '拒绝',
+      rejectConfirm: '确定拒绝该审批吗？',
+      rejectSuccess: '审批拒绝成功'
+    },
+    sendRecord: {
+      title: '发送记录',
+      campaignName: '活动名称',
+      batchName: '批次名称',
+      type: '发送类型',
+      typeSms: '短信',
+      typeEmail: '邮件',
+      target: '接收方',
+      content: '发送内容',
+      status: '发送状态',
+      statusPending: '待发送',
+      statusSuccess: '发送成功',
+      statusFailed: '发送失败',
+      errorMessage: '错误信息',
+      sendTime: '发送时间'
+    }
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
   }
 }

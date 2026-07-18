@@ -23,6 +23,9 @@ export interface BusinessVO {
   totalPrice: number
   discountPercent: number
   remark: string
+  source: string
+  competitor: string
+  daysWithoutFollowUp: number
   creator: string // 创建人
   creatorName?: string // 创建人名称
   createTime: Date // 创建时间

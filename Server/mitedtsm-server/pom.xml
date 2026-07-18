@@ -149,6 +149,25 @@
                         </goals>
                     </execution>
                 </executions>
+<<<<<<< HEAD
+                <configuration>
+                    <requiresUnpack>
+                        <dependency>
+                            <groupId>com.meession.etm</groupId>
+                            <artifactId>mitedtsm-module-system</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.meession.etm</groupId>
+                            <artifactId>mitedtsm-module-infra</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.meession.etm</groupId>
+                            <artifactId>mitedtsm-module-crm</artifactId>
+                        </dependency>
+                    </requiresUnpack>
+                </configuration>
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
             </plugin>
         </plugins>
     </build>

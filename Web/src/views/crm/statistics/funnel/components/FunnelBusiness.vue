@@ -1,6 +1,6 @@
-<!-- 销售漏斗分�?-->
+<!-- 销售漏斗分析 -->
 <template>
-  <!-- Echarts�?-->
+  <!-- Echarts图 -->
   <el-card shadow="never">
     <el-row>
       <el-col :span="24">
@@ -9,24 +9,10 @@
           <el-button type="primary" @click="handleActive(false)">{{ t('funnel.dynamicView') }}</el-button>
         </el-button-group>
         <el-skeleton :loading="loading" animated>
-          <Echart :height="500" :options="echartsOption" />
+          <Echart :height="500" :options="echartsOption" @click="handleChartClick" />
         </el-skeleton>
       </el-col>
     </el-row>
-  </el-card>
-
-  <!-- 统计列表 -->
-  <el-card class="mt-16px" shadow="never">
-    <el-table v-loading="loading" :data="list" :table-layout="'auto'">
-      <el-table-column align="center" :label="t('customer.index')" type="index" width="80" />
-      <el-table-column align="center" :label="t('funnel.stage')" prop="endStatus" min-width="200">
-        <template #default="scope">
-          <dict-tag :type="DICT_TYPE.CRM_BUSINESS_END_STATUS_TYPE" :value="scope.row.endStatus" />
-        </template>
-      </el-table-column>
-      <el-table-column align="center" :label="t('funnel.businessCount')" min-width="200" prop="businessCount" />
-      <el-table-column align="center" :label="t('funnel.businessTotalPrice')" min-width="200" prop="totalPrice" />
-    </el-table>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -36,15 +22,15 @@ import { DICT_TYPE } from '@/utils/dict'
 
 defineOptions({ name: 'FunnelBusiness' })
 
-const { t } = useI18n('crm.statistics') // 国际�?
+const { t } = useI18n('crm.statistics')
 
-const props = defineProps<{ queryParams: any }>() // 搜索参数
+const props = defineProps<{ queryParams: any }>()
 
 const active = ref(true)
-const loading = ref(false) // 加载�?
-const list = ref<CrmStatisticFunnelRespVO[]>([]) // 列表的数�?
+const loading = ref(false)
+const list = ref<CrmStatisticFunnelRespVO[]>([])
 
-/** 销售漏�?*/
+/** 销售漏斗 */
 const echartsOption = reactive<EChartsOption>({
   title: {
     text: t('funnel.funnel')
@@ -125,7 +111,6 @@ const loadData = async () => {
     echartsOption.series[0] &&
     echartsOption.series[0]['data']
   ) {
-    // tips：写�?value 值是为了保持漏斗顺序不变
     const list: { value: number; name: string }[] = []
     if (active.value) {
       list.push({ value: 60, name: `${t('funnel.customer')}-${data.customerCount || 0}${t('funnel.unit')}` })
@@ -139,13 +124,19 @@ const loadData = async () => {
 
     echartsOption.series[0]['data'] = list
   }
-  // 2.2 获取商机结束状态统�?
+  // 2.2 获取商机结束状态统计
   list.value = await StatisticFunnelApi.getBusinessSummaryByEndStatus(props.queryParams)
   loading.value = false
 }
 defineExpose({ loadData })
 
-/** 初始�?*/
+/** 点击漏斗图形，刷新下方统计列表 */
+const handleChartClick = (params: Record<string, unknown>) => {
+  // 点击漏斗某一部分后，重新加载统计数据
+  loadData()
+}
+
+/** 初始化 */
 onMounted(() => {
   loadData()
 })
