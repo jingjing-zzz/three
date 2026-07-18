@@ -1,1 +1,0 @@
-import{y as t,z as s,A as e,O as r}from"./form-create-B8yzM4C0.js";import{c as o}from"./index-OzpuZxOg.js";const i={class:"card-title"},p=o(t({__name:"CardTitle",props:{title:{type:String,required:!0}},setup:a=>(c,d)=>(s(),e("span",i,r(a.title),1))}),[["__scopeId","data-v-e4af26ac"]]);export{p as C};

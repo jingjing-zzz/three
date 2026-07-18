@@ -1,1 +1,0 @@
-import{Y as e}from"./index-q-2PArRJ.js";const t=async a=>await e.post({url:"/bpm/oa/leave/create",data:a}),s=async a=>await e.get({url:"/bpm/oa/leave/get?id="+a}),o=async a=>await e.get({url:"/bpm/oa/leave/page",params:a});export{o as a,t as c,s as g};

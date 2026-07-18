@@ -1,1 +1,0 @@
-import{_ as r}from"./BrandForm.vue_vue_type_script_setup_true_lang-Qyc7Md12.js";import"./index-OzpuZxOg.js";import"./form-designer-CKNVE2nQ.js";import"./form-create-B8yzM4C0.js";import"./Dialog.vue_vue_type_style_index_0_lang-Cac0WR2u.js";import"./constants-IYPHa1Ih.js";import"./brand-DJujdkhx.js";export{r as default};

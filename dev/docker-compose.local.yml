@@ -1,5 +1,0 @@
-# 本机 WSL 开发覆盖：允许后端通过 127.0.0.1 连接 MySQL。
-services:
-  mysql:
-    environment:
-      MYSQL_ROOT_HOST: "%"
