@@ -1,3 +1,133 @@
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+.flattened-pom.xml
+
+*.xml.versionsBackup
+rebel.xml
+application-my.yaml
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IDEA ###
 .idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+### Eclipse ###
+.settings/
+.project
+.classpath
+bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+*.swp
+*.swo
+*~
+.history
+
+.hbuilderx/
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+### Node.js ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+*.local
+
+**/.env
+**/.env.*
+
+### Web ###
+Web/dist/
+Web/dist-ssr/
+Web/.nuxt/
+Web/.next/
+Web/.output/
+Web/data/
+
+### Mall ###
+MallFrontend/dist/
+MallFrontend/node_modules/
+MallFrontend/unpackage/
+
+### Database ###
+database/*.sql
+database/*.bak
+Server/sql/**/*.sql
+
+### Docker ###
+docker-compose/
+docker-images/
+dev/
+
+### Other ###
+*.md.backup
+*.md.bak
+three/Web/dist-prod/
+
+.image/
+docs/
+
+auto-*.d.ts
+
+7.13.txt
+git_objects.txt
+git_objects2.txt
+start.sh
+stop.sh
+
+/01-*.md
+/EDIT_GUIDE_BY_3031.md
+/README_BY_3031.md
+/营销域*.md
+
 docker-compose/docker-compose.local.yml
 docker-compose/nginx/*.local.conf

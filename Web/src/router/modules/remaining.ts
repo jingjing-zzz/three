@@ -588,6 +588,75 @@ const remainingRouter: AppRouteRecordRaw[] = [
           activeMenu: '/crm/product'
         },
         component: () => import('@/views/crm/product/detail/index.vue')
+<<<<<<< HEAD
+      },
+      {
+        path: 'marketing/campaign',
+        name: 'MarketingCampaign',
+        meta: {
+          title: t('router.marketingCampaign'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/campaign'
+        },
+        component: () => import('@/views/crm/marketing/campaign/index.vue')
+      },
+      {
+        path: 'marketing/sms-batch',
+        name: 'MarketingSmsBatch',
+        meta: {
+          title: t('router.marketingSmsBatch'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/sms-batch'
+        },
+        component: () => import('@/views/crm/marketing/smsBatch/index.vue')
+      },
+      {
+        path: 'marketing/email-batch',
+        name: 'MarketingEmailBatch',
+        meta: {
+          title: t('router.marketingEmailBatch'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/email-batch'
+        },
+        component: () => import('@/views/crm/marketing/emailBatch/index.vue')
+      },
+      {
+        path: 'marketing/customer-care',
+        name: 'MarketingCustomerCare',
+        meta: {
+          title: t('router.marketingCustomerCare'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/customer-care'
+        },
+        component: () => import('@/views/crm/marketing/customerCare/index.vue')
+      },
+      {
+        path: 'marketing/approval',
+        name: 'MarketingApproval',
+        meta: {
+          title: t('router.marketingApproval'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/approval'
+        },
+        component: () => import('@/views/crm/marketing/approval/index.vue')
+      },
+      {
+        path: 'marketing/send-record',
+        name: 'MarketingSendRecord',
+        meta: {
+          title: t('router.marketingSendRecord'),
+          noCache: true,
+          hidden: true,
+          activeMenu: '/crm/marketing/send-record'
+        },
+        component: () => import('@/views/crm/marketing/sendRecord/index.vue')
+=======
+>>>>>>> f2f4302b04932099f58ca65329f5abd56c600572
       }
     ]
   },

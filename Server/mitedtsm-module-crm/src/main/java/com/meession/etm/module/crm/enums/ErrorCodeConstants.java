@@ -119,4 +119,22 @@ public interface ErrorCodeConstants {
     ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_PRODUCT_PRICE = new ErrorCode(1_020_015_005, "确认报价失败，原因：产品金额不能为负数");
     ErrorCode BUSINESS_QUOTATION_DRAFT_FAIL_NO_PRODUCT = new ErrorCode(1_020_015_006, "创建报价草稿失败，原因：商机产品不能为空");
 
+    // ========== 营销活动 1_020_021_000 ==========
+    ErrorCode MARKETING_CAMPAIGN_NOT_EXISTS = new ErrorCode(1_020_021_000, "营销活动不存在");
+
+    // ========== 营销短信批次 1_020_022_000 ==========
+    ErrorCode MARKETING_SMS_BATCH_NOT_EXISTS = new ErrorCode(1_020_022_000, "短信批次不存在");
+
+    // ========== 营销邮件批次 1_020_023_000 ==========
+    ErrorCode MARKETING_EMAIL_BATCH_NOT_EXISTS = new ErrorCode(1_020_023_000, "邮件批次不存在");
+
+    // ========== 客户关怀规则 1_020_024_000 ==========
+    ErrorCode MARKETING_CUSTOMER_CARE_NOT_EXISTS = new ErrorCode(1_020_024_000, "客户关怀规则不存在");
+
+    // ========== 群发审批 1_020_025_000 ==========
+    ErrorCode MARKETING_APPROVAL_NOT_EXISTS = new ErrorCode(1_020_025_000, "群发审批不存在");
+
+    // ========== 发送记录 1_020_026_000 ==========
+    ErrorCode MARKETING_SEND_RECORD_NOT_EXISTS = new ErrorCode(1_020_026_000, "发送记录不存在");
+
 }
