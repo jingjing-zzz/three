@@ -1,0 +1,12 @@
+# IDE配置
+.idea/
+# Maven编译产物（体积巨大）
+target/
+# 运行日志
+logs/
+# Docker镜像压缩包
+docker-images/
+*.tar
+# 临时压缩包、缓存
+*.zip
+*.gz
