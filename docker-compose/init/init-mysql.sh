@@ -69,6 +69,7 @@ if [ -d "$SQL_NEW_DIR" ]; then
 
     # 2.7 测试假数据（最后执行，依赖前面所有结构）
     exec_new "new-test-data.sql"
+    exec_new "new-test-business-status-data.sql"
     exec_new "new-test-business-data.sql"
     exec_new "new-test-business-detail-data.sql"
 fi
