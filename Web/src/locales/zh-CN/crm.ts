@@ -1,4 +1,8 @@
 export default {
+  dialog: {
+    confirm: "确认",
+    cancel: "取消"
+  },
   customer: {
     title: '客户管理',
     name: '客户名称',
@@ -249,6 +253,7 @@ export default {
     statusRequired: '商机阶段不能为空',
     // 操作按钮
     createBusiness: '创建商机',
+    followUp: '跟进',
     relate: '关联',
     unrelate: '解除关联',
     changeStatus: '变更商机状态',
@@ -289,6 +294,7 @@ export default {
     applyDeptTip: '不选择部门时，默认全公司生效',
     wholeCompany: '全公司',
     stageSetting: '阶段设置',
+    noStageConfig: '当前状态组未配置阶段',
     stage: '阶段',
     stageName: '阶段名称',
     endStage: '结束',

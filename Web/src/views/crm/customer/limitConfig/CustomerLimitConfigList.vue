@@ -51,8 +51,9 @@
       :formatter="dateFormatter"
       min-width="180"
     />
-    <el-table-column :label="t('common.action')" align="center" min-width="150" fixed="right">
+    <el-table-column :label="t('common.action')" align="center" min-width="200" fixed="right">
       <template #default="scope">
+<div class="action-scroll-wrapper">
         <el-button
           link
           type="primary"
@@ -69,6 +70,7 @@
         >
           {{ t('common.delete') }}
         </el-button>
+</div>
       </template>
     </el-table-column>
   </el-table>

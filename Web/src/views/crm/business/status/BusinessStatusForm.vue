@@ -65,8 +65,9 @@
               <el-text v-else>{{ row.percent }}</el-text>
             </template>
           </el-table-column>
-          <el-table-column :label="t('common.action')" min-width="150" align="center" fixed="right">
+          <el-table-column :label="t('common.action')" min-width="200" align="center" fixed="right">
             <template #default="scope">
+<div class="action-scroll-wrapper">
               <el-button
                 v-if="!scope.row.endStatus"
                 link
@@ -84,6 +85,7 @@
               >
                 {{ t('common.del') }}
               </el-button>
+</div>
             </template>
           </el-table-column>
         </el-table>

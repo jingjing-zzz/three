@@ -34,6 +34,9 @@
       <el-tab-pane :label="t('crm.business.productTab')">
         <BusinessProductList :business="business" />
       </el-tab-pane>
+      <el-tab-pane label="报价" lazy>
+        <QuotationList :business-id="business.id" />
+      </el-tab-pane>
       <el-tab-pane :label="t('crm.business.contractTab')" lazy>
         <ContractList :biz-id="business.id!" :biz-type="BizTypeEnum.CRM_BUSINESS" />
       </el-tab-pane>
@@ -73,6 +76,7 @@ import ContactList from '@/views/crm/contact/components/ContactList.vue'
 import BusinessUpdateStatusForm from '@/views/crm/business/BusinessUpdateStatusForm.vue'
 import ContractList from '@/views/crm/contract/components/ContractList.vue'
 import BusinessProductList from '@/views/crm/business/detail/BusinessProductList.vue'
+import QuotationList from '@/views/crm/business/detail/QuotationList.vue'
 
 defineOptions({ name: 'CrmBusinessDetail' })
 

@@ -1,71 +1,76 @@
 #!/bin/bash
-# MySQL 初始化脚本
-# 按指定顺序执行 database 目录下的所有 SQL 文件
 
 set -e
 
 echo "Starting MySQL initialization..."
 
-# 等待 MySQL 完全启动
-until mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "SELECT 1"; do
+until mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 -e "SELECT 1"; do
     echo "Waiting for MySQL to be ready..."
     sleep 2
 done
 
 echo "MySQL is ready, executing SQL files..."
 
-# SQL 文件目录
 SQL_BASE_DIR="/docker-init-sql/base"
 SQL_NEW_DIR="/docker-init-sql/new"
 
-# 1. 先执行 quartz.sql
+# 执行一个增量 SQL 文件（如果存在）
+exec_new() {
+    local file="$1"
+    if [ -f "${SQL_NEW_DIR}/${file}" ]; then
+        echo "Executing: ${file}"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/${file}"
+    fi
+}
+
+# 1. 基础表结构（quartz + ruoyi-vue-pro + 其他模块）
 echo "Executing: quartz.sql"
-mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_BASE_DIR}/quartz.sql"
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 "${MYSQL_DATABASE}" < "${SQL_BASE_DIR}/quartz.sql"
 
-# 2. 再执行 ruoyi-vue-pro.sql
 echo "Executing: ruoyi-vue-pro.sql"
-mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_BASE_DIR}/ruoyi-vue-pro.sql"
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 "${MYSQL_DATABASE}" < "${SQL_BASE_DIR}/ruoyi-vue-pro.sql"
 
-# 3. 执行 base 目录下其余 SQL 文件（按字母顺序，排除已执行的）
 for sql_file in "${SQL_BASE_DIR}"/*.sql; do
     filename=$(basename "$sql_file")
     if [[ "$filename" != "quartz.sql" && "$filename" != "ruoyi-vue-pro.sql" ]]; then
         echo "Executing: ${filename}"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "$sql_file"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 "${MYSQL_DATABASE}" < "$sql_file"
     fi
 done
 
-# 4. 执行 new 目录下的 SQL 文件（按依赖顺序）
+# 2. 增量 SQL（按依赖顺序执行）
 if [ -d "$SQL_NEW_DIR" ]; then
-    # 4.1 先执行 new-i18n.sql（创建基础表 system_menu_i18n）
-    if [ -f "${SQL_NEW_DIR}/new-i18n.sql" ]; then
-        echo "Executing: new-i18n.sql"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-i18n.sql"
-    fi
+    # 2.1 国际化
+    exec_new "new-i18n.sql"
+    exec_new "new-mall-i18n.sql"
+    exec_new "new-i18n-ar.sql"
+    exec_new "new-product-category-i18n.sql"
 
-    # 4.2 再执行 new-mall-i18n.sql（创建 promotion_diy_menu_i18n 表，修改 system_tenant 表添加 currency_code）
-    if [ -f "${SQL_NEW_DIR}/new-mall-i18n.sql" ]; then
-        echo "Executing: new-mall-i18n.sql"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-mall-i18n.sql"
-    fi
+    # 2.2 其他基础增量
+    exec_new "new-large-file-upload.sql"
 
-    # 4.3 执行 new-i18n-ar.sql（插入多语言数据，依赖 system_menu_i18n 表存在）
-    if [ -f "${SQL_NEW_DIR}/new-i18n-ar.sql" ]; then
-        echo "Executing: new-i18n-ar.sql"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-i18n-ar.sql"
-    fi
+    # 2.3 字典与币种修复
+    exec_new "fix_dict_chinese.sql"
+    exec_new "fix_currency_code.sql"
 
-    # 4.4 执行 new-product-category-i18n.sql
-    if [ -f "${SQL_NEW_DIR}/new-product-category-i18n.sql" ]; then
-        echo "Executing: new-product-category-i18n.sql"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-product-category-i18n.sql"
-    fi
+    # 2.4 商机域字段扩展 + 阶段完整性
+    exec_new "new-crm-business-fields.sql"
+    exec_new "new-crm-business-source-dict.sql"
+    exec_new "fix-crm-business-status-integrity.sql"
 
-    # 4.5 执行 new-large-file-upload.sql
-    if [ -f "${SQL_NEW_DIR}/new-large-file-upload.sql" ]; then
-        echo "Executing: new-large-file-upload.sql"
-        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-large-file-upload.sql"
-    fi
+    # 2.5 报价表 + 快照表（含 tenant_id 修复）
+    exec_new "new-crm-business-quotation.sql"
+    exec_new "new-crm-business-quotation-snapshot.sql"
+    exec_new "fix-quotation-snapshot-tenant.sql"
+
+    # 2.6 菜单与权限
+    exec_new "new-crm-statistics-forecast-menu.sql"
+    exec_new "new-crm-statistics-report-menu.sql"
+
+    # 2.7 测试假数据（最后执行，依赖前面所有结构）
+    exec_new "new-test-data.sql"
+    exec_new "new-test-business-data.sql"
+    exec_new "new-test-business-detail-data.sql"
 fi
 
 echo "MySQL initialization completed successfully!"

@@ -30,7 +30,7 @@
           </el-form-item>
         </template>
       </el-table-column>
-      <el-table-column :label="t('crm.business.productNo')" min-width="150">
+      <el-table-column :label="t('crm.business.productNo')" min-width="200">
         <template #default="{ row }">
           <el-form-item class="mb-0px!">
             <el-input disabled v-model="row.productNo" />
@@ -82,9 +82,11 @@
           </el-form-item>
         </template>
       </el-table-column>
-      <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="150">
+      <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">
         <template #default="{ $index }">
+<div class="action-scroll-wrapper">
           <el-button @click="handleDelete($index)" link/>
+</div>
         </template>
       </el-table-column>
     </el-table>

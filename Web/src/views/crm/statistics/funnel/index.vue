@@ -128,12 +128,12 @@ defineOptions({ name: 'CrmStatisticsFunnel' })
 const { t } = useI18n('crm.statistics') // 国际化
 
 const queryParams = reactive({
-  interval: 2, // WEEK, 周
+  interval: 1, // DAY, 周
   deptId: useUserStore().getUser.deptId,
   userId: undefined,
   times: [
     // 默认显示最近一周的数据
-    formatDate(beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 7))),
+    formatDate(beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 30))),
     formatDate(endOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24)))
   ]
 })

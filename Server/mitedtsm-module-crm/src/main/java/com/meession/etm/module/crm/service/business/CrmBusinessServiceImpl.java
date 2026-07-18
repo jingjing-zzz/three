@@ -40,6 +40,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -95,7 +96,11 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
 
         // 2.1 插入商机
         CrmBusinessDO business = BeanUtils.toBean(createReqVO, CrmBusinessDO.class);
-        business.setStatusId(businessStatusService.getBusinessStatusListByTypeId(createReqVO.getStatusTypeId()).get(0).getId()); // 默认状态
+        List<CrmBusinessStatusDO> statusList = businessStatusService.getBusinessStatusListByTypeId(createReqVO.getStatusTypeId());
+        if (CollUtil.isEmpty(statusList)) {
+            throw exception(BUSINESS_STATUS_TYPE_EMPTY);
+        }
+        business.setStatusId(statusList.get(0).getId()); // 默认状态
         calculateTotalPrice(business, businessProducts);
         businessMapper.insert(business);
         // 2.2 插入商机关联商品
@@ -317,6 +322,18 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
     @CrmPermission(bizType = CrmBizTypeEnum.CRM_BUSINESS, bizId = "#id", level = CrmPermissionLevelEnum.READ)
     public CrmBusinessDO getBusiness(Long id) {
         return businessMapper.selectById(id);
+    }
+
+    @Override
+    public Integer calculateDaysWithoutFollowUp(CrmBusinessDO business) {
+        // 规则：若有 contactLastTime，用当前时间减去它；若无，用当前时间减去 createTime
+        LocalDateTime baseTime = business.getContactLastTime() != null
+                ? business.getContactLastTime()
+                : business.getCreateTime();
+        if (baseTime == null) {
+            return 0;
+        }
+        return (int) ChronoUnit.DAYS.between(baseTime, LocalDateTime.now());
     }
 
     @Override
