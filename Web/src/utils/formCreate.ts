@@ -31,7 +31,36 @@ export const encodeFields = (designerRef: object) => {
 export const decodeFields = (fields: string[]) => {
   const rule: object[] = []
   fields.forEach((item) => {
-    rule.push(formCreate.parseJson(item))
+    const parsed = formCreate.parseJson(item) as any
+    
+    if (parsed.$required || parsed.required) {
+      parsed.required = true
+      if (parsed.$required) {
+        delete parsed.$required
+      }
+      
+      if (!parsed.validate) {
+        parsed.validate = []
+      }
+      
+      const hasRequiredRule = parsed.validate.some((v: any) => v.required)
+      if (!hasRequiredRule) {
+        parsed.validate.push({ required: true, message: `${parsed.title}不能为空`, trigger: 'change' })
+      } else {
+        parsed.validate.forEach((v: any) => {
+          if (v.required && v.trigger === 'blur') {
+            v.trigger = 'change'
+          }
+        })
+      }
+      
+      if (!parsed.effect) {
+        parsed.effect = {}
+      }
+      parsed.effect.required = true
+    }
+    
+    rule.push(parsed)
   })
   return rule
 }
@@ -56,13 +85,18 @@ export const setConfAndFields2 = (
     detailPreview = detailPreview.value
   }
 
+  const rule = decodeFields(fields)
+  const option = decodeConf(conf)
+
   // @ts-ignore
-  detailPreview.option = decodeConf(conf)
+  detailPreview.option = option
   // @ts-ignore
-  detailPreview.rule = decodeFields(fields)
+  detailPreview.rule = rule
 
   if (value) {
     // @ts-ignore
     detailPreview.value = value
   }
+
+  return { rule, option }
 }

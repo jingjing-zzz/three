@@ -136,10 +136,19 @@ const initProcessInfo = async (row: any, formVariables?: any) => {
         delete formVariables[key]
       }
     }
-    setConfAndFields2(detailForm, row.formConf, row.formFields, formVariables)
+    
+    const { rule, option } = setConfAndFields2(detailForm, row.formConf, row.formFields, formVariables)
 
     await nextTick()
-    fApi.value?.btn.show(false) // 隐藏提交按钮
+    
+    if (fApi.value) {
+      fApi.value.reload(rule)
+      fApi.value.updateOptions(option)
+      if (formVariables) {
+        fApi.value.coverValue(formVariables)
+      }
+      fApi.value.btn.show(false)
+    }
 
     // 获取流程审批信息,当再次发起时，流程审批节点要根据原始表单参数预测出来
     await getApprovalDetail({
@@ -154,7 +163,7 @@ const initProcessInfo = async (row: any, formVariables?: any) => {
       simpleJson.value = processDefinitionDetail.simpleModel
     }
     // 情况二：业务表单
-  } else if (row.formCustomCreatePath) {
+  } else if (row.formCustomCreatePath && row.formCustomCreatePath.trim().length > 0) {
     await push({
       path: row.formCustomCreatePath
     })

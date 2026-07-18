@@ -74,13 +74,17 @@ public class IotDeviceMessageServiceImpl implements IotDeviceMessageService {
 
     @Override
     public void defineDeviceMessageStable() {
-        if (StrUtil.isNotEmpty(deviceMessageMapper.showSTable())) {
-            log.info("[defineDeviceMessageStable][设备消息超级表已存在，创建跳过]");
-            return;
+        try {
+            if (StrUtil.isNotEmpty(deviceMessageMapper.showSTable())) {
+                log.info("[defineDeviceMessageStable][设备消息超级表已存在，创建跳过]");
+                return;
+            }
+            log.info("[defineDeviceMessageStable][设备消息超级表不存在，创建开始...]");
+            deviceMessageMapper.createSTable();
+            log.info("[defineDeviceMessageStable][设备消息超级表不存在，创建成功]");
+        } catch (Exception ex) {
+            log.warn("[defineDeviceMessageStable][TDengine不可用，设备消息功能将使用MySQL存储]", ex);
         }
-        log.info("[defineDeviceMessageStable][设备消息超级表不存在，创建开始...]");
-        deviceMessageMapper.createSTable();
-        log.info("[defineDeviceMessageStable][设备消息超级表不存在，创建成功]");
     }
 
     @Async

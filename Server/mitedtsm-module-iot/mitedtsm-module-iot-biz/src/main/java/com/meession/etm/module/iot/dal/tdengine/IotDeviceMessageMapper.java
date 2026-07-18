@@ -16,8 +16,7 @@ import java.util.Map;
  * 设备消息 {@link IotDeviceMessageDO} Mapper 接口
  */
 @Mapper
-@TDengineDS
-@InterceptorIgnore(tenantLine = "true") // 避免 SQL 解析，因为 JSqlParser 对 TDengine 的 SQL 解析会报错
+@InterceptorIgnore(tenantLine = "true")
 public interface IotDeviceMessageMapper {
 
     /**

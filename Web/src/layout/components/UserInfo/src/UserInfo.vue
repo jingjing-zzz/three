@@ -49,6 +49,8 @@ const loginOut = async () => {
 const toProfile = async () => {
   push('/user/profile')
 }
+
+
 </script>
 
 <template>

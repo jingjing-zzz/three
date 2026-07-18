@@ -66,6 +66,21 @@ if [ -d "$SQL_NEW_DIR" ]; then
         echo "Executing: new-large-file-upload.sql"
         mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-large-file-upload.sql"
     fi
+
+    # 4.6 执行 new-oa-biz.sql（OA业务表：出差申请、借款申请、客户拜访申请、工作报告、任务管理、日程管理、请示审批）
+    if [ -f "${SQL_NEW_DIR}/new-oa-biz.sql" ]; then
+        echo "Executing: new-oa-biz.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-oa-biz.sql"
+    fi
+
+    # 4.7 执行 new-oa-leave-type.sql（请假类型字典数据）
+    if [ -f "${SQL_NEW_DIR}/new-oa-leave-type.sql" ]; then
+        echo "Executing: new-oa-leave-type.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-oa-leave-type.sql"
+    fi
 fi
+
+echo "Fixing user avatar URLs..."
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" -e "UPDATE sys_user SET avatar = '' WHERE avatar LIKE '%yudao.iocoder.cn%'; UPDATE sys_user SET avatar = '' WHERE avatar LIKE '%test.yudao.iocoder.cn%';"
 
 echo "MySQL initialization completed successfully!"

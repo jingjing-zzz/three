@@ -10,6 +10,7 @@ import com.meession.etm.framework.tenant.core.util.TenantUtils;
 import com.meession.etm.module.bpm.controller.admin.definition.vo.form.BpmFormFieldVO;
 import com.meession.etm.module.bpm.dal.dataobject.definition.BpmProcessDefinitionInfoDO;
 import com.meession.etm.module.bpm.enums.definition.BpmModelFormTypeEnum;
+import com.meession.etm.module.bpm.enums.task.BpmProcessInstanceStatusEnum;
 import com.meession.etm.module.bpm.framework.flowable.core.enums.BpmnVariableConstants;
 import lombok.SneakyThrows;
 import org.flowable.common.engine.api.delegate.Expression;
@@ -117,7 +118,18 @@ public class FlowableUtils {
     }
 
     public static Integer getProcessInstanceStatus(HistoricProcessInstance processInstance) {
-        return getProcessInstanceStatus(processInstance.getProcessVariables());
+        Integer status = getProcessInstanceStatus(processInstance.getProcessVariables());
+        if (processInstance.getEndTime() != null) {
+            String deleteReason = processInstance.getDeleteReason();
+            if (deleteReason != null && deleteReason.contains("取消")) {
+                return BpmProcessInstanceStatusEnum.CANCEL.getStatus();
+            }
+            return BpmProcessInstanceStatusEnum.APPROVE.getStatus();
+        }
+        if (status == null) {
+            return BpmProcessInstanceStatusEnum.RUNNING.getStatus();
+        }
+        return status;
     }
 
     /**
@@ -127,6 +139,9 @@ public class FlowableUtils {
      * @return 状态
      */
     private static Integer getProcessInstanceStatus(Map<String, Object> processVariables) {
+        if (processVariables == null) {
+            return null;
+        }
         return (Integer) processVariables.get(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_STATUS);
     }
 

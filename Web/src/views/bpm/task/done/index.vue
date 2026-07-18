@@ -126,18 +126,7 @@
   <ContentWrap>
     <el-table v-loading="loading" :data="list" :table-layout="'auto'">
       <el-table-column align="center" :label="t('process.task.processName')" prop="processInstance.name" min-width="180" />
-      <el-table-column :label="t('process.instance.summary')" prop="processInstance.summary" min-width="180">
-        <template #default="scope">
-          <div
-            class="flex flex-col"
-            v-if="scope.row.processInstance.summary && scope.row.processInstance.summary.length > 0"
-          >
-            <div v-for="(item, index) in scope.row.processInstance.summary" :key="index">
-              <el-text type="info"> {{ item.key }} : {{ item.value }} </el-text>
-            </div>
-          </div>
-        </template>
-      </el-table-column>
+
       <el-table-column
         align="center"
         :label="t('process.instance.initiator')"
@@ -186,7 +175,6 @@
       <el-table-column align="center" :label="t('process.task.taskId')" prop="id" :show-overflow-tooltip="true" />
       <el-table-column align="center" :label="t('common.operation')" fixed="right" min-width="150">
         <template #default="scope">
-          <el-button link type="warning" @click="handleWithdraw(scope.row)">{{ t('process.task.withdraw') }}</el-button>
           <el-button link type="primary" @click="handleAudit(scope.row)">{{ t('process.task.history') }}</el-button>
         </template>
       </el-table-column>
@@ -265,13 +253,7 @@ const handleAudit = (row: any) => {
   })
 }
 
-/** 测回按钮 */
-const handleWithdraw = (row: any) => {
-  TaskApi.withdrawTask(row.id).then(() => {
-    message.success(t('process.task.withdrawSuccess'))
-    getList()
-  })
-}
+
 
 /** 初始化 **/
 onMounted(async () => {

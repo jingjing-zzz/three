@@ -1,48 +1,38 @@
 import request from '@/config/axios'
+import { BpmProcessInstanceStatus } from '@/utils/constants'
 
-/**
- * 任务状态枚举
- */
-export enum TaskStatusEnum {
-  /**
-   * 跳过
-   */
-  SKIP = -2,
-  /**
-   * 未开始
-   */
-  NOT_START = -1,
+export const TaskStatusEnum = BpmProcessInstanceStatus
 
-  /**
-   * 待审批
-   */
-  WAIT = 0,
-  /**
-   * 审批中
-   */
-  RUNNING = 1,
-  /**
-   * 审批通过
-   */
-  APPROVE = 2,
+export type TaskVO = {
+  id: number
+  status: number
+  priority: number
+  title: string
+  description: string
+  assigneeId: number
+  startTime: string
+  endTime: string
+  createTime: string
+}
 
-  /**
-   * 审批不通过
-   */
-  REJECT = 3,
+export const createTask = async (data: TaskVO) => {
+  return await request.post({ url: '/bpm/oa/task/create', data })
+}
 
-  /**
-   * 已取消
-   */
-  CANCEL = 4,
-  /**
-   * 已退回
-   */
-  RETURN = 5,
-  /**
-   * 审批通过中
-   */
-  APPROVING = 7
+export const updateTask = async (data: TaskVO) => {
+  return await request.put({ url: '/bpm/oa/task/update', data })
+}
+
+export const deleteTask = async (id: number) => {
+  return await request.delete({ url: '/bpm/oa/task/delete?id=' + id })
+}
+
+export const getTask = async (id: number) => {
+  return await request.get({ url: '/bpm/oa/task/get?id=' + id })
+}
+
+export const getTaskPage = async (params: PageParam) => {
+  return await request.get({ url: '/bpm/oa/task/page', params })
 }
 
 export const getTaskTodoPage = async (params: any) => {
@@ -53,10 +43,6 @@ export const getTaskDonePage = async (params: any) => {
   return await request.get({ url: '/bpm/task/done-page', params })
 }
 
-export const getTaskManagerPage = async (params: any) => {
-  return await request.get({ url: '/bpm/task/manager-page', params })
-}
-
 export const approveTask = async (data: any) => {
   return await request.put({ url: '/bpm/task/approve', data })
 }
@@ -65,58 +51,35 @@ export const rejectTask = async (data: any) => {
   return await request.put({ url: '/bpm/task/reject', data })
 }
 
-export const getTaskListByProcessInstanceId = async (processInstanceId: string) => {
-  return await request.get({
-    url: '/bpm/task/list-by-process-instance-id?processInstanceId=' + processInstanceId
-  })
-}
-
-// 获取所有可退回的节点
-export const getTaskListByReturn = async (id: string) => {
-  return await request.get({ url: '/bpm/task/list-by-return', params: { id } })
-}
-
-// 退回
-export const returnTask = async (data: any) => {
-  return await request.put({ url: '/bpm/task/return', data })
-}
-
-// 委派
-export const delegateTask = async (data: any) => {
-  return await request.put({ url: '/bpm/task/delegate', data })
-}
-
-// 转派
-export const transferTask = async (data: any) => {
-  return await request.put({ url: '/bpm/task/transfer', data })
-}
-
-// 加签
-export const signCreateTask = async (data: any) => {
-  return await request.put({ url: '/bpm/task/create-sign', data })
-}
-
-// 减签
-export const signDeleteTask = async (data: any) => {
-  return await request.delete({ url: '/bpm/task/delete-sign', data })
-}
-
-// 抄送
 export const copyTask = async (data: any) => {
   return await request.put({ url: '/bpm/task/copy', data })
 }
 
-// 撤回
-export const withdrawTask = async (taskId: string) => {
-  return await request.put({ url: '/bpm/task/withdraw', params: { taskId } })
+export const transferTask = async (data: any) => {
+  return await request.put({ url: '/bpm/task/transfer', data })
 }
 
-// 获取我的待办任务
-export const myTodoTask = async (processInstanceId: string) => {
-  return await request.get({ url: '/bpm/task/my-todo?processInstanceId=' + processInstanceId })
+export const delegateTask = async (data: any) => {
+  return await request.put({ url: '/bpm/task/delegate', data })
 }
 
-// 获取减签任务列表
-export const getChildrenTaskList = async (id: string) => {
-  return await request.get({ url: '/bpm/task/list-by-parent-task-id?parentTaskId=' + id })
+export const signCreateTask = async (data: any) => {
+  return await request.put({ url: '/bpm/task/create-sign', data })
 }
+
+export const signDeleteTask = async (data: any) => {
+  return await request.delete({ url: '/bpm/task/delete-sign', data })
+}
+
+export const returnTask = async (data: any) => {
+  return await request.put({ url: '/bpm/task/return', data })
+}
+
+export const getTaskListByReturn = async (taskId: string) => {
+  return await request.get({ url: '/bpm/task/list-by-return', params: { id: taskId } })
+}
+
+export const getTaskListByProcessInstanceId = async (processInstanceId: string) => {
+  return await request.get({ url: '/bpm/task/list-by-process-instance-id', params: { processInstanceId } })
+}
+

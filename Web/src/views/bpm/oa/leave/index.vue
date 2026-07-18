@@ -33,8 +33,8 @@
               v-model="queryParams.createTime"
               :default-time="[new Date('1 00:00:00'), new Date('1 23:59:59')]"
               class="!w-240px"
-              :end-placeholder="t('instance.endDate')"
-              :start-placeholder="t('instance.startDate')"
+              :end-placeholder="t('process.instance.endDate')"
+              :start-placeholder="t('process.instance.startDate')"
               type="daterange"
               value-format="YYYY-MM-DD HH:mm:ss"
             />

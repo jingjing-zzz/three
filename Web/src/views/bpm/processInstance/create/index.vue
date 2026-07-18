@@ -191,6 +191,10 @@ const processDefinitionGroup: any = computed(() => {
   }
 
   const grouped = groupBy(filteredProcessDefinitionList.value, 'category')
+  // 如果没有分类，直接返回分组数据
+  if (!categoryList.value?.length) {
+    return grouped
+  }
   // 按照 categoryList 的顺序重新组织数据
   const orderedGroup = {}
   categoryList.value.forEach((category: any) => {
@@ -198,6 +202,10 @@ const processDefinitionGroup: any = computed(() => {
       orderedGroup[category.code] = grouped[category.code]
     }
   })
+  // 如果分类列表有数据但没有匹配的流程，也返回原始分组
+  if (Object.keys(orderedGroup).length === 0 && Object.keys(grouped).length > 0) {
+    return grouped
+  }
   return orderedGroup
 })
 
@@ -216,7 +224,8 @@ const handleCategoryClick = (category: any) => {
 
 /** 通过分类 code 获取对应的名称 */
 const getCategoryName = (categoryCode: string) => {
-  return categoryList.value?.find((ctg: any) => ctg.code === categoryCode)?.name
+  const category = categoryList.value?.find((ctg: any) => ctg.code === categoryCode)
+  return category?.name || categoryCode
 }
 
 // ========== 表单相关 ==========
@@ -273,17 +282,25 @@ const handleScroll = (e: any) => {
 
 /** 过滤出有流程的分类列表。目的：只展示有流程的分类 */
 const availableCategories = computed(() => {
-  if (!categoryList.value?.length || !processDefinitionGroup.value) {
+  if (!processDefinitionGroup.value) {
     return []
   }
 
   // 获取所有有流程的分类代码
   const availableCategoryCodes = Object.keys(processDefinitionGroup.value)
 
-  // 过滤出有流程的分类
-  return categoryList.value.filter((category: CategoryVO) =>
-    availableCategoryCodes.includes(category.code)
-  )
+  // 如果有分类列表，过滤出有流程的分类
+  if (categoryList.value?.length) {
+    return categoryList.value.filter((category: CategoryVO) =>
+      availableCategoryCodes.includes(category.code)
+    )
+  }
+
+  // 如果没有分类列表，直接使用流程定义的category字段作为分类
+  return availableCategoryCodes.map(code => ({
+    code,
+    name: code // 使用category code作为名称
+  }))
 })
 
 /** 初始化 */

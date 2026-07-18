@@ -151,7 +151,7 @@
             @click="openSendForm(scope.row)"
             v-hasPermi="['system:notify-template:send-notify']"
           >
-            {{ t('common.detail') }}
+            {{ t('system.notify.send') }}
           </el-button>
           <el-button
             link
