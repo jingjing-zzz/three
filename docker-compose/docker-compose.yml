@@ -151,6 +151,8 @@ services:
 
   # ===========================================
   # Web 管理后台前端 (Vue3)
+  # 注意：不依赖 server 启动，前端页面立即可访问。
+  # 后端未就绪时前端展示自身的加载/等待状态，而不是整个页面不可用。
   # ===========================================
   web:
     container_name: mitedtsm-web
@@ -161,14 +163,13 @@ services:
     restart: unless-stopped
     ports:
       - "${WEB_PORT:-80}:80"
-    depends_on:
-      server:
-        condition: service_healthy
     networks:
       - mitedtsm-network
 
   # ===========================================
   # Mall 商城前端 (uni-app H5)
+  # 注意：不依赖 server 启动，前端页面立即可访问。
+  # 后端未就绪时前端展示自身的加载/等待状态。
   # ===========================================
   mall:
     container_name: mitedtsm-mall
@@ -179,9 +180,6 @@ services:
     volumes:
       - ../MallFrontend/unpackage/dist/build/web:/usr/share/nginx/html:ro
       - ./nginx/mall.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      server:
-        condition: service_healthy
     networks:
       - mitedtsm-network
 
