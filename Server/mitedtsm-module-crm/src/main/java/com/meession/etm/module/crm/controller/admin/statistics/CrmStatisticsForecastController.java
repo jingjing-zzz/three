@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.meession.etm.framework.common.pojo.CommonResult.success;
 
 @Tag(name = "管理后台 - CRM 销售预测")
@@ -36,5 +38,13 @@ public class CrmStatisticsForecastController {
   public CommonResult<PageResult<CrmStatisticsForecastDetailRespVO>> getForecastPage(
       @Valid CrmStatisticsForecastReqVO reqVO) {
     return success(forecastService.getForecastPage(reqVO));
+  }
+
+  @GetMapping("/get-forecast-by-date")
+  @Operation(summary = "获取按日聚合的销售预测数据")
+  @PreAuthorize("@ss.hasPermission('crm:statistics-forecast:query')")
+  public CommonResult<List<CrmStatisticsForecastByDateRespVO>> getForecastByDate(
+      @Valid CrmStatisticsForecastReqVO reqVO) {
+    return success(forecastService.getForecastByDate(reqVO));
   }
 }

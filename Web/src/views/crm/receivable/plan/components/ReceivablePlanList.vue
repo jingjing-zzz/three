@@ -39,6 +39,7 @@
       <el-table-column align="center" :label="t('receivablePlan.remark')" prop="remark" />
       <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             v-hasPermi="['crm:receivable:create']"
             link
@@ -64,6 +65,7 @@
           >
             {{ t('common.delete') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

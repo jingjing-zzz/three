@@ -7,6 +7,9 @@ export interface ForecastSummaryVO {
   wonAmount: number
   wonCount: number
   avgWinRate: number
+  historyAmount: number
+  growthRate: number
+  achievementRate: number | null
 }
 
 export interface ForecastDetailVO {
@@ -22,11 +25,23 @@ export interface ForecastDetailVO {
   endStatus: number
 }
 
+export interface ForecastByDateVO {
+  time: string
+  startTime: string
+  endTime: string
+  businessAmount: number
+  forecastAmount: number
+  historyAmount: number
+}
+
 export const ForecastApi = {
   getForecastSummary: (params: any) => {
     return request.get({ url: '/crm/statistics-forecast/summary', params })
   },
   getForecastPage: (params: any) => {
     return request.get({ url: '/crm/statistics-forecast/page', params })
+  },
+  getForecastByDate: (params: any) => {
+    return request.get({ url: '/crm/statistics-forecast/get-forecast-by-date', params })
   }
 }

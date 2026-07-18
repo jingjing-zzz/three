@@ -55,6 +55,7 @@
       />
       <el-table-column :label="t('common.action')" align="center">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             link
             type="primary"
@@ -71,6 +72,7 @@
           >
             {{ t('common.delete') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

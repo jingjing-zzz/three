@@ -13,10 +13,16 @@ public class CrmStatisticsForecastSummaryRespVO {
   private BigDecimal totalAmount;
   @Schema(description = "加权预测金额")
   private BigDecimal forecastAmount;
-  @Schema(description = "成交金额")
+  @Schema(description = "已成交金额")
   private BigDecimal wonAmount;
   @Schema(description = "成交商机数")
   private Integer wonCount;
   @Schema(description = "阶段赢单率（百分比）")
   private BigDecimal avgWinRate;
+  @Schema(description = "历史同期成交金额")
+  private BigDecimal historyAmount;
+  @Schema(description = "同比增长率（百分比，可负）")
+  private BigDecimal growthRate;
+  @Schema(description = "预测达成率 = 预测金额 / 目标金额（百分比，无目标时为 null）")
+  private BigDecimal achievementRate;
 }

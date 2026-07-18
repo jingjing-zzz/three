@@ -61,14 +61,14 @@
   <!-- 列表 -->
   <ContentWrap>
     <el-table v-loading="loading" :data="list" :stripe="true" :show-overflow-tooltip="true" :table-layout="'auto'">
-      <el-table-column :label="t('name')" align="center" prop="name" min-width="160">
+      <el-table-column :label="t('name')" align="center" prop="name" min-width="200">
         <template #default="scope">
           <el-link :underline="false" type="primary" @click="openDetail(scope.row.id)">
             {{ scope.row.name }}
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column :label="t('categoryName')" align="center" prop="categoryName" min-width="160" />
+      <el-table-column :label="t('categoryName')" align="center" prop="categoryName" min-width="200" />
       <el-table-column :label="t('unit')" align="center" prop="unit">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.CRM_PRODUCT_UNIT" :value="scope.row.unit" />
@@ -104,8 +104,9 @@
         :formatter="dateFormatter"
         min-width="180"
       />
-      <el-table-column :label="t('common.action')" align="center" fixed="right" min-width="160">
+      <el-table-column :label="t('common.action')" align="center" fixed="right" min-width="200">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             link
             type="primary"
@@ -122,6 +123,7 @@
           >
             {{ t('common.delete') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

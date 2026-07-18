@@ -105,7 +105,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="竞争对手" prop="competitor">
-            <el-input v-model="formData.competitor" placeholder="请输入竞争对手" />
+            <el-input v-model="formData.competitor" placeholder="请输入竞争对手" maxlength="100" show-word-limit />
           </el-form-item>
         </el-col>
       </el-row>
@@ -251,7 +251,11 @@ const open = async (type: string, id?: number, customerId?: number, contactId?: 
     }
   }
   customerList.value = await CustomerApi.getCustomerSimpleList()
-  statusTypeList.value = await BusinessStatusApi.getBusinessStatusTypeSimpleList()
+  const statusPage = await BusinessStatusApi.getBusinessStatusPage({ pageNo: 1, pageSize: 100 })
+  const statusLists = await Promise.all(
+    statusPage.list.map((statusType) => BusinessStatusApi.getBusinessStatusSimpleList(statusType.id))
+  )
+  statusTypeList.value = statusPage.list.filter((_, index) => statusLists[index].length > 0)
   userOptions.value = await UserApi.getSimpleUserList()
   sourceOptions.value = await DictDataApi.getDictDataByType('crm_business_source')
   if (formType.value === 'create') {

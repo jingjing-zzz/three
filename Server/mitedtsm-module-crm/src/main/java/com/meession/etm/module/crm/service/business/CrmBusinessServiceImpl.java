@@ -96,7 +96,11 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
 
         // 2.1 插入商机
         CrmBusinessDO business = BeanUtils.toBean(createReqVO, CrmBusinessDO.class);
-        business.setStatusId(businessStatusService.getBusinessStatusListByTypeId(createReqVO.getStatusTypeId()).get(0).getId()); // 默认状态
+        List<CrmBusinessStatusDO> statusList = businessStatusService.getBusinessStatusListByTypeId(createReqVO.getStatusTypeId());
+        if (CollUtil.isEmpty(statusList)) {
+            throw exception(BUSINESS_STATUS_TYPE_EMPTY);
+        }
+        business.setStatusId(statusList.get(0).getId()); // 默认状态
         calculateTotalPrice(business, businessProducts);
         businessMapper.insert(business);
         // 2.2 插入商机关联商品

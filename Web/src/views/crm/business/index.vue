@@ -146,8 +146,9 @@
         prop="statusName"
         min-width="120"
       />
-      <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">
+      <el-table-column align="center" fixed="right" :label="t('common.action')" width="300">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             v-hasPermi="['crm:business:query']"
             link
@@ -180,6 +181,7 @@
           >
             {{ t('common.del') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

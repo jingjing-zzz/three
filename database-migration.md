@@ -263,6 +263,7 @@ docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 
 docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/new-crm-business-quotation.sql
 docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/new-crm-business-quotation-snapshot.sql
 docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/new-crm-business-source-dict.sql
+docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/new-crm-statistics-forecast-menu.sql
 
 # 如果中文乱码，执行修复脚本
 docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/fix_dict_chinese.sql
@@ -270,6 +271,30 @@ docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 
 # 如果currency_code字段缺失，执行修复脚本
 docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/fix_currency_code.sql
 ```
+
+## 销售预测菜单与销售漏斗图表联动（2026-07-17）
+
+### 销售预测菜单
+
+增量脚本：`database/new/new-crm-statistics-forecast-menu.sql`。它以“销售漏斗”的父级为父菜单，创建数据库动态路由 `/crm/statistics/forecast`，写入中英文菜单名，并授权 `super_admin`、`crm_admin`；脚本可重复执行。
+
+已运行数据库执行：
+
+```bash
+docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/new-crm-statistics-forecast-menu.sql
+```
+
+执行后重新登录。本项目为数据库动态路由，**不要**在 `Web/src/router/modules/remaining.ts` 添加静态路由。
+
+### 销售漏斗图表点击联动
+
+商机转化率属于 `/crm/statistics/funnel` 的第三个标签页，不是销售预测页。图表点击后，前端使用接口返回的 `startTime`、`endTime`（格式 `yyyy-MM-dd HH:mm:ss`）作为 `times` 参数，请求下方商机明细。不要恢复 `clickDate` 精确匹配：按周、月、季度统计时它不能代表完整周期。
+
+### 整合与验收
+
+1. 合并源码和 `new-crm-statistics-forecast-menu.sql`。
+2. 已存在数据库按上面命令执行一次；新环境请将该脚本加入初始化 SQL 顺序。
+3. 发布后重新登录：漏斗页第三个标签点击有数据柱子/折线点，表格仅显示该周期商机；“数据统计”下可进入销售预测，且负责人传 `userIds`、预计成交日期传 `dealTimeStart` / `dealTimeEnd`。
 
 ## 新增表结构说明
 
@@ -410,6 +435,7 @@ docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 
 | 2026-07-16 | 添加通用增量SQL（i18n、large-file-upload等）到整合文档 | traebot |
 | 2026-07-16 | 添加租户currency_code字段修复SQL | traebot |
 | 2026-07-16 | 更新推荐执行顺序，包含所有增量SQL文件 | traebot |
+| 2026-07-17 | 修正销售预测菜单 SQL、动态路由说明及销售漏斗图表点击联动说明 | Codex |
 
 ## Git提交记录
 

@@ -2,6 +2,8 @@ package com.meession.etm.module.crm.service.statistics;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.meession.etm.framework.common.pojo.PageResult;
 import com.meession.etm.framework.common.util.date.LocalDateTimeUtils;
@@ -21,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static com.meession.etm.framework.common.util.collection.CollectionUtils.convertList;
 
@@ -89,9 +92,12 @@ public class CrmStatisticsFunnelServiceImpl implements CrmStatisticsFunnelServic
             BigDecimal businessDealCount = businessSummaryList.stream()
                     .filter(vo -> LocalDateTimeUtils.isBetween(times[0], times[1], vo.getTime()))
                     .map(CrmStatisticsBusinessSummaryByDateRespVO::getTotalPrice)
+                    .filter(Objects::nonNull)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             return new CrmStatisticsBusinessSummaryByDateRespVO()
                     .setTime(LocalDateTimeUtils.formatDateRange(times[0], times[1], reqVO.getInterval()))
+                    .setStartTime(LocalDateTimeUtil.format(times[0], DatePattern.NORM_DATETIME_PATTERN))
+                    .setEndTime(LocalDateTimeUtil.format(times[1], DatePattern.NORM_DATETIME_PATTERN))
                     .setBusinessCreateCount(businessCreateCount).setTotalPrice(businessDealCount);
         });
     }
@@ -117,6 +123,8 @@ public class CrmStatisticsFunnelServiceImpl implements CrmStatisticsFunnelServic
                     .mapToLong(CrmStatisticsBusinessInversionRateSummaryByDateRespVO::getBusinessWinCount).sum();
             return new CrmStatisticsBusinessInversionRateSummaryByDateRespVO()
                     .setTime(LocalDateTimeUtils.formatDateRange(times[0], times[1], reqVO.getInterval()))
+                    .setStartTime(LocalDateTimeUtil.format(times[0], DatePattern.NORM_DATETIME_PATTERN))
+                    .setEndTime(LocalDateTimeUtil.format(times[1], DatePattern.NORM_DATETIME_PATTERN))
                     .setBusinessCount(businessCount).setBusinessWinCount(businessWinCount);
         });
     }

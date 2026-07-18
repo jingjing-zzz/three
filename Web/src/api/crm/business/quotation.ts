@@ -60,3 +60,8 @@ export const getQuotationPage = (params: any) => {
 export const getLatestConfirmedQuotation = (businessId: number) => {
   return request.get({ url: `/crm/business-quotation/latest-confirmed?businessId=${businessId}` })
 }
+
+// 导出报价记录
+export const exportQuotationExcel = (params: any) => {
+  return request.get({ url: '/crm/business-quotation/export-excel', params, responseType: 'blob' })
+}

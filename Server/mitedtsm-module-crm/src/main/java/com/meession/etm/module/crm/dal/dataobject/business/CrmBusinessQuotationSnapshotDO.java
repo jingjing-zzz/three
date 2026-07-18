@@ -4,14 +4,19 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.meession.etm.framework.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @TableName("crm_business_quotation_snapshot")
 @Data
-public class CrmBusinessQuotationSnapshotDO {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class CrmBusinessQuotationSnapshotDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -46,11 +51,6 @@ public class CrmBusinessQuotationSnapshotDO {
     @TableField("remark")
     private String remark;
 
-    @TableField("creator")
-    private String creator;
-
-    @TableField("create_time")
-    private LocalDateTime createTime;
 
     public static CrmBusinessQuotationSnapshotDO fromQuotation(CrmBusinessQuotationDO quotation) {
         CrmBusinessQuotationSnapshotDO snapshot = new CrmBusinessQuotationSnapshotDO();
@@ -64,8 +64,6 @@ public class CrmBusinessQuotationSnapshotDO {
         snapshot.setConfirmedBy(quotation.getConfirmedBy());
         snapshot.setConfirmedTime(quotation.getConfirmedTime());
         snapshot.setRemark(quotation.getRemark());
-        snapshot.setCreator(quotation.getCreator());
-        snapshot.setCreateTime(LocalDateTime.now());
         return snapshot;
     }
 
