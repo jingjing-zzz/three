@@ -22,16 +22,9 @@ public class CrmStatisticsFunnelReqVO extends PageParam {
     @NotNull(message = "部门 id 不能为空")
     private Long deptId;
 
-    /**
-     * 负责人用户 id, 当用户为空, 则计算部门下用户
-     */
     @Schema(description = "负责人用户 id", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "1")
     private Long userId;
 
-    /**
-     * userIds 目前不用前端传递，目前是方便后端通过 deptId 读取编号后，设置回来
-     * 后续，可能会支持选择部分用户进行查询
-     */
     @Schema(description = "负责人用户 id 集合", hidden = true, example = "2")
     private List<Long> userIds;
 
@@ -43,5 +36,9 @@ public class CrmStatisticsFunnelReqVO extends PageParam {
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     @Size(min = 2, max = 2, message = "请选择时间范围")
     private LocalDateTime[] times;
+
+    @Schema(description = "点击日期（图表点击筛选时使用）", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
+    private LocalDateTime clickDate;
 
 }

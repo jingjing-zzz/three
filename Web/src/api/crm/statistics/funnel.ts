@@ -8,12 +8,16 @@ export interface CrmStatisticFunnelRespVO {
 
 export interface CrmStatisticsBusinessSummaryByDateRespVO {
   time: string // 时间
+  startTime: string // 统计周期开始时间
+  endTime: string // 统计周期结束时间
   businessCreateCount: number // 商机数
   totalPrice: number | string // 商机金额
 }
 
 export interface CrmStatisticsBusinessInversionRateSummaryByDateRespVO {
   time: string // 时间
+  startTime: string // 统计周期开始时间
+  endTime: string // 统计周期结束时间
   businessCount: number // 商机数量
   businessWinCount: number // 赢单商机数
 }

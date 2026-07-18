@@ -1,9 +1,9 @@
-<!-- 客户总量统计 -->
+<!-- 新增商机分析 -->
 <template>
   <!-- Echarts 图 -->
   <el-card shadow="never">
     <el-skeleton :loading="loading" animated>
-      <Echart :height="500" :options="echartsOption" />
+      <Echart :height="500" :options="echartsOption" @click="handleChartClick" />
     </el-skeleton>
   </el-card>
 
@@ -20,124 +20,61 @@
       </el-table-column>
       <el-table-column align="center" fixed="left" :label="t('funnel.customerName')" prop="customerName" min-width="120">
         <template #default="scope">
-          <el-link
-            :underline="false"
-            type="primary"
-            @click="openCustomerDetail(scope.row.customerId)"
-          >
+          <el-link :underline="false" type="primary" @click="openCustomerDetail(scope.row.customerId)">
             {{ scope.row.customerName }}
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        :formatter="erpPriceTableColumnFormatter"
-        align="center"
-        :label="t('funnel.totalPrice')"
-        prop="totalPrice"
-        min-width="140"
-      />
-      <el-table-column
-        :formatter="dateFormatter"
-        align="center"
-        :label="t('funnel.dealTime')"
-        prop="dealTime"
-        min-width="180"
-      />
+      <el-table-column :formatter="erpPriceTableColumnFormatter" align="center" :label="t('funnel.totalPrice')" prop="totalPrice" min-width="140" />
+      <el-table-column :formatter="dateFormatter" align="center" :label="t('funnel.dealTime')" prop="dealTime" min-width="180" />
       <el-table-column align="center" :label="t('funnel.remark')" prop="remark" min-width="200" />
-      <el-table-column
-        :formatter="dateFormatter"
-        align="center"
-        :label="t('funnel.contactNextTime')"
-        prop="contactNextTime"
-        min-width="180"
-      />
+      <el-table-column :formatter="dateFormatter" align="center" :label="t('funnel.contactNextTime')" prop="contactNextTime" min-width="180" />
       <el-table-column align="center" :label="t('funnel.ownerUserName')" prop="ownerUserName" min-width="100" />
       <el-table-column align="center" :label="t('funnel.ownerUserDeptName')" prop="ownerUserDeptName" min-width="100" />
-      <el-table-column
-        :formatter="dateFormatter"
-        align="center"
-        :label="t('funnel.contactLastTime')"
-        prop="contactLastTime"
-        min-width="180"
-      />
-      <el-table-column
-        :formatter="dateFormatter"
-        align="center"
-        :label="t('funnel.updateTime')"
-        prop="updateTime"
-        min-width="180"
-      />
-      <el-table-column
-        :formatter="dateFormatter"
-        align="center"
-        :label="t('funnel.createTime')"
-        prop="createTime"
-        min-width="180"
-      />
+      <el-table-column :formatter="dateFormatter" align="center" :label="t('funnel.contactLastTime')" prop="contactLastTime" min-width="180" />
+      <el-table-column :formatter="dateFormatter" align="center" :label="t('funnel.updateTime')" prop="updateTime" min-width="180" />
+      <el-table-column :formatter="dateFormatter" align="center" :label="t('funnel.createTime')" prop="createTime" min-width="180" />
       <el-table-column align="center" :label="t('funnel.creatorName')" prop="creatorName" min-width="100" />
-      <el-table-column
-        align="center"
-        fixed="right"
-        :label="t('funnel.statusTypeName')"
-        prop="statusTypeName"
-        min-width="140"
-      />
-      <el-table-column
-        align="center"
-        fixed="right"
-        :label="t('funnel.statusName')"
-        prop="statusName"
-        min-width="120"
-      />
+      <el-table-column align="center" fixed="right" :label="t('funnel.statusTypeName')" prop="statusTypeName" min-width="140" />
+      <el-table-column align="center" fixed="right" :label="t('funnel.statusName')" prop="statusName" min-width="120" />
     </el-table>
-    <!-- 分页 -->
-    <Pagination
-      v-model:limit="queryParams0.pageSize"
-      v-model:page="queryParams0.pageNo"
-      :total="total"
-      @pagination="getList"
-    />
+    <Pagination v-model:limit="queryParams0.pageSize" v-model:page="queryParams0.pageNo" :total="total" @pagination="getList" />
   </el-card>
 </template>
 <script lang="ts" setup>
-import {
-  CrmStatisticsBusinessSummaryByDateRespVO,
-  StatisticFunnelApi
-} from '@/api/crm/statistics/funnel'
+import { CrmStatisticsBusinessSummaryByDateRespVO, StatisticFunnelApi } from '@/api/crm/statistics/funnel'
 import { EChartsOption } from 'echarts'
 import { erpPriceTableColumnFormatter } from '@/utils'
 import { dateFormatter } from '@/utils/formatTime'
 
 defineOptions({ name: 'BusinessSummary' })
 
-const { t } = useI18n('crm.statistics') // 国际
-const props = defineProps<{ queryParams: any }>() // 搜索参数
-const queryParams0 = reactive({
+const { t } = useI18n('crm.statistics')
+const props = defineProps<{ queryParams: any }>()
+const queryParams0 = reactive<{ pageNo: number; pageSize: number; times?: string[] }>({
   pageNo: 1,
   pageSize: 10
 })
-const loading = ref(false) // 加载
-const list = ref([]) // 列表的数
+const loading = ref(false)
+const list = ref([])
 const total = ref(0)
-/** 将传进来的值赋值给 queryParams0 */
+const timeRangeMap = new Map<string, [string, string]>()
+
 watch(
   () => props.queryParams,
   (data) => {
-    if (!data) {
-      return
-    }
+    if (!data) return
     const newObj = { ...queryParams0, ...data }
     Object.assign(queryParams0, newObj)
   },
-  {
-    immediate: true
-  }
+  { immediate: true }
 )
+
 /** 柱状图配置：纵向 */
 const echartsOption = reactive<EChartsOption>({
   grid: {
     left: 30,
-    right: 30, // 为 X 轴右侧显示完整
+    right: 30,
     bottom: 20,
     containLabel: true
   },
@@ -159,12 +96,12 @@ const echartsOption = reactive<EChartsOption>({
   toolbox: {
     feature: {
       dataZoom: {
-        xAxisIndex: false // 数据区域缩放：Y 轴不缩放
+        xAxisIndex: false
       },
       brush: {
-        type: ['lineX', 'clear'] // 区域缩放按钮、还原按钮
+        type: ['lineX', 'clear']
       },
-      saveAsImage: { show: true, name: t('funnel.businessSummary') } // 保存为图片
+      saveAsImage: { show: true, name: t('funnel.businessSummary') }
     }
   },
   tooltip: {
@@ -178,16 +115,16 @@ const echartsOption = reactive<EChartsOption>({
       type: 'value',
       name: t('funnel.newBusinessCount'),
       min: 0,
-      minInterval: 1 // 显示整数刻度
+      minInterval: 1
     },
     {
       type: 'value',
       name: t('funnel.newBusinessPrice'),
       min: 0,
-      minInterval: 1, // 显示整数刻度
+      minInterval: 1,
       splitLine: {
         lineStyle: {
-          type: 'dotted', // 右侧网格线虚线，减少混乱
+          type: 'dotted',
           opacity: 0.7
         }
       }
@@ -204,7 +141,14 @@ const echartsOption = reactive<EChartsOption>({
 const fetchAndFill = async () => {
   // 1. 加载统计数据
   const businessSummaryByDate = await StatisticFunnelApi.getBusinessSummaryByDate(props.queryParams)
-  // 2.1 更新 Echarts 数据
+  // 2.1 更新 Echarts 数据，同时构建 timeRangeMap（使用后端返回的 startTime/endTime）
+  timeRangeMap.clear()
+  businessSummaryByDate.forEach((summary: CrmStatisticsBusinessSummaryByDateRespVO) => {
+    if (summary.startTime && summary.endTime) {
+      timeRangeMap.set(summary.time, [summary.startTime, summary.endTime])
+    }
+  })
+
   if (echartsOption.xAxis && echartsOption.xAxis['data']) {
     echartsOption.xAxis['data'] = businessSummaryByDate.map(
       (s: CrmStatisticsBusinessSummaryByDateRespVO) => s.time
@@ -224,13 +168,25 @@ const fetchAndFill = async () => {
   // 2.2 更新列表数据
   await getList()
 }
+
 /** 获取商机列表 */
 const getList = async () => {
-  const data = await StatisticFunnelApi.getBusinessPageByDate(props.queryParams)
+  const data = await StatisticFunnelApi.getBusinessPageByDate({ ...props.queryParams, ...queryParams0 })
   list.value = data.list
   total.value = data.total
 }
-/** 打开客户详情 */
+
+/** 点击图表柱子后，仅展示对应统计周期内创建的商机 */
+const handleChartClick = (params: Record<string, unknown>) => {
+  const time = typeof params.name === 'string' ? params.name : undefined
+  const timeRange = time ? timeRangeMap.get(time) : undefined
+  if (!timeRange) return
+  queryParams0.pageNo = 1
+  queryParams0.times = [...timeRange]
+  getList()
+}
+
+/** 打开商机详情 */
 const { push } = useRouter()
 const openDetail = (id: number) => {
   push({ name: 'CrmBusinessDetail', params: { id } })

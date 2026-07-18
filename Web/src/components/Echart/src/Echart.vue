@@ -15,6 +15,10 @@ import 'echarts/lib/component/markArea'
 
 defineOptions({ name: 'EChart' })
 
+const emit = defineEmits<{
+  (event: 'click', params: Record<string, unknown>): void
+}>()
+
 const { getPrefixCls, variables } = useDesign()
 
 const prefixCls = getPrefixCls('echart')
@@ -60,10 +64,15 @@ const styles = computed(() => {
   }
 })
 
+const handleChartClick = (params: Record<string, unknown>) => {
+  emit('click', params)
+}
+
 const initChart = () => {
   if (unref(elRef) && props.options) {
     echartRef = echarts.init(unref(elRef) as HTMLElement)
-    echartRef?.setOption(unref(options))
+    echartRef.setOption(unref(options))
+    echartRef.on('click', handleChartClick)
   }
 }
 
@@ -106,6 +115,9 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeHandler)
   unref(contentEl) &&
     (unref(contentEl) as Element).removeEventListener('transitionend', contentResizeHandler)
+  echartRef?.off('click', handleChartClick)
+  echartRef?.dispose()
+  echartRef = null
 })
 
 onActivated(() => {

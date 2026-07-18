@@ -1,0 +1,29 @@
+
+/* 操作列滑动容器 */
+.action-scroll-wrapper {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+.action-scroll-wrapper::-webkit-scrollbar {
+  height: 4px;
+}
+
+.action-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.action-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #dcdfe6;
+  border-radius: 2px;
+}
+
+.action-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #c0c4cc;
+}
+
+.action-scroll-wrapper .el-button {
+  flex-shrink: 0;
+}

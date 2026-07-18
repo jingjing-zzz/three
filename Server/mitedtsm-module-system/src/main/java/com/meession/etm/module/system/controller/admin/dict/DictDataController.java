@@ -74,10 +74,18 @@ public class DictDataController {
 
     @GetMapping(value = {"/list-all-simple", "simple-list"})
     @Operation(summary = "获得全部字典数据列表", description = "一般用于管理后台缓存字典数据在本地")
-    // 无需添加权限认证，因为前端全局都需要
     public CommonResult<List<DictDataSimpleRespVO>> getSimpleDictDataList() {
         List<DictDataDO> list = dictDataService.getDictDataList(
                 CommonStatusEnum.ENABLE.getStatus(), null);
+        return success(BeanUtils.toBean(list, DictDataSimpleRespVO.class));
+    }
+
+    @GetMapping("/type")
+    @Operation(summary = "根据字典类型查询字典数据信息")
+    @Parameter(name = "type", description = "字典类型", required = true, example = "common_status")
+    public CommonResult<List<DictDataSimpleRespVO>> getDictDataListByType(@RequestParam("type") String type) {
+        List<DictDataDO> list = dictDataService.getDictDataList(
+                CommonStatusEnum.ENABLE.getStatus(), type);
         return success(BeanUtils.toBean(list, DictDataSimpleRespVO.class));
     }
 
@@ -105,7 +113,6 @@ public class DictDataController {
     public void export(HttpServletResponse response, @Valid DictDataPageReqVO exportReqVO) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<DictDataDO> list = dictDataService.getDictDataPage(exportReqVO).getList();
-        // 输出
         ExcelUtils.write(response, "字典数据.xls", "数据", DictDataRespVO.class,
                 BeanUtils.toBean(list, DictDataRespVO.class));
     }

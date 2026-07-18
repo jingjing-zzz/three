@@ -128,6 +128,7 @@
       <el-table-column align="center" :label="t('common.creator')" prop="creatorName" min-width="100" />
       <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="180">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             v-hasPermi="['crm:receivable:create']"
             link
@@ -137,6 +138,7 @@
           >
             {{ t('backlog.createReceivable') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

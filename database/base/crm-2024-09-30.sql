@@ -603,3 +603,73 @@ INSERT INTO `crm_receivable_plan` (`id`, `period`, `customer_id`, `contract_id`,
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+-- 商机域字段扩展：添加来源和竞争对手字段
+ALTER TABLE `crm_business`
+ADD COLUMN `source` VARCHAR(30) DEFAULT NULL COMMENT '商机来源' AFTER `name`,
+ADD COLUMN `competitor` VARCHAR(100) DEFAULT NULL COMMENT '竞争对手' AFTER `source`;
+-- ----------------------------
+-- 商机报价表
+-- ----------------------------
+DROP TABLE IF EXISTS `crm_business_quotation`;
+CREATE TABLE `crm_business_quotation` (
+    `id`                  BIGINT(20)   NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `business_id`         BIGINT(20)   NOT NULL COMMENT '商机编号',
+    `quotation_no`        VARCHAR(64)  NOT NULL COMMENT '报价编号',
+    `status`              TINYINT(4)   NOT NULL DEFAULT 0 COMMENT '报价状态（0草稿 1已确认 2已作废）',
+    `total_product_price` DECIMAL(20,2) DEFAULT NULL COMMENT '产品原价合计',
+    `discount_percent`    DECIMAL(20,2) DEFAULT NULL COMMENT '整单折扣',
+    `total_price`         DECIMAL(20,2) DEFAULT NULL COMMENT '报价总额',
+    `confirmed_by`        BIGINT(20)   DEFAULT NULL COMMENT '确认人',
+    `confirmed_time`      DATETIME     DEFAULT NULL COMMENT '确认时间',
+    `remark`              VARCHAR(500) DEFAULT NULL COMMENT '备注',
+    `tenant_id`           BIGINT(20)   NOT NULL DEFAULT 0 COMMENT '租户编号',
+    `creator`             VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+    `create_time`         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`             VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+    `update_time`         DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted`             BIT(1)       NOT NULL DEFAULT b'0' COMMENT '是否删除',
+    PRIMARY KEY (`id`),
+    KEY `idx_business_id` (`business_id`),
+    KEY `idx_quotation_no` (`quotation_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='CRM 商机报价表';
+
+-- ----------------------------
+-- 商机报价产品项表
+-- ----------------------------
+DROP TABLE IF EXISTS `crm_business_quotation_item`;
+CREATE TABLE `crm_business_quotation_item` (
+    `id`               BIGINT(20)   NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `quotation_id`     BIGINT(20)   NOT NULL COMMENT '报价编号',
+    `product_id`       BIGINT(20)   DEFAULT NULL COMMENT '产品编号',
+    `product_name`     VARCHAR(200) DEFAULT NULL COMMENT '产品名称（快照）',
+    `product_no`       VARCHAR(100) DEFAULT NULL COMMENT '产品编码（快照）',
+    `standard_price`   DECIMAL(20,2) DEFAULT NULL COMMENT '标准价',
+    `actual_price`     DECIMAL(20,2) DEFAULT NULL COMMENT '实际售价',
+    `count`            DECIMAL(20,2) DEFAULT NULL COMMENT '数量',
+    `discount_percent` DECIMAL(20,2) DEFAULT NULL COMMENT '行折扣',
+    `total_price`      DECIMAL(20,2) DEFAULT NULL COMMENT '行总价',
+    `gift`             VARCHAR(500) DEFAULT NULL COMMENT '礼品',
+    `remark`           VARCHAR(500) DEFAULT NULL COMMENT '备注',
+    `tenant_id`        BIGINT(20)   NOT NULL DEFAULT 0 COMMENT '租户编号',
+    `creator`          VARCHAR(64)  DEFAULT '' COMMENT '创建者',
+    `create_time`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`          VARCHAR(64)  DEFAULT '' COMMENT '更新者',
+    `update_time`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted`          BIT(1)       NOT NULL DEFAULT b'0' COMMENT '是否删除',
+    PRIMARY KEY (`id`),
+    KEY `idx_quotation_id` (`quotation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='CRM 商机报价产品项表';
+-- CRM 商机来源字典 (crm_business_source)
+-- 适用于直接执行或追加到 ruoyi-vue-pro.sql 初始化脚本
+
+-- 1. 字典类型
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `deleted_time`) VALUES (2012, 'CRM 商机来源', 'crm_business_source', 0, 'CRM 商机来源', '1', NOW(), '1', NOW(), b'0', NULL);
+
+-- 2. 字典数据
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES
+(3054, 1, '主动开发', '1', 'crm_business_source', 0, 'primary', '', '', '1', NOW(), '1', NOW(), b'0'),
+(3055, 2, '客户介绍', '2', 'crm_business_source', 0, 'success', '', '', '1', NOW(), '1', NOW(), b'0'),
+(3056, 3, '网络推广', '3', 'crm_business_source', 0, 'info', '', '', '1', NOW(), '1', NOW(), b'0'),
+(3057, 4, '展会', '4', 'crm_business_source', 0, 'warning', '', '', '1', NOW(), '1', NOW(), b'0'),
+(3058, 5, '电话营销', '5', 'crm_business_source', 0, 'default', '', '', '1', NOW(), '1', NOW(), b'0'),
+(3059, 6, '其他', '6', 'crm_business_source', 0, 'default', '', '', '1', NOW(), '1', NOW(), b'0');

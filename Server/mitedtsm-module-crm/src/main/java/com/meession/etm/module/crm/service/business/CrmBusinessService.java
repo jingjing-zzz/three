@@ -92,6 +92,15 @@ public interface CrmBusinessService {
     CrmBusinessDO getBusiness(Long id);
 
     /**
+     * 计算未跟进天数
+     * 规则：若有 contactLastTime，用当前时间减去它；若无，用当前时间减去 createTime
+     *
+     * @param business 商机
+     * @return 未跟进天数
+     */
+    Integer calculateDaysWithoutFollowUp(CrmBusinessDO business);
+
+    /**
      * 校验商机是否有效
      *
      * @param id 编号

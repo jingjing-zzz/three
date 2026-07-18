@@ -370,6 +370,8 @@ export default {
     crmReceivableDetail: '回款详情',
     crmContactDetail: '联系人详情',
     crmProductDetail: '产品详情',
+    crmStatisticsForecast: '销售预测',
+    crmStatistics: '销售统计', 
     // AI 模块
     aiImageSquare: '绘图作品',
     aiKnowledgeDocument: '知识库文档',

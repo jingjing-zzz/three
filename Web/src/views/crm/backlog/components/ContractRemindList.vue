@@ -148,8 +148,9 @@
           <dict-tag :type="DICT_TYPE.CRM_AUDIT_STATUS" :value="scope.row.auditStatus" />
         </template>
       </el-table-column>
-      <el-table-column fixed="right" :label="t('common.action')" min-width="150">
+      <el-table-column fixed="right" :label="t('common.action')" min-width="200">
         <template #default="scope">
+<div class="action-scroll-wrapper">
           <el-button
             link
             v-hasPermi="['crm:contract:update']"
@@ -158,6 +159,7 @@
           >
             {{ t('backlog.viewApproval') }}
           </el-button>
+</div>
         </template>
       </el-table-column>
     </el-table>

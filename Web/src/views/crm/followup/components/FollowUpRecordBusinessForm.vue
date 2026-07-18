@@ -10,9 +10,11 @@
     <el-table-column :label="t('business.customerName')" align="center" prop="customerName" />
     <el-table-column :label="t('business.statusTypeName')" align="center" prop="statusTypeName" />
     <el-table-column :label="t('business.statusName')" align="center" prop="statusName" />
-    <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="150">
+    <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">
       <template #default="{ $index }">
+<div class="action-scroll-wrapper">
         <el-button link type="danger" @click="handleDelete($index)"> {{ t('common.remove') }}</el-button>
+</div>
       </template>
     </el-table-column>
   </el-table>

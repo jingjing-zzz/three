@@ -40,7 +40,8 @@ public interface ErrorCodeConstants {
     ErrorCode RECEIVABLE_UPDATE_AUDIT_STATUS_FAIL_NOT_PROCESS = new ErrorCode(1_020_004_004, "更新回款审核状态失败，原因：回款不是审核中状态");
     ErrorCode RECEIVABLE_NO_EXISTS = new ErrorCode(1_020_004_005, "生成回款序列号重复，请重试");
     ErrorCode RECEIVABLE_CREATE_FAIL_CONTRACT_NOT_APPROVE = new ErrorCode(1_020_004_006, "创建回款失败，原因：合同不是审核通过状态");
-    ErrorCode RECEIVABLE_CREATE_FAIL_PRICE_EXCEEDS_LIMIT = new ErrorCode(1_020_004_007, "创建回款失败，原因：回款金额超出合同金额，目前剩余可退：{} 元");
+    ErrorCode RECEIVABLE_CREATE_FAIL_PRICE_EXCEEDS_LIMIT = new ErrorCode(1_020_004_007,
+            "创建回款失败，原因：回款金额超出合同金额，目前剩余可退：{} 元");
     ErrorCode RECEIVABLE_DELETE_FAIL_IS_APPROVE = new ErrorCode(1_020_004_008, "删除回款失败，原因：回款审批已通过");
 
     // ========== 回款计划 1-020-005-000 ==========
@@ -69,12 +70,15 @@ public interface ErrorCodeConstants {
     // ========== 权限管理 1_020_007_000 ==========
     ErrorCode CRM_PERMISSION_NOT_EXISTS = new ErrorCode(1_020_007_000, "数据权限不存在");
     ErrorCode CRM_PERMISSION_DENIED = new ErrorCode(1_020_007_001, "{}操作失败，原因：没有权限");
-    ErrorCode CRM_PERMISSION_MODEL_TRANSFER_FAIL_OWNER_USER_EXISTS = new ErrorCode(1_020_007_003, "{}操作失败，原因：转移对象已经是该负责人");
+    ErrorCode CRM_PERMISSION_MODEL_TRANSFER_FAIL_OWNER_USER_EXISTS = new ErrorCode(1_020_007_003,
+            "{}操作失败，原因：转移对象已经是该负责人");
     ErrorCode CRM_PERMISSION_DELETE_FAIL = new ErrorCode(1_020_007_004, "删除数据权限失败，原因：批量删除权限的时候，只能属于同一个 bizId 下");
     ErrorCode CRM_PERMISSION_DELETE_DENIED = new ErrorCode(1_020_007_006, "删除数据权限失败，原因：没有权限");
-    ErrorCode CRM_PERMISSION_DELETE_SELF_PERMISSION_FAIL_EXIST_OWNER = new ErrorCode(1_020_007_007, "删除数据权限失败，原因：不能删除负责人");
+    ErrorCode CRM_PERMISSION_DELETE_SELF_PERMISSION_FAIL_EXIST_OWNER = new ErrorCode(1_020_007_007,
+            "删除数据权限失败，原因：不能删除负责人");
     ErrorCode CRM_PERMISSION_CREATE_FAIL = new ErrorCode(1_020_007_008, "创建数据权限失败，原因：所加用户已有权限");
-    ErrorCode CRM_PERMISSION_CREATE_FAIL_EXISTS = new ErrorCode(1_020_007_009, "同时添加数据权限失败，原因：用户【{}】已有模块【{}】数据【{}】的【{}】权限");
+    ErrorCode CRM_PERMISSION_CREATE_FAIL_EXISTS = new ErrorCode(1_020_007_009,
+            "同时添加数据权限失败，原因：用户【{}】已有模块【{}】数据【{}】的【{}】权限");
 
     // ========== 产品 1_020_008_000 ==========
     ErrorCode PRODUCT_NOT_EXISTS = new ErrorCode(1_020_008_000, "产品不存在");
@@ -95,6 +99,7 @@ public interface ErrorCodeConstants {
     ErrorCode BUSINESS_STATUS_UPDATE_FAIL_USED = new ErrorCode(1_020_010_002, "已经被使用的商机状态组，无法进行更新");
     ErrorCode BUSINESS_STATUS_DELETE_FAIL_USED = new ErrorCode(1_020_010_002, "已经被使用的商机状态组，无法进行删除");
     ErrorCode BUSINESS_STATUS_NOT_EXISTS = new ErrorCode(1_020_010_003, "商机状态不存在");
+    ErrorCode BUSINESS_STATUS_TYPE_EMPTY = new ErrorCode(1_020_010_004, "商机状态组未配置阶段");
 
     // ========== 客户公海规则设置 1_020_012_000 ==========
     ErrorCode CUSTOMER_LIMIT_CONFIG_NOT_EXISTS = new ErrorCode(1_020_012_001, "客户限制配置不存在");
@@ -104,5 +109,14 @@ public interface ErrorCodeConstants {
     ErrorCode FOLLOW_UP_RECORD_DELETE_DENIED = new ErrorCode(1_020_013_001, "删除跟进记录失败，原因：没有权限");
 
     // ========== 数据统计 1_020_014_000 ==========
+
+    // ========== 商机报价 1_020_015_000 ==========
+    ErrorCode BUSINESS_QUOTATION_NOT_EXISTS = new ErrorCode(1_020_015_000, "商机报价不存在");
+    ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_STATUS = new ErrorCode(1_020_015_001, "确认报价失败，原因：报价不是草稿状态");
+    ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_BUSINESS_END = new ErrorCode(1_020_015_002, "确认报价失败，原因：商机已成交或流失");
+    ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_NO_PRODUCT = new ErrorCode(1_020_015_003, "确认报价失败，原因：报价产品不能为空");
+    ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_PRODUCT_COUNT = new ErrorCode(1_020_015_004, "确认报价失败，原因：产品数量必须大于 0");
+    ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_PRODUCT_PRICE = new ErrorCode(1_020_015_005, "确认报价失败，原因：产品金额不能为负数");
+    ErrorCode BUSINESS_QUOTATION_DRAFT_FAIL_NO_PRODUCT = new ErrorCode(1_020_015_006, "创建报价草稿失败，原因：商机产品不能为空");
 
 }
