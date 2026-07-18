@@ -1,4 +1,4 @@
-﻿<!-- 可退款的销售退货单列表 -->
+<!-- 可退款的销售退货单列表 -->
 <template>
   <Dialog
     :title="t('selectTitle')"
@@ -123,7 +123,7 @@ import { erpPriceInputFormatter, erpPriceTableColumnFormatter } from '@/utils'
 import { ProductApi, ProductVO } from '@/api/erp/product/product'
 import { SaleReturnApi, SaleReturnVO } from '@/api/erp/sale/return'
 
-defineOptions({ name: 'SaleReturnPaymentEnableList' })
+defineOptions({ name: 'SaleReturnRefundEnableList' })
 
 const { t } = useI18n('erp.sale.return')
 

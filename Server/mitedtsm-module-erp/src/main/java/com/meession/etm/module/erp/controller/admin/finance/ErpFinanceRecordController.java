@@ -64,7 +64,7 @@ public class ErpFinanceRecordController {
     @Operation(summary = "更新财务单据")
     @PreAuthorize("@ss.hasPermission('erp:finance-record:update')")
     public CommonResult<Boolean> updateFinanceRecord(@Valid @RequestBody ErpFinanceRecordSaveReqVO updateReqVO) {
-        financeRecordService.updateFinanceRecord(updateReqVO);
+        financeRecordService.updateFinanceRecord(updateReqVO, getLoginUserId());
         return success(true);
     }
 

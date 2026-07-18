@@ -48,17 +48,19 @@ public interface ErpFinanceRecordMapper extends BaseMapperX<ErpFinanceRecordDO> 
                 .eq(ErpFinanceRecordDO::getStatus, status));
     }
 
-    default Long selectOverdueCount() {
-        return selectCount(new LambdaQueryWrapperX<ErpFinanceRecordDO>()
-                .eq(ErpFinanceRecordDO::getOverdue, true));
-    }
-
-    default int markOverdue(LocalDateTime now) {
-        return update(new ErpFinanceRecordDO().setOverdue(true), new LambdaUpdateWrapper<ErpFinanceRecordDO>()
+    default int refreshOverdue(LocalDateTime now, Integer approvedStatus) {
+        int cleared = update(new ErpFinanceRecordDO().setOverdue(false), new LambdaUpdateWrapper<ErpFinanceRecordDO>()
+                .eq(ErpFinanceRecordDO::getOverdue, true)
+                .and(wrapper -> wrapper.isNull(ErpFinanceRecordDO::getDueTime)
+                        .or().ge(ErpFinanceRecordDO::getDueTime, now)
+                        .or().eq(ErpFinanceRecordDO::getStatus, approvedStatus)));
+        int marked = update(new ErpFinanceRecordDO().setOverdue(true), new LambdaUpdateWrapper<ErpFinanceRecordDO>()
                 .isNotNull(ErpFinanceRecordDO::getDueTime)
                 .lt(ErpFinanceRecordDO::getDueTime, now)
-                .eq(ErpFinanceRecordDO::getOverdue, false)
-                .isNull(ErpFinanceRecordDO::getProcessInstanceId));
+                .ne(ErpFinanceRecordDO::getStatus, approvedStatus)
+                .and(wrapper -> wrapper.eq(ErpFinanceRecordDO::getOverdue, false)
+                        .or().isNull(ErpFinanceRecordDO::getOverdue)));
+        return cleared + marked;
     }
 
 }

@@ -1,11 +1,12 @@
 -- 财务域：发票、报销、退款、费用、财务分析、逾期检测
+-- 可重复执行。执行前请确认基础 ERP 菜单已初始化。
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `erp_finance_record` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
   `no` varchar(64) NOT NULL COMMENT '单据编号',
   `type` tinyint NOT NULL COMMENT '单据类型：10 发票，20 报销，30 退款，40 费用',
-  `status` tinyint NOT NULL DEFAULT 10 COMMENT '审核状态：10 未审核，20 已审核',
+  `status` tinyint NOT NULL DEFAULT 10 COMMENT '审核状态：10 审批中，20 通过，30 驳回，40 取消',
   `record_time` datetime NOT NULL COMMENT '业务时间',
   `due_time` datetime NULL DEFAULT NULL COMMENT '到期时间',
   `overdue` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否逾期',
@@ -34,39 +35,66 @@ CREATE TABLE IF NOT EXISTS `erp_finance_record` (
   KEY `idx_erp_finance_record_overdue` (`overdue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='ERP 财务单据';
 
-ALTER TABLE `crm_receivable_plan`
-  ADD COLUMN `overdue` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否逾期' AFTER `receivable_id`;
+SET @finance_schema_name = DATABASE();
+SET @finance_overdue_column_exists = (
+  SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = @finance_schema_name
+    AND TABLE_NAME = 'crm_receivable_plan'
+    AND COLUMN_NAME = 'overdue'
+);
+SET @finance_add_overdue_sql = IF(
+  @finance_overdue_column_exists = 0,
+  'ALTER TABLE `crm_receivable_plan` ADD COLUMN `overdue` bit(1) NOT NULL DEFAULT b''0'' COMMENT ''是否逾期'' AFTER `receivable_id`',
+  'SELECT ''crm_receivable_plan.overdue 已存在'''
+);
+PREPARE finance_add_overdue_stmt FROM @finance_add_overdue_sql;
+EXECUTE finance_add_overdue_stmt;
+DEALLOCATE PREPARE finance_add_overdue_stmt;
+
+SET @finance_parent_id = (
+  SELECT `id` FROM `system_menu`
+  WHERE `type` = 1 AND `path` = 'finance' AND `deleted` = b'0'
+  ORDER BY (`id` = 2645) DESC, `id`
+  LIMIT 1
+);
+SET @finance_parent_id = COALESCE(@finance_parent_id, 2645);
 
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES
-(5100, '发票管理', '', 2, 3, 2645, 'invoice', 'ep:tickets', 'erp/finance/invoice/index', 'ErpFinanceInvoice', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
+(5100, '发票管理', '', 2, 3, @finance_parent_id, 'invoice', 'ep:tickets', 'erp/finance/invoice/index', 'ErpFinanceInvoice', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5101, '发票查询', 'erp:finance-record:query', 3, 1, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5102, '发票创建', 'erp:finance-record:create', 3, 2, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5103, '发票更新', 'erp:finance-record:update', 3, 3, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5104, '发票删除', 'erp:finance-record:delete', 3, 4, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5105, '发票导出', 'erp:finance-record:export', 3, 5, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5106, '发票审核', 'erp:finance-record:update-status', 3, 6, 5100, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
-(5110, '报销管理', '', 2, 4, 2645, 'reimbursement', 'ep:wallet', 'erp/finance/reimbursement/index', 'ErpFinanceReimbursement', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
+(5110, '报销管理', '', 2, 4, @finance_parent_id, 'reimbursement', 'ep:wallet', 'erp/finance/reimbursement/index', 'ErpFinanceReimbursement', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5111, '报销查询', 'erp:finance-record:query', 3, 1, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5112, '报销创建', 'erp:finance-record:create', 3, 2, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5113, '报销更新', 'erp:finance-record:update', 3, 3, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5114, '报销删除', 'erp:finance-record:delete', 3, 4, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5115, '报销导出', 'erp:finance-record:export', 3, 5, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5116, '报销审批', 'erp:finance-record:update-status', 3, 6, 5110, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
-(5120, '退款管理', '', 2, 5, 2645, 'refund', 'ep:refresh-left', 'erp/finance/refund/index', 'ErpFinanceRefund', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
+(5120, '退款管理', '', 2, 5, @finance_parent_id, 'refund', 'ep:refresh-left', 'erp/finance/refund/index', 'ErpFinanceRefund', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5121, '退款查询', 'erp:finance-record:query', 3, 1, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5122, '退款创建', 'erp:finance-record:create', 3, 2, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5123, '退款更新', 'erp:finance-record:update', 3, 3, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5124, '退款删除', 'erp:finance-record:delete', 3, 4, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5125, '退款导出', 'erp:finance-record:export', 3, 5, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5126, '退款审批', 'erp:finance-record:update-status', 3, 6, 5120, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
-(5130, '费用管理', '', 2, 6, 2645, 'expense', 'ep:coin', 'erp/finance/expense/index', 'ErpFinanceExpense', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
+(5130, '费用管理', '', 2, 6, @finance_parent_id, 'expense', 'ep:coin', 'erp/finance/expense/index', 'ErpFinanceExpense', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5131, '费用查询', 'erp:finance-record:query', 3, 1, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5132, '费用创建', 'erp:finance-record:create', 3, 2, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5133, '费用更新', 'erp:finance-record:update', 3, 3, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5134, '费用删除', 'erp:finance-record:delete', 3, 4, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5135, '费用导出', 'erp:finance-record:export', 3, 5, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
 (5136, '费用审核', 'erp:finance-record:update-status', 3, 6, 5130, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0'),
-(5140, '财务分析', 'erp:finance-record:query', 2, 7, 2645, 'analysis', 'ep:data-analysis', 'erp/finance/analysis/index', 'ErpFinanceAnalysis', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0');
+(5140, '财务分析', 'erp:finance-record:query', 2, 7, @finance_parent_id, 'analysis', 'ep:data-analysis', 'erp/finance/analysis/index', 'ErpFinanceAnalysis', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE
+  `name` = VALUES(`name`), `permission` = VALUES(`permission`), `type` = VALUES(`type`),
+  `sort` = VALUES(`sort`), `parent_id` = VALUES(`parent_id`), `path` = VALUES(`path`),
+  `icon` = VALUES(`icon`), `component` = VALUES(`component`),
+  `component_name` = VALUES(`component_name`), `status` = VALUES(`status`),
+  `visible` = VALUES(`visible`), `deleted` = b'0';
 
 INSERT INTO `system_menu_i18n` (`menu_id`, `language`, `name`) VALUES
 (5100, 'zh-CN', '发票管理'), (5100, 'en', 'Invoices'),
@@ -97,10 +125,49 @@ INSERT INTO `system_menu_i18n` (`menu_id`, `language`, `name`) VALUES
 (5134, 'zh-CN', '费用删除'), (5134, 'en', 'Delete'),
 (5135, 'zh-CN', '费用导出'), (5135, 'en', 'Export'),
 (5136, 'zh-CN', '费用审核'), (5136, 'en', 'Approve'),
-(5140, 'zh-CN', '财务分析'), (5140, 'en', 'Finance Analysis');
+(5140, 'zh-CN', '财务分析'), (5140, 'en', 'Finance Analysis')
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `deleted` = b'0';
 
 INSERT INTO `infra_job` (`id`, `name`, `status`, `handler_name`, `handler_param`, `cron_expression`, `retry_count`, `retry_interval`, `monitor_timeout`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (510041, 'ERP 财务逾期检测 Job', 1, 'erpFinanceOverdueCheckJob', '', '0 0 1 * * ?', 0, 0, 0, '1', NOW(), '1', NOW(), b'0');
+VALUES (510041, 'ERP 财务逾期检测 Job', 1, 'erpFinanceOverdueCheckJob', '', '0 0 1 * * ?', 0, 0, 0, '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `handler_name` = VALUES(`handler_name`),
+  `cron_expression` = VALUES(`cron_expression`), `deleted` = b'0';
 
 INSERT INTO `infra_job` (`id`, `name`, `status`, `handler_name`, `handler_param`, `cron_expression`, `retry_count`, `retry_interval`, `monitor_timeout`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (510042, 'CRM 回款逾期检测 Job', 1, 'crmReceivablePlanOverdueCheckJob', '', '0 5 1 * * ?', 0, 0, 0, '1', NOW(), '1', NOW(), b'0');
+VALUES (510042, 'CRM 回款逾期检测 Job', 1, 'crmReceivablePlanOverdueCheckJob', '', '0 5 1 * * ?', 0, 0, 0, '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `handler_name` = VALUES(`handler_name`),
+  `cron_expression` = VALUES(`cron_expression`), `deleted` = b'0';
+
+-- 已拥有“财务管理”的角色自动获得新增页面与按钮权限。
+INSERT INTO `system_role_menu` (`role_id`, `menu_id`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`)
+SELECT DISTINCT parent_permission.`role_id`, finance_menu.`id`, '1', NOW(), '1', NOW(), b'0', parent_permission.`tenant_id`
+FROM `system_role_menu` parent_permission
+JOIN `system_menu` finance_menu ON finance_menu.`id` IN (
+  5100, 5101, 5102, 5103, 5104, 5105, 5106,
+  5110, 5111, 5112, 5113, 5114, 5115, 5116,
+  5120, 5121, 5122, 5123, 5124, 5125, 5126,
+  5130, 5131, 5132, 5133, 5134, 5135, 5136, 5140
+)
+WHERE parent_permission.`menu_id` = @finance_parent_id
+  AND parent_permission.`deleted` = b'0'
+  AND finance_menu.`deleted` = b'0'
+  AND NOT EXISTS (
+    SELECT 1 FROM `system_role_menu` existing_permission
+    WHERE existing_permission.`role_id` = parent_permission.`role_id`
+      AND existing_permission.`menu_id` = finance_menu.`id`
+      AND existing_permission.`tenant_id` = parent_permission.`tenant_id`
+      AND existing_permission.`deleted` = b'0'
+  );
+
+-- 套餐包含“财务管理”时，将新增菜单加入套餐，避免租户菜单过滤。
+SET @finance_menu_ids = JSON_ARRAY(
+  5100, 5101, 5102, 5103, 5104, 5105, 5106,
+  5110, 5111, 5112, 5113, 5114, 5115, 5116,
+  5120, 5121, 5122, 5123, 5124, 5125, 5126,
+  5130, 5131, 5132, 5133, 5134, 5135, 5136, 5140
+);
+UPDATE `system_tenant_package`
+SET `menu_ids` = JSON_MERGE_PRESERVE(CAST(`menu_ids` AS JSON), @finance_menu_ids)
+WHERE JSON_VALID(`menu_ids`)
+  AND JSON_CONTAINS(`menu_ids`, CAST(@finance_parent_id AS CHAR), '$')
+  AND NOT JSON_CONTAINS(`menu_ids`, '5100', '$');

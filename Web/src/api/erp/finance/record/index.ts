@@ -5,8 +5,8 @@ export interface FinanceRecordVO {
   no?: string
   type: number
   status?: number
-  recordTime: Date | string
-  dueTime?: Date | string
+  recordTime: Date | string | number
+  dueTime?: Date | string | number
   overdue?: boolean
   applicantUserId?: number
   applicantUserName?: string
@@ -23,7 +23,7 @@ export interface FinanceRecordVO {
   processInstanceId?: string
   remark?: string
   creatorName?: string
-  createTime?: Date | string
+  createTime?: Date | string | number
 }
 
 export interface FinanceSummaryVO {

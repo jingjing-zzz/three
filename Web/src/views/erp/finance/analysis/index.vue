@@ -45,13 +45,13 @@ const summary = ref<FinanceSummaryVO>({
   overdueCount: 0
 })
 const cards = computed(() => [
-  { label: '发票金额', value: Number(summary.value.invoiceAmount || 0) },
-  { label: '报销金额', value: Number(summary.value.reimbursementAmount || 0) },
-  { label: '退款金额', value: Number(summary.value.refundAmount || 0) },
-  { label: '费用金额', value: Number(summary.value.expenseAmount || 0) },
-  { label: 'ERP 收款', value: Number(summary.value.receiptAmount || 0) },
-  { label: 'ERP 付款', value: Number(summary.value.paymentAmount || 0) },
-  { label: '净额', value: Number(summary.value.netAmount || 0) },
+  { label: '已审核发票', value: Number(summary.value.invoiceAmount || 0) },
+  { label: '已审核报销', value: Number(summary.value.reimbursementAmount || 0) },
+  { label: '已审核退款', value: Number(summary.value.refundAmount || 0) },
+  { label: '已审核费用', value: Number(summary.value.expenseAmount || 0) },
+  { label: '已审核收款', value: Number(summary.value.receiptAmount || 0) },
+  { label: '已审核付款', value: Number(summary.value.paymentAmount || 0) },
+  { label: '收支净额', value: Number(summary.value.netAmount || 0) },
   { label: '逾期单据', value: Number(summary.value.overdueCount || 0) }
 ])
 

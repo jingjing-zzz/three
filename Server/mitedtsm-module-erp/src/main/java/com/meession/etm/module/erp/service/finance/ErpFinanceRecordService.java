@@ -13,7 +13,7 @@ public interface ErpFinanceRecordService {
 
     Long createFinanceRecord(ErpFinanceRecordSaveReqVO createReqVO, Long userId);
 
-    void updateFinanceRecord(ErpFinanceRecordSaveReqVO updateReqVO);
+    void updateFinanceRecord(ErpFinanceRecordSaveReqVO updateReqVO, Long userId);
 
     void updateFinanceRecordStatus(Long id, Integer status);
 

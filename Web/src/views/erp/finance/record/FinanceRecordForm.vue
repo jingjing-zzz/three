@@ -12,7 +12,7 @@
             <el-date-picker
               v-model="formData.recordTime"
               type="datetime"
-              value-format="YYYY-MM-DD HH:mm:ss"
+              value-format="x"
               placeholder="请选择业务时间"
               class="!w-full"
             />
@@ -25,7 +25,7 @@
             <el-input v-model="formData.counterparty" placeholder="请输入往来单位" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12" v-if="props.type === 10">
           <el-form-item label="发票号码" prop="invoiceNo">
             <el-input v-model="formData.invoiceNo" placeholder="请输入发票号码" />
           </el-form-item>
@@ -60,7 +60,7 @@
             <el-date-picker
               v-model="formData.dueTime"
               type="datetime"
-              value-format="YYYY-MM-DD HH:mm:ss"
+              value-format="x"
               placeholder="请选择到期时间"
               class="!w-full"
             />
@@ -113,11 +113,18 @@ const formData = ref<FinanceRecordVO>({
   amount: 0,
   taxAmount: 0
 })
-const formRules = reactive({
+const isBpmType = computed(() => [20, 30].includes(props.type))
+const formRules = computed(() => ({
   subject: [{ required: true, message: '主题不能为空', trigger: 'blur' }],
   recordTime: [{ required: true, message: '业务时间不能为空', trigger: 'change' }],
-  amount: [{ required: true, message: '不含税金额不能为空', trigger: 'blur' }]
-})
+  amount: [{ required: true, message: '不含税金额不能为空', trigger: 'blur' }],
+  applicantUserId: props.type === 20
+    ? [{ required: true, message: '报销必须选择申请人', trigger: 'change' }]
+    : [],
+  financeUserId: isBpmType.value
+    ? [{ required: true, message: '请选择财务审批人', trigger: 'change' }]
+    : []
+}))
 const formRef = ref()
 
 const open = async (type: string, id?: number) => {
@@ -169,7 +176,7 @@ const submitForm = async () => {
 const resetForm = () => {
   formData.value = {
     type: props.type,
-    recordTime: '',
+    recordTime: Date.now(),
     subject: '',
     amount: 0,
     taxAmount: 0

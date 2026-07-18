@@ -20,8 +20,10 @@
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" clearable placeholder="请选择状态" class="!w-160px">
-          <el-option label="未审核" :value="10" />
-          <el-option label="已审核" :value="20" />
+          <el-option :label="isBpmType ? '审批中' : '未审核'" :value="10" />
+          <el-option label="审核通过" :value="20" />
+          <el-option v-if="isBpmType" label="审核不通过" :value="30" />
+          <el-option v-if="isBpmType" label="已取消" :value="40" />
         </el-select>
       </el-form-item>
       <el-form-item label="逾期" prop="overdue">
@@ -58,8 +60,8 @@
       <el-table-column label="财务人员" align="center" prop="financeUserName" min-width="100" />
       <el-table-column label="状态" align="center" prop="status" min-width="90">
         <template #default="scope">
-          <el-tag :type="scope.row.status === 20 ? 'success' : 'info'">
-            {{ scope.row.status === 20 ? '已审核' : '未审核' }}
+          <el-tag :type="getStatusType(scope.row.status)">
+            {{ getStatusLabel(scope.row.status) }}
           </el-tag>
         </template>
       </el-table-column>
@@ -70,12 +72,19 @@
         </template>
       </el-table-column>
       <el-table-column label="业务时间" align="center" prop="recordTime" :formatter="dateFormatter" min-width="180" />
-      <el-table-column label="操作" align="center" fixed="right" width="220">
+      <el-table-column label="操作" align="center" fixed="right" width="250">
         <template #default="scope">
-          <el-button link type="primary" @click="openForm('update', scope.row.id)" v-hasPermi="['erp:finance-record:update']">
+          <el-button
+            v-if="canEdit(scope.row)"
+            link
+            type="primary"
+            @click="openForm('update', scope.row.id)"
+            v-hasPermi="['erp:finance-record:update']"
+          >
             编辑
           </el-button>
           <el-button
+            v-if="!isBpmType"
             link
             :type="scope.row.status === 20 ? 'warning' : 'success'"
             @click="handleStatus(scope.row)"
@@ -83,7 +92,16 @@
           >
             {{ scope.row.status === 20 ? '反审核' : '审核' }}
           </el-button>
-          <el-button link type="danger" @click="handleDelete(scope.row.id)" v-hasPermi="['erp:finance-record:delete']">
+          <el-button v-if="scope.row.processInstanceId" link type="primary" @click="handleProcessDetail(scope.row)">
+            查看审批
+          </el-button>
+          <el-button
+            v-if="canDelete(scope.row)"
+            link
+            type="danger"
+            @click="handleDelete(scope.row.id)"
+            v-hasPermi="['erp:finance-record:delete']"
+          >
             删除
           </el-button>
         </template>
@@ -105,6 +123,8 @@ defineOptions({ name: 'ErpFinanceRecordPage' })
 
 const props = defineProps<{ type: number; title: string }>()
 const message = useMessage()
+const { push } = useRouter()
+const isBpmType = computed(() => [20, 30].includes(props.type))
 
 const loading = ref(true)
 const list = ref<FinanceRecordVO[]>([])
@@ -147,6 +167,26 @@ const resetQuery = () => {
 const formRef = ref()
 const openForm = (formType: string, id?: number) => {
   formRef.value.open(formType, id)
+}
+
+const getStatusLabel = (status?: number) => {
+  const labels = isBpmType.value
+    ? { 10: '审批中', 20: '审核通过', 30: '审核不通过', 40: '已取消' }
+    : { 10: '未审核', 20: '已审核' }
+  return labels[status || 10] || '未知状态'
+}
+
+const getStatusType = (status?: number) => {
+  return ({ 10: 'info', 20: 'success', 30: 'danger', 40: 'warning' }[status || 10] || 'info') as any
+}
+
+const canEdit = (row: FinanceRecordVO) => row.status !== 20
+  && !(isBpmType.value && row.status === 10 && !!row.processInstanceId)
+const canDelete = (row: FinanceRecordVO) => row.status !== 20
+  && !(isBpmType.value && row.status === 10 && !!row.processInstanceId)
+
+const handleProcessDetail = (row: FinanceRecordVO) => {
+  push({ name: 'BpmProcessInstanceDetail', query: { id: row.processInstanceId } })
 }
 
 const handleStatus = async (row: FinanceRecordVO) => {

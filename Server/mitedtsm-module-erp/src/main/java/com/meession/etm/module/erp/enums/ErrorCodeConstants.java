@@ -172,5 +172,10 @@ ErrorCode PURCHASE_ORDER_ITEM_RETURN_FAIL_IN_EXCEED = new ErrorCode(1_030_101_00
     ErrorCode FINANCE_RECORD_APPROVE_FAIL = new ErrorCode(1_030_603_003, "审核失败，只有未审核的财务单据才能审核");
     ErrorCode FINANCE_RECORD_NO_EXISTS = new ErrorCode(1_030_603_004, "生成财务单号失败，请重新提交");
     ErrorCode FINANCE_RECORD_UPDATE_FAIL_APPROVE = new ErrorCode(1_030_603_005, "财务单据({})已审核，无法修改");
+    ErrorCode FINANCE_RECORD_FINANCE_USER_REQUIRED = new ErrorCode(1_030_603_006, "报销或退款必须选择财务审批人");
+    ErrorCode FINANCE_RECORD_BPM_MANUAL_AUDIT_NOT_ALLOWED = new ErrorCode(1_030_603_007, "报销或退款必须通过 BPM 审批，不能手工审核");
+    ErrorCode FINANCE_RECORD_UPDATE_FAIL_PROCESS = new ErrorCode(1_030_603_008, "财务单据({})正在审批，无法修改");
+    ErrorCode FINANCE_RECORD_DELETE_FAIL_PROCESS = new ErrorCode(1_030_603_009, "财务单据({})正在审批，无法删除");
+    ErrorCode FINANCE_RECORD_TYPE_UPDATE_NOT_ALLOWED = new ErrorCode(1_030_603_010, "财务单据类型不允许修改");
 
 }

@@ -1,11 +1,12 @@
 package com.meession.etm.module.erp.controller.admin.finance.vo.record;
 
 import com.meession.etm.framework.common.validation.InEnum;
-import com.meession.etm.module.erp.enums.ErpAuditStatus;
 import com.meession.etm.module.erp.enums.finance.ErpFinanceRecordTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -22,10 +23,6 @@ public class ErpFinanceRecordSaveReqVO {
     @NotNull(message = "单据类型不能为空")
     @InEnum(ErpFinanceRecordTypeEnum.class)
     private Integer type;
-
-    @Schema(description = "审核状态")
-    @InEnum(ErpAuditStatus.class)
-    private Integer status;
 
     @Schema(description = "业务时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "业务时间不能为空")
@@ -45,22 +42,28 @@ public class ErpFinanceRecordSaveReqVO {
 
     @Schema(description = "主题", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "主题不能为空")
+    @Size(max = 128, message = "主题不能超过 128 个字符")
     private String subject;
 
     @Schema(description = "往来单位")
+    @Size(max = 128, message = "往来单位不能超过 128 个字符")
     private String counterparty;
 
     @Schema(description = "发票号码")
+    @Size(max = 64, message = "发票号码不能超过 64 个字符")
     private String invoiceNo;
 
     @Schema(description = "不含税金额", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "不含税金额不能为空")
+    @DecimalMin(value = "0", message = "不含税金额不能小于 0")
     private BigDecimal amount;
 
     @Schema(description = "税额")
+    @DecimalMin(value = "0", message = "税额不能小于 0")
     private BigDecimal taxAmount;
 
     @Schema(description = "备注")
+    @Size(max = 500, message = "备注不能超过 500 个字符")
     private String remark;
 
 }

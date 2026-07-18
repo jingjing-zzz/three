@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.meession.etm.framework.mybatis.core.dataobject.BaseDO;
-import com.meession.etm.module.erp.enums.ErpAuditStatus;
 import com.meession.etm.module.erp.enums.finance.ErpFinanceRecordTypeEnum;
+import com.meession.etm.module.erp.enums.finance.ErpFinanceRecordStatusEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -42,7 +42,7 @@ public class ErpFinanceRecordDO extends BaseDO {
     /**
      * 审核状态。
      *
-     * 枚举 {@link ErpAuditStatus}
+     * 枚举 {@link ErpFinanceRecordStatusEnum}
      */
     private Integer status;
 
