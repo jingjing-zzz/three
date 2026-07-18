@@ -87,6 +87,7 @@ services:
       - tdengine_data:/var/lib/taos
     environment:
       TAOS_FQDN: tdengine
+      TAOS_DISABLE_KEEPER: "1"
     healthcheck:
       test: ["CMD", "taos", "-s", "SHOW DATABASES;"]
       interval: 10s
