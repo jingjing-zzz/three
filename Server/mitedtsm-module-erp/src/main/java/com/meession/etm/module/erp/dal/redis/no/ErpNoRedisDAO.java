@@ -72,6 +72,22 @@ public class ErpNoRedisDAO {
      * 收款单 {@link com.meession.etm.module.erp.dal.dataobject.finance.ErpFinanceReceiptDO}
      */
     public static final String FINANCE_RECEIPT_NO_PREFIX = "SKD";
+    /**
+     * 发票 {@link com.meession.etm.module.erp.dal.dataobject.finance.ErpFinanceRecordDO}
+     */
+    public static final String FINANCE_INVOICE_NO_PREFIX = "FP";
+    /**
+     * 报销 {@link com.meession.etm.module.erp.dal.dataobject.finance.ErpFinanceRecordDO}
+     */
+    public static final String FINANCE_REIMBURSEMENT_NO_PREFIX = "BX";
+    /**
+     * 退款 {@link com.meession.etm.module.erp.dal.dataobject.finance.ErpFinanceRecordDO}
+     */
+    public static final String FINANCE_REFUND_NO_PREFIX = "TK";
+    /**
+     * 费用 {@link com.meession.etm.module.erp.dal.dataobject.finance.ErpFinanceRecordDO}
+     */
+    public static final String FINANCE_EXPENSE_NO_PREFIX = "FY";
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;

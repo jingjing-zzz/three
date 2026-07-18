@@ -66,6 +66,12 @@ if [ -d "$SQL_NEW_DIR" ]; then
         echo "Executing: new-large-file-upload.sql"
         mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-large-file-upload.sql"
     fi
+
+    # 4.6 执行 new-finance-domain.sql
+    if [ -f "${SQL_NEW_DIR}/new-finance-domain.sql" ]; then
+        echo "Executing: new-finance-domain.sql"
+        mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-finance-domain.sql"
+    fi
 fi
 
 echo "MySQL initialization completed successfully!"

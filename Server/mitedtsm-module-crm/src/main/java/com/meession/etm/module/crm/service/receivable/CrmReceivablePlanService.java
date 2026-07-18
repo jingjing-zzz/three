@@ -92,4 +92,11 @@ public interface CrmReceivablePlanService {
      */
     Long getReceivablePlanRemindCount(Long userId);
 
+    /**
+     * 标记逾期回款计划。
+     *
+     * @return 标记数量
+     */
+    int markOverdueReceivablePlans();
+
 }

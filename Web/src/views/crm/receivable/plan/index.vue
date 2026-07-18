@@ -70,6 +70,15 @@
               <Icon class="mr-5px" icon="ep:download" />
               {{ t('common.export') }}
             </el-button>
+            <el-button
+              v-hasPermi="['crm:receivable-plan:update']"
+              plain
+              type="warning"
+              @click="handleMarkOverdue"
+            >
+              <Icon class="mr-5px" icon="ep:clock" />
+              逾期检测
+            </el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -124,6 +133,12 @@
         min-width="180"
         :formatter="dateFormatter2"
       />
+      <el-table-column align="center" label="逾期" prop="overdue" min-width="90">
+        <template #default="scope">
+          <el-tag v-if="scope.row.overdue" type="danger">是</el-tag>
+          <el-tag v-else type="success">否</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" :label="t('receivablePlan.returnType')" prop="returnType" min-width="130">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.CRM_RECEIVABLE_RETURN_TYPE" :value="scope.row.returnType" />
@@ -321,6 +336,13 @@ const handleExport = async () => {
   } finally {
     exportLoading.value = false
   }
+}
+
+/** 逾期检测 */
+const handleMarkOverdue = async () => {
+  const count = await ReceivablePlanApi.markOverdueReceivablePlans()
+  message.success(`已标记 ${count} 条逾期回款计划`)
+  await getList()
 }
 
 /** 打开详情 */

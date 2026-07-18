@@ -35,6 +35,12 @@
         prop="remindTime"
         min-width="180"
       />
+      <el-table-column align="center" label="逾期" prop="overdue" min-width="90">
+        <template #default="scope">
+          <el-tag v-if="scope.row.overdue" type="danger">是</el-tag>
+          <el-tag v-else type="success">否</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column :label="t('receivablePlan.ownerUserName')" prop="ownerUserName" min-width="120" />
       <el-table-column align="center" :label="t('receivablePlan.remark')" prop="remark" />
       <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="200">

@@ -165,4 +165,12 @@ ErrorCode PURCHASE_ORDER_ITEM_RETURN_FAIL_IN_EXCEED = new ErrorCode(1_030_101_00
     ErrorCode FINANCE_RECEIPT_NO_EXISTS = new ErrorCode(1_030_602_004, "生成收款单号失败，请重新提交");
     ErrorCode FINANCE_RECEIPT_UPDATE_FAIL_APPROVE = new ErrorCode(1_030_602_005, "收款单({})已审核，无法修改");
 
+    // ========== ERP 财务单据 1-030-603-000 ==========
+    ErrorCode FINANCE_RECORD_NOT_EXISTS = new ErrorCode(1_030_603_000, "财务单据不存在");
+    ErrorCode FINANCE_RECORD_DELETE_FAIL_APPROVE = new ErrorCode(1_030_603_001, "财务单据({})已审核，无法删除");
+    ErrorCode FINANCE_RECORD_PROCESS_FAIL = new ErrorCode(1_030_603_002, "反审核失败，只有已审核的财务单据才能反审核");
+    ErrorCode FINANCE_RECORD_APPROVE_FAIL = new ErrorCode(1_030_603_003, "审核失败，只有未审核的财务单据才能审核");
+    ErrorCode FINANCE_RECORD_NO_EXISTS = new ErrorCode(1_030_603_004, "生成财务单号失败，请重新提交");
+    ErrorCode FINANCE_RECORD_UPDATE_FAIL_APPROVE = new ErrorCode(1_030_603_005, "财务单据({})已审核，无法修改");
+
 }

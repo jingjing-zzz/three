@@ -187,4 +187,11 @@ public class CrmReceivablePlanController {
         return success(receivablePlanService.getReceivablePlanRemindCount(getLoginUserId()));
     }
 
+    @PutMapping("/mark-overdue")
+    @Operation(summary = "检测并标记逾期回款计划")
+    @PreAuthorize("@ss.hasPermission('crm:receivable-plan:update')")
+    public CommonResult<Integer> markOverdueReceivablePlans() {
+        return success(receivablePlanService.markOverdueReceivablePlans());
+    }
+
 }
