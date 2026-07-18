@@ -286,6 +286,15 @@ docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 
 
 执行后重新登录。本项目为数据库动态路由，**不要**在 `Web/src/router/modules/remaining.ts` 添加静态路由。
 
+
+### 已执行过旧版预测菜单脚本的数据库
+
+如果数据库中“销售预测”出现重复菜单，先执行一次以下修复，再执行最新版 `new-crm-statistics-forecast-menu.sql`：
+
+```bash
+docker exec mitedtsm-mysql mysql -u root -p1234 --default-character-set=utf8mb4 mitedtsm_database < database/new/fix-crm-statistics-forecast-menu-duplicate.sql
+```
+
 ### 销售漏斗图表点击联动
 
 商机转化率属于 `/crm/statistics/funnel` 的第三个标签页，不是销售预测页。图表点击后，前端使用接口返回的 `startTime`、`endTime`（格式 `yyyy-MM-dd HH:mm:ss`）作为 `times` 参数，请求下方商机明细。不要恢复 `clickDate` 精确匹配：按周、月、季度统计时它不能代表完整周期。
