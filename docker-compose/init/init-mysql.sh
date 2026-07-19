@@ -75,6 +75,12 @@ if [ -d "$SQL_NEW_DIR" ]; then
         echo "Executing: new-crm-customer-analysis-report.sql"
         ${MYSQL_CMD} "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-crm-customer-analysis-report.sql"
     fi
+
+    # 4.7 执行 new-customer-pool-job.sql（CRM客户公海定时任务）
+    if [ -f "${SQL_NEW_DIR}/new-customer-pool-job.sql" ]; then
+        echo "Executing: new-customer-pool-job.sql"
+        ${MYSQL_CMD} "${MYSQL_DATABASE}" < "${SQL_NEW_DIR}/new-customer-pool-job.sql"
+    fi
 fi
 
 echo "MySQL initialization completed successfully!"
