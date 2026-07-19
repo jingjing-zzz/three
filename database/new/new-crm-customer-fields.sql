@@ -1,9 +1,28 @@
 -- CRM 客户域字段与字典增量：可在已有数据库重复执行。
 SET NAMES utf8mb4;
 
-ALTER TABLE crm_customer
-    ADD COLUMN IF NOT EXISTS star INT NULL COMMENT '客户星级（1-5）' AFTER source,
-    ADD COLUMN IF NOT EXISTS status INT NULL COMMENT '客户状态' AFTER star;
+-- MySQL 不支持 ADD COLUMN IF NOT EXISTS，使用 information_schema 保证重复初始化安全。
+SET @crm_customer_has_star = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'crm_customer' AND COLUMN_NAME = 'star'
+);
+SET @crm_customer_star_sql = IF(@crm_customer_has_star = 0,
+    'ALTER TABLE crm_customer ADD COLUMN star INT NULL COMMENT ''客户星级（1-5）'' AFTER source',
+    'SELECT 1');
+PREPARE crm_customer_star_stmt FROM @crm_customer_star_sql;
+EXECUTE crm_customer_star_stmt;
+DEALLOCATE PREPARE crm_customer_star_stmt;
+
+SET @crm_customer_has_status = (
+    SELECT COUNT(*) FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'crm_customer' AND COLUMN_NAME = 'status'
+);
+SET @crm_customer_status_sql = IF(@crm_customer_has_status = 0,
+    'ALTER TABLE crm_customer ADD COLUMN status INT NULL COMMENT ''客户状态'' AFTER star',
+    'SELECT 1');
+PREPARE crm_customer_status_stmt FROM @crm_customer_status_sql;
+EXECUTE crm_customer_status_stmt;
+DEALLOCATE PREPARE crm_customer_status_stmt;
 
 INSERT INTO system_dict_type (name, type, status, remark, creator, updater, deleted)
 SELECT '客户星级', 'crm_customer_star', 0, 'CRM 客户星级', '1', '1', b'0'
