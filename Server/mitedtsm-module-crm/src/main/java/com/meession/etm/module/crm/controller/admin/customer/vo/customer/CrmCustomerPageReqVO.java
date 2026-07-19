@@ -42,6 +42,12 @@ public class CrmCustomerPageReqVO extends PageParam {
     @Schema(description = "客户来源", example = "1")
     private Integer source;
 
+    @Schema(description = "客户星级", example = "3")
+    private Integer star;
+
+    @Schema(description = "客户状态", example = "1")
+    private Integer status;
+
     @Schema(description = "场景类型", example = "1")
     @InEnum(CrmSceneTypeEnum.class)
     private Integer sceneType; // 场景类型，为 null 时则表示全部

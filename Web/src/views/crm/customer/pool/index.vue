@@ -99,6 +99,23 @@
               {{ t('common.reset') }}
             </el-button>
             <el-button
+              v-hasPermi="['crm:customer:receive']"
+              :disabled="selectionList.length === 0"
+              type="primary"
+              @click="handleReceive"
+            >
+              {{ t('receive') }}
+            </el-button>
+            <el-button
+              v-hasPermi="['crm:customer:distribute']"
+              :disabled="selectionList.length === 0"
+              plain
+              type="warning"
+              @click="handleDistribute"
+            >
+              {{ t('assign') }}
+            </el-button>
+            <el-button
               v-hasPermi="['crm:customer:export']"
               :loading="exportLoading"
               plain
@@ -116,7 +133,8 @@
 
   <!-- 列表 -->
   <ContentWrap>
-    <el-table v-loading="loading" :data="list" :show-overflow-tooltip="true" :stripe="true" :table-layout="'auto'">
+    <el-table v-loading="loading" :data="list" :show-overflow-tooltip="true" :stripe="true" :table-layout="'auto'" @selection-change="handleSelectionChange">
+      <el-table-column align="center" type="selection" width="55" />
       <el-table-column align="center" :label="t('name')" fixed="left" prop="name" min-width="160">
         <template #default="scope">
           <el-link :underline="false" type="primary" @click="openDetail(scope.row.id)">
@@ -187,6 +205,9 @@
       @pagination="getList"
     />
   </ContentWrap>
+
+  <!-- 分配表单弹窗 -->
+  <CustomerDistributeForm ref="distributeFormRef" @success="getList" />
 </template>
 
 <script lang="ts" setup>
@@ -194,6 +215,7 @@ import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { dateFormatter } from '@/utils/formatTime'
 import download from '@/utils/download'
 import * as CustomerApi from '@/api/crm/customer'
+import CustomerDistributeForm from './CustomerDistributeForm.vue'
 
 defineOptions({ name: 'CrmCustomerPool' })
 
@@ -202,6 +224,7 @@ const { t } = useI18n('crm.customer') // 国际化
 const loading = ref(true) // 列表的加载中
 const total = ref(0) // 列表的总页数
 const list = ref([]) // 列表的数据
+const selectionList = ref([]) // 选中的数据
 const queryParams = ref({
   pageNo: 1,
   pageSize: 10,
@@ -249,6 +272,30 @@ const resetQuery = () => {
     pool: true
   }
   handleQuery()
+}
+
+/** 多选 */
+const handleSelectionChange = (rows: any[]) => {
+  selectionList.value = rows
+}
+
+/** 领取客户 */
+const handleReceive = async () => {
+  try {
+    const ids = selectionList.value.map((item: any) => item.id)
+    const names = selectionList.value.map((item: any) => item.name).join('、')
+    await message.confirm(t('receiveConfirm', { name: names }))
+    await CustomerApi.receiveCustomer(ids)
+    message.success(t('receiveSuccess'))
+    await getList()
+  } catch {}
+}
+
+/** 分配公海给对应负责人 */
+const distributeFormRef = ref<InstanceType<typeof CustomerDistributeForm>>()
+const handleDistribute = () => {
+  const ids = selectionList.value.map((item: any) => item.id)
+  distributeFormRef.value?.open(ids)
 }
 
 /** 打开客户详情 */

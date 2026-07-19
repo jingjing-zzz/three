@@ -85,22 +85,28 @@ public class CrmPermissionAspect {
             }
         }
 
-        // 2. 只考虑自的身权限
+        // 2. 只考虑自身的权限
         Long userId = getUserId();
         CrmPermissionDO userPermission = CollUtil.findOne(bizPermissions, permission -> ObjUtil.equal(permission.getUserId(), userId));
         if (userPermission != null) {
+            // 2.1 明确被移除（NONE）的用户，直接拒绝所有访问
+            if (CrmPermissionLevelEnum.isNone(userPermission.getLevel())) {
+                throw exception(CRM_PERMISSION_DENIED, CrmBizTypeEnum.getNameByType(bizType));
+            }
             if (isUserPermissionValid(userPermission, permissionLevel)) {
                 return;
             }
         }
 
-        // 3. 考虑下级的权限
-        List<AdminUserRespDTO> subordinateUserIds = adminUserApi.getUserListBySubordinate(userId);
-        for (Long subordinateUserId : convertSet(subordinateUserIds, AdminUserRespDTO::getId)) {
-            CrmPermissionDO subordinatePermission = CollUtil.findOne(bizPermissions,
-                    permission -> ObjUtil.equal(permission.getUserId(), subordinateUserId));
-            if (subordinatePermission != null && isUserPermissionValid(subordinatePermission, permissionLevel)) {
-                return;
+        // 3. 考虑下级的权限 — 仅允许继承只读权限，不允许通过下属编辑/操作
+        if (CrmPermissionLevelEnum.isRead(permissionLevel)) {
+            List<AdminUserRespDTO> subordinateUserIds = adminUserApi.getUserListBySubordinate(userId);
+            for (Long subordinateUserId : convertSet(subordinateUserIds, AdminUserRespDTO::getId)) {
+                CrmPermissionDO subordinatePermission = CollUtil.findOne(bizPermissions,
+                        permission -> ObjUtil.equal(permission.getUserId(), subordinateUserId));
+                if (subordinatePermission != null && isUserPermissionValid(subordinatePermission, permissionLevel)) {
+                    return;
+                }
             }
         }
 

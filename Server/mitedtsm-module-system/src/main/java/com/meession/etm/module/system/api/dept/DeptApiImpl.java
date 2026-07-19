@@ -1,6 +1,7 @@
 package com.meession.etm.module.system.api.dept;
 
 import com.meession.etm.framework.common.util.object.BeanUtils;
+import com.meession.etm.module.system.controller.admin.dept.vo.dept.DeptListReqVO;
 import com.meession.etm.module.system.api.dept.dto.DeptRespDTO;
 import com.meession.etm.module.system.dal.dataobject.dept.DeptDO;
 import com.meession.etm.module.system.service.dept.DeptService;
@@ -31,6 +32,11 @@ public class DeptApiImpl implements DeptApi {
     public List<DeptRespDTO> getDeptList(Collection<Long> ids) {
         List<DeptDO> depts = deptService.getDeptList(ids);
         return BeanUtils.toBean(depts, DeptRespDTO.class);
+    }
+
+    @Override
+    public List<DeptRespDTO> getSimpleDeptList() {
+        return BeanUtils.toBean(deptService.getDeptList(new DeptListReqVO()), DeptRespDTO.class);
     }
 
     @Override

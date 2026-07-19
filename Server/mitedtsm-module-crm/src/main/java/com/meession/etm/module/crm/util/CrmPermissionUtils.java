@@ -65,14 +65,19 @@ public class CrmPermissionUtils {
                     .eq(CrmPermissionDO::getUserId,userId));
             query.ne(ownerUserIdField, userId);
         }
-        // 场景三：下属负责的数据（下属是负责人）
+        // 场景三：下属负责的数据（下属是负责人），排除当前用户已被明确移除（NONE）的客户
         if (CrmSceneTypeEnum.isSubordinate(sceneType)) {
             AdminUserApi adminUserApi = SpringUtil.getBean(AdminUserApi.class);
             List<AdminUserRespDTO> subordinateUsers = adminUserApi.getUserListBySubordinate(userId);
             if (CollUtil.isEmpty(subordinateUsers)) {
                 query.eq(ownerUserIdField, -1); // 不返回任何结果
             } else {
+                String tableAlias = mybatisPlusJoinProperties.getTableAlias();
                 query.in(ownerUserIdField, convertSet(subordinateUsers, AdminUserRespDTO::getId));
+                // 排除当前用户已被明确移除访问权限的记录（转移时选择"移除"导致 level=NONE）
+                query.notExists("SELECT 1 FROM crm_permission WHERE biz_type = {0} AND biz_id = "
+                        + tableAlias + ".id AND user_id = {1} AND level = {2}",
+                        bizType, userId, CrmPermissionLevelEnum.NONE.getLevel());
             }
         }
     }

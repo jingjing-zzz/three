@@ -59,6 +59,8 @@ if [ -d "$SQL_NEW_DIR" ]; then
     exec_new "fix-crm-business-status-integrity.sql"
 
     # 2.5 新增业务域：脚本均为保留已有数据的增量建表/授权脚本
+    exec_new "new-crm-customer-fields.sql"
+    exec_new "new-crm-customer-analysis-report.sql"
     exec_new "new-finance-domain.sql"
     exec_new "new-oa-domain.sql"
     exec_new "new-oa-leave-type.sql"

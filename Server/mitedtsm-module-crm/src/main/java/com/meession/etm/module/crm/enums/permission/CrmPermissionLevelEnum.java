@@ -11,7 +11,8 @@ import java.util.Arrays;
 /**
  * CRM 数据权限级别枚举
  *
- * OWNER > WRITE > READ
+ * OWNER > WRITE > READ > NONE
+ * NONE 表示已明确被移除访问权限（转移时选择"移除"）
  *
  * @author HUIHUI
  */
@@ -19,6 +20,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum CrmPermissionLevelEnum implements ArrayValuable<Integer> {
 
+    NONE(0, "已移除"),
     OWNER(1, "负责人"),
     READ(2, "只读"),
     WRITE(3, "读写");
@@ -37,6 +39,10 @@ public enum CrmPermissionLevelEnum implements ArrayValuable<Integer> {
     @Override
     public Integer[] array() {
         return ARRAYS;
+    }
+
+    public static boolean isNone(Integer level) {
+        return ObjUtil.equal(NONE.level, level);
     }
 
     public static boolean isOwner(Integer level) {

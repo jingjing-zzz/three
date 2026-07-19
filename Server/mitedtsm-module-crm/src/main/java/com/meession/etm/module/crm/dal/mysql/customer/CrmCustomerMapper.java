@@ -88,6 +88,19 @@ public interface CrmCustomerMapper extends BaseMapperX<CrmCustomerDO> {
         return selectOne(CrmCustomerDO::getName, name);
     }
 
+    /**
+     * 根据客户名称和手机号查询客户，用于查重
+     *
+     * @param name   客户名称
+     * @param mobile 手机号
+     * @return 客户 DO
+     */
+    default CrmCustomerDO selectByNameAndMobile(String name, String mobile) {
+        return selectOne(new LambdaQueryWrapperX<CrmCustomerDO>()
+                .eq(CrmCustomerDO::getName, name)
+                .eq(CrmCustomerDO::getMobile, mobile));
+    }
+
     default PageResult<CrmCustomerDO> selectPutPoolRemindCustomerPage(CrmCustomerPageReqVO pageReqVO,
                                                                       CrmCustomerPoolConfigDO poolConfig,
                                                                       Long ownerUserId) {

@@ -96,6 +96,8 @@ public class CrmPermissionController {
     public CommonResult<List<CrmPermissionRespVO>> getPermissionList(@RequestParam("bizType") Integer bizType,
                                                                      @RequestParam("bizId") Long bizId) {
         List<CrmPermissionDO> permissions = permissionService.getPermissionListByBiz(bizType, bizId);
+        // 过滤已明确移除（NONE）的用户，不在团队成员列表中显示
+        permissions = CollUtil.newArrayList(CollUtil.filterNew(permissions, p -> !CrmPermissionLevelEnum.isNone(p.getLevel())));
         if (CollUtil.isEmpty(permissions)) {
             return success(Collections.emptyList());
         }

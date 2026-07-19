@@ -235,12 +235,16 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
                     .setLevel(CrmPermissionLevelEnum.OWNER.getLevel()));
         }
 
-        // 3. 修改老负责人的权限
-        if (transferReqBO.getOldOwnerPermissionLevel() != null) {
-            permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
-                    .setLevel(transferReqBO.getOldOwnerPermissionLevel()));
-        } else {
-            permissionMapper.deleteById(oldPermission.getId());
+        // 3. 修改老负责人的权限。历史/演示数据可能缺少负责人权限，管理员转移时不能空指针。
+        if (oldPermission != null) {
+            if (transferReqBO.getOldOwnerPermissionLevel() != null) {
+                permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
+                        .setLevel(transferReqBO.getOldOwnerPermissionLevel()));
+            } else {
+                // 移除时标记为 NONE（而非删除），用于后续查询中排除该用户（如下属视图）
+                permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
+                        .setLevel(CrmPermissionLevelEnum.NONE.getLevel()));
+            }
         }
     }
 
@@ -260,10 +264,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
 
     @Override
     public void deletePermission(Integer bizType, Long bizId) {
-        int deletedCount = permissionMapper.deletePermission(bizType, bizId);
-        if (deletedCount == 0) {
-            throw exception(CRM_PERMISSION_NOT_EXISTS);
-        }
+        permissionMapper.deletePermission(bizType, bizId);
     }
 
     @Override

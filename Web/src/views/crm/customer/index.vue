@@ -87,6 +87,42 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item :label="t('star')" prop="star">
+            <el-select
+              v-model="queryParams.star"
+              class="!w-240px"
+              clearable
+              :placeholder="t('starPlaceholder')"
+            >
+              <el-option
+                v-for="dict in getIntDictOptions(DICT_TYPE.CRM_CUSTOMER_STAR)"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="t('status')" prop="status">
+            <el-select
+              v-model="queryParams.status"
+              class="!w-240px"
+              clearable
+              :placeholder="t('statusPlaceholder')"
+            >
+              <el-option
+                v-for="dict in getIntDictOptions(DICT_TYPE.CRM_CUSTOMER_STATUS)"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="24">
           <el-form-item>
@@ -148,6 +184,16 @@
       <el-table-column align="center" :label="t('level')" prop="level" min-width="135">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_LEVEL" :value="scope.row.level" />
+        </template>
+      </el-table-column>
+      <el-table-column align="center" :label="t('star')" prop="star" min-width="100">
+        <template #default="scope">
+          <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_STAR" :value="scope.row.star" />
+        </template>
+      </el-table-column>
+      <el-table-column align="center" :label="t('status')" prop="status" min-width="100">
+        <template #default="scope">
+          <dict-tag :type="DICT_TYPE.CRM_CUSTOMER_STATUS" :value="scope.row.status" />
         </template>
       </el-table-column>
       <el-table-column align="center" :label="t('industryId')" prop="industryId" min-width="100">
@@ -264,6 +310,8 @@ const queryParams = reactive({
   industryId: undefined,
   level: undefined,
   source: undefined,
+  star: undefined,
+  status: undefined,
   pool: undefined
 })
 const queryFormRef = ref() // 搜索的表单

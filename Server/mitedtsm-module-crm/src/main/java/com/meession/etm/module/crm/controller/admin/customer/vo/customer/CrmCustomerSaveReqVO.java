@@ -1,13 +1,13 @@
 package com.meession.etm.module.crm.controller.admin.customer.vo.customer;
 
-import com.meession.etm.framework.common.validation.InEnum;
 import com.meession.etm.framework.common.validation.Mobile;
 import com.meession.etm.framework.common.validation.Telephone;
 import com.meession.etm.framework.excel.core.annotations.DictFormat;
-import com.meession.etm.module.crm.enums.customer.CrmCustomerLevelEnum;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerIndustryParseFunction;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerLevelParseFunction;
 import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerSourceParseFunction;
+import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerStarParseFunction;
+import com.meession.etm.module.crm.framework.operatelog.core.CrmCustomerStatusParseFunction;
 import com.meession.etm.module.crm.framework.operatelog.core.SysAreaParseFunction;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -85,12 +85,19 @@ public class CrmCustomerSaveReqVO {
 
     @Schema(description = "客户等级", example = "2")
     @DiffLogField(name = "客户等级", function = CrmCustomerLevelParseFunction.NAME)
-    @InEnum(CrmCustomerLevelEnum.class)
     private Integer level;
 
     @Schema(description = "客户来源", example = "3")
     @DiffLogField(name = "客户来源", function = CrmCustomerSourceParseFunction.NAME)
     private Integer source;
+
+    @Schema(description = "客户星级", example = "3")
+    @DiffLogField(name = "客户星级", function = CrmCustomerStarParseFunction.NAME)
+    private Integer star;
+
+    @Schema(description = "客户状态", example = "1")
+    @DiffLogField(name = "客户状态", function = CrmCustomerStatusParseFunction.NAME)
+    private Integer status;
 
     @Schema(description = "备注", example = "随便")
     @DiffLogField(name = "备注")
