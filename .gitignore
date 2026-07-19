@@ -1,0 +1,99 @@
+# IDE 配置文件
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS 系统文件
+Thumbs.db
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Node.js 依赖
+node_modules/
+
+# Java 构建输出
+target/
+dependency-reduced-pom.xml
+
+# 前端构建输出
+dist/
+unpackage/
+
+# 环境配置文件
+.env
+.env.local
+.env.dev
+.env.test
+.env.stage
+.env.prod
+.env.*
+
+# 日志文件
+logs/
+*.log
+
+# 图片资源文件夹（非代码资源）
+.image/
+
+# Docker 部署配置
+dev/
+docker-compose/
+
+# Docker 镜像
+docker-images/
+
+# 文档（非代码文档）
+docs/
+
+# 根目录临时文件
+7.13.txt
+
+# 启动脚本
+start.sh
+stop.sh
+
+# 临时文件
+i18n_keys_temp.txt
+
+# IDE 工具目录
+.trae/
+
+# 压缩包和大文件
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+
+# 临时环境脚本（非代码）
+fix_mysql_bind.sh
+kill_pnpm.sh
+reset_mysql_password.sh
+setup_wsl_systemd.sh
+stop_mysql80.bat
+database/new/fix_currency.sh
+database/new/run_all_migrations.sh
+database/new/run_migrations_with_deps.sh
+
+# 临时测试脚本
+Web/test_dict.sh
+Web/test_login.sh
+Server/sql/mysql/test_query.sql
+
+# 临时SQL和密码文件
+reset_password.sql
+
+# 临时文档
+business-domain-verification-manual.md
+database-migration.md
+营销域5天开发分工细则.md
+
+# 误创建的子目录
+three/
+
+# 重复的logback配置（src/main/resources/下已有）
+Server/mitedtsm-server/logback-spring.xml

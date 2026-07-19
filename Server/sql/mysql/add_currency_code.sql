@@ -1,0 +1,1 @@
+ALTER TABLE system_tenant ADD COLUMN currency_code VARCHAR(32) DEFAULT 'CNY' COMMENT '货币代码';

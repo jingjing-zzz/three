@@ -1,0 +1,1 @@
+UPDATE system_tenant SET websites = CONCAT(websites, ',localhost:5175') WHERE id = 1;
