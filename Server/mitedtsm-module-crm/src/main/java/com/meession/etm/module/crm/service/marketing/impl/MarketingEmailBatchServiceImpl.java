@@ -107,10 +107,10 @@ public class MarketingEmailBatchServiceImpl implements MarketingEmailBatchServic
             record.setSendTime(now);
             boolean isSuccess = random.nextDouble() < 0.9;
             if (isSuccess) {
-                record.setStatus(3);
+                record.setStatus(1); // 成功
                 successCount++;
             } else {
-                record.setStatus(4);
+                record.setStatus(2); // 失败
                 record.setErrorMessage("邮箱地址无效");
                 failCount++;
             }
