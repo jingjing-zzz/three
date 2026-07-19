@@ -1,0 +1,71 @@
+# ============================================
+# 项目顶层 .gitignore
+# 适用于 mitedtsm 全栈项目（Server / Web / MallFrontend / database）
+# 原则：只忽略依赖/编译产物/IDE配置/大文件/敏感密码配置
+#       不误伤任何源码、SQL 脚本、前端配置
+# ============================================
+
+# ---------- IDE ----------
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.hbuilderx/
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+
+# ---------- 依赖 ----------
+node_modules/
+.pnpm-store/
+
+# ---------- Java/Maven 编译产物 ----------
+target/
+.flattened-pom.xml
+!.mvn/wrapper/maven-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
+
+# ---------- 前端构建产物 ----------
+# 注意：Web/build/ 是 vite 配置目录（源码）， NOT 忽略
+dist/
+dist-prod/
+dist-ssr/
+Web/dist/
+Web/dist-prod/
+Web/dist-ssr/
+
+# ---------- uniapp 编译产物 ----------
+MallFrontend/unpackage/
+
+# ---------- Docker 镜像导出（1.8G，禁止提交）----------
+docker-images/
+
+# ---------- 上传文件（运行时用户数据）----------
+uploads/*
+!uploads/.gitkeep
+
+# ---------- 日志 ----------
+logs/
+*.log
+audit-log/
+
+# ---------- 临时文件 ----------
+*.tmp
+*.swp
+*~
+
+# ---------- 敏感配置（含真实数据库/MQ 密码，禁止提交）----------
+**/application-local.yaml
+**/application-dev.yaml
+**/application-docker.yaml
+**/application-unit-test.yaml
+dev/.env
+docker-compose/.env
+
+# ---------- 本地个人配置 ----------
+Web/.env.local
