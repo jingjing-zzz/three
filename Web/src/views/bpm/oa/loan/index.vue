@@ -105,6 +105,7 @@
             {{ t('common.detail') }}
           </el-button>
           <el-button
+            v-if="scope.row.processInstanceId"
             v-hasPermi="['bpm:oa-loan:query']"
             link
             type="primary"

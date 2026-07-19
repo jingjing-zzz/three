@@ -860,6 +860,8 @@ export default {
       submit: '提交审核',
       submitConfirm: '确定提交审核？',
       submitSuccess: '提交审核成功',
+      approveConfirm: '确定发起订单审批？',
+      approveSuccess: '订单审批已发起，请在待办任务中处理',
       complete: '完成订单',
       completeConfirm: '确定完成订单？',
       completeSuccess: '订单完成成功',

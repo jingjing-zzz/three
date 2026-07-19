@@ -139,6 +139,7 @@
             {{ t('common.detail') }}
           </el-button>
           <el-button
+            v-if="scope.row.processInstanceId"
             v-hasPermi="['bpm:oa-leave:query']"
             link
             type="primary"

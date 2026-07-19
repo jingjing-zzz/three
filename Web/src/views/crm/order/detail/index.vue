@@ -2,6 +2,7 @@
   <el-page-header @back="back" :title="t('crm.order.detail')">
     <template #extra>
       <el-button
+        v-if="orderData.status === 10"
         v-hasPermi="['crm:order:approval']"
         type="primary"
         @click="handleApproval"
@@ -16,31 +17,43 @@
         <el-descriptions-item :label="t('crm.order.no')">{{ orderData.no }}</el-descriptions-item>
         <el-descriptions-item :label="t('crm.order.status')">
           <el-tag
-            v-if="orderData.status === 1"
-            type="warning"
-          >
-            {{ t('crm.order.statusPending') }}
-          </el-tag>
-          <el-tag
-            v-else-if="orderData.status === 2"
+            v-if="orderData.status === 0"
             type="info"
           >
-            {{ t('crm.order.statusPaid') }}
+            {{ t('crm.order.statusDraft') }}
           </el-tag>
           <el-tag
-            v-else-if="orderData.status === 3"
+            v-else-if="orderData.status === 10"
+            type="warning"
+          >
+            {{ t('crm.order.statusPendingAudit') }}
+          </el-tag>
+          <el-tag
+            v-else-if="orderData.status === 20"
             type="primary"
           >
-            {{ t('crm.order.statusShipped') }}
+            {{ t('crm.order.statusAuditing') }}
           </el-tag>
           <el-tag
-            v-else-if="orderData.status === 4"
+            v-else-if="orderData.status === 30"
+            type="success"
+          >
+            {{ t('crm.order.statusApproved') }}
+          </el-tag>
+          <el-tag
+            v-else-if="orderData.status === 40"
+            type="danger"
+          >
+            {{ t('crm.order.statusRejected') }}
+          </el-tag>
+          <el-tag
+            v-else-if="orderData.status === 50"
             type="success"
           >
             {{ t('crm.order.statusCompleted') }}
           </el-tag>
           <el-tag
-            v-else-if="orderData.status === 5"
+            v-else-if="orderData.status === 60"
             type="danger"
           >
             {{ t('crm.order.statusCancelled') }}
@@ -140,9 +153,9 @@ const back = () => {
 const message = useMessage()
 const handleApproval = async () => {
   try {
-    await message.confirm(t('common.approveConfirm'))
+    await message.confirm(t('crm.order.approveConfirm'))
     await OrderApi.startApproval(route.params.id as number)
-    message.success(t('common.approveSuccess'))
+    message.success(t('crm.order.approveSuccess'))
     back()
   } catch {}
 }

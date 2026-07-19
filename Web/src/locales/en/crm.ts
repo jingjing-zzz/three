@@ -854,6 +854,8 @@ export default {
       submit: 'Submit for Review',
       submitConfirm: 'Submit this order for review?',
       submitSuccess: 'Submitted for review',
+      approveConfirm: 'Start approval for this order?',
+      approveSuccess: 'Order approval started. Complete it in To-do Tasks.',
       complete: 'Complete Order',
       completeConfirm: 'Complete this order?',
       completeSuccess: 'Order completed',

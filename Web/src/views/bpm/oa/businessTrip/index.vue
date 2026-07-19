@@ -126,6 +126,7 @@
             {{ t('common.detail') }}
           </el-button>
           <el-button
+            v-if="scope.row.processInstanceId"
             v-hasPermi="['bpm:oa-business-trip:query']"
             link
             type="primary"

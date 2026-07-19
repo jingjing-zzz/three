@@ -27,5 +27,6 @@ export default {
   oaWorkRequest: '请示审批',
   oaWorkRequestCreate: '请示审批',
   oaWorkRequestDetail: '请示详情',
-  bpmProcessInstanceDetail: '流程详情'
+  bpmProcessInstanceDetail: '流程详情',
+  crmOrderDetail: '订单详情'
 }

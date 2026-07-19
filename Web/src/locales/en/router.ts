@@ -27,5 +27,6 @@ export default {
   oaWorkRequest: 'Work Request',
   oaWorkRequestCreate: 'Work Request',
   oaWorkRequestDetail: 'Work Request Detail',
-  bpmProcessInstanceDetail: 'Process Detail'
+  bpmProcessInstanceDetail: 'Process Detail',
+  crmOrderDetail: 'Order Details'
 }

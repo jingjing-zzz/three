@@ -226,7 +226,7 @@
                 </el-dropdown-item>
                 <el-dropdown-item
                   command="handleApproval"
-                  v-if="(scope.row.status === 10 || scope.row.status === 20) && checkPermi(['crm:order:approval'])"
+                  v-if="scope.row.status === 10 && checkPermi(['crm:order:approval'])"
                 >
                   {{ t('common.approve') }}
                 </el-dropdown-item>
@@ -341,9 +341,9 @@ const handleSubmit = async (id: number) => {
 
 const handleApproval = async (id: number) => {
   try {
-    await message.confirm(t('common.approveConfirm'))
+    await message.confirm(t('crm.order.approveConfirm'))
     await OrderApi.startApproval(id)
-    message.success(t('common.approveSuccess'))
+    message.success(t('crm.order.approveSuccess'))
     await getList()
   } catch {}
 }

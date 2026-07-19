@@ -98,6 +98,7 @@
             {{ t('common.detail') }}
           </el-button>
           <el-button
+            v-if="scope.row.processInstanceId"
             v-hasPermi="['bpm:oa-work-request:query']"
             link
             type="primary"
