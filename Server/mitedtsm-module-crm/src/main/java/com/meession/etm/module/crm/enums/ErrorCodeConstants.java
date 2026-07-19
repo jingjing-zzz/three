@@ -9,6 +9,12 @@ import com.meession.etm.framework.common.exception.ErrorCode;
  */
 public interface ErrorCodeConstants {
 
+    // ========== 订单管理 1-020-016-000 ==========
+    ErrorCode ORDER_NOT_EXISTS = new ErrorCode(1_020_016_000, "订单不存在");
+    ErrorCode ORDER_NO_EXISTS = new ErrorCode(1_020_016_001, "生成订单序列号重复，请重试");
+    ErrorCode ORDER_STATUS_CANNOT_APPROVE = new ErrorCode(1_020_016_002, "订单当前状态不允许审批");
+    ErrorCode ORDER_STATUS_TRANSITION_INVALID = new ErrorCode(1_020_016_003, "订单状态流转无效");
+
     // ========== 合同管理 1-020-000-000 ==========
     ErrorCode CONTRACT_NOT_EXISTS = new ErrorCode(1_020_000_000, "合同不存在");
     ErrorCode CONTRACT_UPDATE_FAIL_NOT_DRAFT = new ErrorCode(1_020_000_001, "合同更新失败，原因：合同不是草稿状态");
@@ -118,5 +124,25 @@ public interface ErrorCodeConstants {
     ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_PRODUCT_COUNT = new ErrorCode(1_020_015_004, "确认报价失败，原因：产品数量必须大于 0");
     ErrorCode BUSINESS_QUOTATION_CONFIRM_FAIL_PRODUCT_PRICE = new ErrorCode(1_020_015_005, "确认报价失败，原因：产品金额不能为负数");
     ErrorCode BUSINESS_QUOTATION_DRAFT_FAIL_NO_PRODUCT = new ErrorCode(1_020_015_006, "创建报价草稿失败，原因：商机产品不能为空");
+
+    // ========== 营销活动 1_020_017_000 ==========
+    ErrorCode MARKETING_CAMPAIGN_NOT_EXISTS = new ErrorCode(1_020_017_000, "营销活动不存在");
+
+    // ========== 营销短信批次 1_020_018_000 ==========
+    ErrorCode MARKETING_SMS_BATCH_NOT_EXISTS = new ErrorCode(1_020_018_000, "短信批次不存在");
+    ErrorCode MARKETING_SMS_BATCH_CANNOT_SEND = new ErrorCode(1_020_018_001, "短信批次状态不允许发送，只有待发送状态才能发送");
+
+    // ========== 营销邮件批次 1_020_019_000 ==========
+    ErrorCode MARKETING_EMAIL_BATCH_NOT_EXISTS = new ErrorCode(1_020_019_000, "邮件批次不存在");
+    ErrorCode MARKETING_EMAIL_BATCH_CANNOT_SEND = new ErrorCode(1_020_019_001, "邮件批次状态不允许发送，只有待发送状态才能发送");
+
+    // ========== 客户关怀规则 1_020_020_000 ==========
+    ErrorCode MARKETING_CUSTOMER_CARE_NOT_EXISTS = new ErrorCode(1_020_020_000, "客户关怀规则不存在");
+
+    // ========== 群发审批 1_020_021_000 ==========
+    ErrorCode MARKETING_APPROVAL_NOT_EXISTS = new ErrorCode(1_020_021_000, "群发审批不存在");
+
+    // ========== 发送记录 1_020_022_000 ==========
+    ErrorCode MARKETING_SEND_RECORD_NOT_EXISTS = new ErrorCode(1_020_022_000, "发送记录不存在");
 
 }

@@ -58,20 +58,41 @@ if [ -d "$SQL_NEW_DIR" ]; then
     exec_new "new-crm-business-source-dict.sql"
     exec_new "fix-crm-business-status-integrity.sql"
 
-    # 2.5 报价表 + 快照表（含 tenant_id 修复）
+    # 2.5 新增业务域：脚本均为保留已有数据的增量建表/授权脚本
+    exec_new "new-finance-domain.sql"
+    exec_new "new-oa-domain.sql"
+    exec_new "new-oa-leave-type.sql"
+    exec_new "new-oa-menu.sql"
+    exec_new "new-crm-order-domain.sql"
+    exec_new "new-crm-order-menu.sql"
+    exec_new "new-marketing-domain.sql"
+    exec_new "new-marketing-menu.sql"
+    exec_new "new-work-order-domain.sql"
+    exec_new "new-work-order-menu.sql"
+    # 动态菜单由后端返回，需在所有域菜单完成后写入国际化表。
+    exec_new "new-domain-menu-i18n.sql"
+
+    # 2.6 报价表 + 快照表（含 tenant_id 修复）
     exec_new "new-crm-business-quotation.sql"
     exec_new "new-crm-business-quotation-snapshot.sql"
     exec_new "fix-quotation-snapshot-tenant.sql"
 
-    # 2.6 菜单与权限
+    # 2.7 商机统计菜单与权限
     exec_new "new-crm-statistics-forecast-menu.sql"
     exec_new "new-crm-statistics-report-menu.sql"
 
-    # 2.7 测试假数据（最后执行，依赖前面所有结构）
-    exec_new "new-test-data.sql"
+    # 2.8 测试假数据（最后执行，依赖前面所有结构）
+    # new-test-data.sql 会修改 CRM 基础演示记录，不在统一初始化链中执行。
+    # 商机演示数据由下面的状态组、商机和明细脚本独立提供。
+    exec_new "new-crm-customer-demo-data.sql"
     exec_new "new-test-business-status-data.sql"
     exec_new "new-test-business-data.sql"
     exec_new "new-test-business-detail-data.sql"
+    exec_new "demo-finance-data.sql"
+    exec_new "new-oa-demo-data.sql"
+    exec_new "new-crm-order-demo-data.sql"
+    exec_new "new-marketing-test-data.sql"
+    exec_new "new-work-order-test-data.sql"
 fi
 
 echo "MySQL initialization completed successfully!"

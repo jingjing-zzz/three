@@ -27,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDateTime;
 
 import static com.meession.etm.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static com.meession.etm.module.crm.enums.ErrorCodeConstants.RECEIVABLE_PLAN_NOT_EXISTS;
@@ -126,7 +127,7 @@ public class CrmReceivablePlanServiceImpl implements CrmReceivablePlanService {
         // 校验存在
         validateReceivablePlanExists(id);
         // 更新回款计划
-        receivablePlanMapper.updateById(new CrmReceivablePlanDO().setId(id).setReceivableId(receivableId));
+        receivablePlanMapper.updateById(new CrmReceivablePlanDO().setId(id).setReceivableId(receivableId).setOverdue(false));
     }
 
     @Override
@@ -183,6 +184,11 @@ public class CrmReceivablePlanServiceImpl implements CrmReceivablePlanService {
     @Override
     public Long getReceivablePlanRemindCount(Long userId) {
         return receivablePlanMapper.selectReceivablePlanCountByRemind(userId);
+    }
+
+    @Override
+    public int markOverdueReceivablePlans() {
+        return receivablePlanMapper.markOverdue(LocalDateTime.now());
     }
 
 }

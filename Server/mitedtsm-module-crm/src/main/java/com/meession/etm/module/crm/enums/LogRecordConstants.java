@@ -96,6 +96,16 @@ public interface LogRecordConstants {
     String CRM_BUSINESS_UPDATE_STATUS_SUB_TYPE = "更新商机状态";
     String CRM_BUSINESS_UPDATE_STATUS_SUCCESS = "更新了商机【{{#businessName}}】的状态从【{{#oldStatusName}}】变更为了【{{#newStatusName}}】";
 
+    // ======================= CRM_ORDER 订单 =======================
+
+    String CRM_ORDER_TYPE = "CRM 订单";
+    String CRM_ORDER_CREATE_SUB_TYPE = "创建订单";
+    String CRM_ORDER_CREATE_SUCCESS = "创建了订单{{#order.no}}";
+    String CRM_ORDER_UPDATE_SUB_TYPE = "更新订单";
+    String CRM_ORDER_UPDATE_SUCCESS = "更新了订单【{{#orderNo}}】: {_DIFF{#updateReqVO}}";
+    String CRM_ORDER_DELETE_SUB_TYPE = "删除订单";
+    String CRM_ORDER_DELETE_SUCCESS = "删除了订单【{{#orderNo}}】";
+
     // ======================= CRM_CONTRACT_CONFIG 合同配置 =======================
 
     String CRM_CONTRACT_CONFIG_TYPE = "CRM 合同配置";

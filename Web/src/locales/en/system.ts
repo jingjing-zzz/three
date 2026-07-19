@@ -614,6 +614,7 @@ export default {
     status: 'Status',
     remark: 'Remark',
     // Send Form
+    send: 'Send',
     testSend: 'Test Send',
     templateContentLabel: 'Template Content',
     receiverId: 'Receiver ID',

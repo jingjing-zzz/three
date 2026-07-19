@@ -1,6 +1,7 @@
 package com.meession.etm.module.crm.dal.mysql.receivable;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.meession.etm.framework.common.pojo.PageResult;
 import com.meession.etm.framework.mybatis.core.mapper.BaseMapperX;
 import com.meession.etm.framework.mybatis.core.query.MPJLambdaWrapperX;
@@ -84,6 +85,14 @@ public interface CrmReceivablePlanMapper extends BaseMapperX<CrmReceivablePlanDO
                 .lt(CrmReceivablePlanDO::getReturnTime, beginOfToday) // 已逾期
                 .lt(CrmReceivablePlanDO::getRemindTime, beginOfToday); // 今天开始提醒
         return selectCount(query);
+    }
+
+    default int markOverdue(LocalDateTime now) {
+        return update(new CrmReceivablePlanDO().setOverdue(true), new LambdaUpdateWrapper<CrmReceivablePlanDO>()
+                .isNull(CrmReceivablePlanDO::getReceivableId)
+                .lt(CrmReceivablePlanDO::getReturnTime, LocalDateTimeUtil.beginOfDay(now))
+                .and(wrapper -> wrapper.eq(CrmReceivablePlanDO::getOverdue, false)
+                        .or().isNull(CrmReceivablePlanDO::getOverdue)));
     }
 
 }

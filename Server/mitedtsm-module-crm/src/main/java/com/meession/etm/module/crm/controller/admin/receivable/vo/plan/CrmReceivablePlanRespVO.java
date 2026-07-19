@@ -61,6 +61,10 @@ public class CrmReceivablePlanRespVO {
     @Schema(description = "回款信息")
     private CrmReceivableRespVO receivable;
 
+    @Schema(description = "是否逾期", example = "true")
+    @ExcelProperty("是否逾期")
+    private Boolean overdue;
+
     @Schema(description = "提前几天提醒", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @ExcelProperty("提前几天提醒")
     private Integer remindDays;

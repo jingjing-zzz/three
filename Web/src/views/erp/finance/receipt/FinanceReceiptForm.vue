@@ -29,20 +29,25 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="t('customerId')" prop="customerId">
-            <el-select
-              v-model="formData.customerId"
-              clearable
-              filterable
-              :placeholder="t('selectCustomer')"
-              class="!w-1/1"
-            >
-              <el-option
-                v-for="item in customerList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
+            <div class="flex w-1/1 gap-8px">
+              <el-select
+                v-model="formData.customerId"
+                clearable
+                filterable
+                :placeholder="t('selectCustomer')"
+                class="flex-1"
+              >
+                <el-option
+                  v-for="item in customerList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+              <el-button @click="handleQuickCreateCustomer" :disabled="disabled">
+                {{ t('quickCreateCustomer') }}
+              </el-button>
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -157,6 +162,7 @@ import { erpPriceInputFormatter } from '@/utils'
 import * as UserApi from '@/api/system/user'
 import { AccountApi, AccountVO } from '@/api/erp/finance/account'
 import { CustomerApi, CustomerVO } from '@/api/erp/sale/customer'
+import { CommonStatusEnum } from '@/utils/constants'
 
 /** ERP 收款单表单 */
 defineOptions({ name: 'FinanceReceiptForm' })
@@ -237,6 +243,26 @@ const open = async (type: string, id?: number) => {
   }
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
+
+/** 快速新增客户 */
+const handleQuickCreateCustomer = async () => {
+  try {
+    const { value } = await message.prompt(t('inputCustomerName'), t('quickCreateCustomer'))
+    const name = value?.trim()
+    if (!name) {
+      message.warning(t('customerRequired'))
+      return
+    }
+    const id = await CustomerApi.createCustomer({
+      name,
+      status: CommonStatusEnum.ENABLE,
+      sort: 0
+    } as CustomerVO)
+    customerList.value = await CustomerApi.getCustomerSimpleList()
+    formData.value.customerId = id || customerList.value.find((item) => item.name === name)?.id
+    message.success(t('customerCreateSuccess'))
+  } catch {}
+}
 
 /** 提交表单 */
 const emit = defineEmits(['success']) // 定义 success 事件，用于操作成功后的回调

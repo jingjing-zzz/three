@@ -3,31 +3,16 @@
 -- 用途: 生成销售预测/漏斗/阶段流转测试假数据
 -- 依赖版本: 已执行 new-crm-business-fields.sql 和 new-crm-business-source-dict.sql
 -- 执行顺序: 在所有商机相关表结构创建后执行
--- 是否可重复执行: 否（首次执行前需先备份数据，重复执行需先回滚）
--- 影响对象: crm_business, crm_business_product
--- 人工回滚方式:
---   UPDATE crm_business SET deleted=0 WHERE deleted=1 AND id IN (SELECT id FROM crm_business WHERE creator='1');
---   或者从备份恢复 crm_business 和 crm_business_product 表
+-- 是否可重复执行: 初始化空库时执行一次；不会删除或逻辑删除已有商机。
+-- 影响对象: crm_business, crm_business_product（仅新增演示记录）
 -- 数据规范: 符合 utf8mb4、InnoDB、tenant_id、逻辑删除与审计字段规范
 -- ============================================================
-
--- 安全提醒：执行前请先备份数据库
--- CREATE TABLE crm_business_backup_20260718 AS SELECT * FROM crm_business;
--- CREATE TABLE crm_business_product_backup_20260718 AS SELECT * FROM crm_business_product;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ============================================================
--- 1. 软删除现有所有商机（保留数据，仅标记 deleted=1）
--- ============================================================
-UPDATE crm_business SET deleted = 1 WHERE deleted = 0;
-UPDATE crm_business_product SET deleted = 1 WHERE deleted = 0;
-
--- 记录删除的商机数量，用于验证
-SELECT COUNT(*) AS deleted_business_count FROM crm_business WHERE deleted = 1;
-SELECT COUNT(*) AS deleted_product_line_count FROM crm_business_product WHERE deleted = 1;
-
+-- 1. 保留已有商机，仅追加用于漏斗、预测和阶段流转的演示记录
 -- ============================================================
 -- 2. 插入假数据（共 40 条商机）
 -- 数据分布：

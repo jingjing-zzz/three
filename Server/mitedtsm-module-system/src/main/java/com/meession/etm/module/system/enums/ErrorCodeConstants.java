@@ -168,4 +168,8 @@ public interface ErrorCodeConstants {
     // ========== 站内信发送 1-002-028-000 ==========
     ErrorCode NOTIFY_SEND_TEMPLATE_PARAM_MISS = new ErrorCode(1_002_028_000, "模板参数({})缺失");
 
+    // ========== 工单管理 1-002-029-000 ==========
+    ErrorCode WORK_ORDER_NOT_FOUND = new ErrorCode(1_002_029_000, "工单不存在");
+    ErrorCode WORK_ORDER_STATUS_TRANSITION_ERROR = new ErrorCode(1_002_029_001, "工单状态流转错误");
+
 }

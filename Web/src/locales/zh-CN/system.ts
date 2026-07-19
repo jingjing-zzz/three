@@ -711,6 +711,7 @@ export default {
     status: '开启状态',
     remark: '备注',
     // 发送表单
+    send: '发送',
     testSend: '测试发送',
     templateContentLabel: '模板内容',
     receiverId: '接收人ID',

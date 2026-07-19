@@ -99,3 +99,12 @@ export const getBusinessPageByContact = async (params) => {
 export const transferBusiness = async (data: TransferReqVO) => {
   return await request.put({ url: '/crm/business/transfer', data })
 }
+
+// 商机转化为订单
+export const convertBusinessToOrder = async (businessId: number, contractId?: number) => {
+  const params: Record<string, number> = { businessId }
+  if (contractId) {
+    params.contractId = contractId
+  }
+  return await request.post({ url: '/crm/business/convert-to-order', params })
+}

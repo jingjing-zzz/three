@@ -235,6 +235,90 @@ const remainingRouter: AppRouteRecordRaw[] = [
     }
   },
   {
+    path: '/bpm/oa',
+    component: Layout,
+    name: 'BpmOA',
+    meta: {
+      title: t('router.bpmOA'),
+      icon: 'ep:office-building',
+      alwaysShow: true
+    },
+    children: [
+      {
+        path: 'leave',
+        component: () => import('@/views/bpm/oa/leave/index.vue'),
+        name: 'BpmOALeave',
+        meta: {
+          title: t('router.oaLeave'),
+          icon: 'ep:calendar'
+        }
+      },
+      {
+        path: 'business-trip',
+        component: () => import('@/views/bpm/oa/businessTrip/index.vue'),
+        name: 'BpmOABusinessTrip',
+        meta: {
+          title: t('router.oaBusinessTrip'),
+          icon: 'ep:suitcase'
+        }
+      },
+      {
+        path: 'loan',
+        component: () => import('@/views/bpm/oa/loan/index.vue'),
+        name: 'BpmOALoan',
+        meta: {
+          title: t('router.oaLoan'),
+          icon: 'ep:money'
+        }
+      },
+      {
+        path: 'customer-visit',
+        component: () => import('@/views/bpm/oa/customerVisit/index.vue'),
+        name: 'BpmOACustomerVisit',
+        meta: {
+          title: t('router.oaCustomerVisit'),
+          icon: 'ep:user'
+        }
+      },
+      {
+        path: 'work-report',
+        component: () => import('@/views/bpm/oa/workReport/index.vue'),
+        name: 'BpmOAWorkReport',
+        meta: {
+          title: t('router.oaWorkReport'),
+          icon: 'ep:document'
+        }
+      },
+      {
+        path: 'task',
+        component: () => import('@/views/bpm/oa/task/index.vue'),
+        name: 'BpmOATask',
+        meta: {
+          title: t('router.oaTask'),
+          icon: 'ep:list'
+        }
+      },
+      {
+        path: 'schedule',
+        component: () => import('@/views/bpm/oa/schedule/index.vue'),
+        name: 'BpmOASchedule',
+        meta: {
+          title: t('router.oaSchedule'),
+          icon: 'ep:clock'
+        }
+      },
+      {
+        path: 'work-request',
+        component: () => import('@/views/bpm/oa/workRequest/index.vue'),
+        name: 'BpmOAWorkRequest',
+        meta: {
+          title: t('router.oaWorkRequest'),
+          icon: 'ep:message'
+        }
+      }
+    ]
+  },
+  {
     path: '/bpm',
     component: Layout,
     name: 'bpm',
@@ -309,7 +393,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: 'oa/leave/detail',
-        component: () => import('@/views/bpm/oa/leave/detail.vue'),
+        component: () => import('@/views/bpm/oa/leave/detail/index.vue'),
         name: 'OALeaveDetail',
         meta: {
           noCache: true,
@@ -317,6 +401,150 @@ const remainingRouter: AppRouteRecordRaw[] = [
           canTo: true,
           title: t('router.oaLeaveDetail'),
           activeMenu: '/bpm/oa/leave'
+        }
+      },
+      {
+        path: 'oa/business-trip/create',
+        component: () => import('@/views/bpm/oa/businessTrip/create.vue'),
+        name: 'OABusinessTripCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaBusinessTripCreate'),
+          activeMenu: '/bpm/oa/business-trip'
+        }
+      },
+      {
+        path: 'oa/business-trip/detail',
+        component: () => import('@/views/bpm/oa/businessTrip/detail/index.vue'),
+        name: 'OABusinessTripDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaBusinessTripDetail'),
+          activeMenu: '/bpm/oa/business-trip'
+        }
+      },
+      {
+        path: 'oa/loan/create',
+        component: () => import('@/views/bpm/oa/loan/create.vue'),
+        name: 'OALoanCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaLoanCreate'),
+          activeMenu: '/bpm/oa/loan'
+        }
+      },
+      {
+        path: 'oa/loan/detail',
+        component: () => import('@/views/bpm/oa/loan/detail/index.vue'),
+        name: 'OALoanDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaLoanDetail'),
+          activeMenu: '/bpm/oa/loan'
+        }
+      },
+      {
+        path: 'oa/customer-visit/create',
+        component: () => import('@/views/bpm/oa/customerVisit/create.vue'),
+        name: 'OACustomerVisitCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaCustomerVisitCreate'),
+          activeMenu: '/bpm/oa/customer-visit'
+        }
+      },
+      {
+        path: 'oa/customer-visit/detail',
+        component: () => import('@/views/bpm/oa/customerVisit/detail/index.vue'),
+        name: 'OACustomerVisitDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaCustomerVisitDetail'),
+          activeMenu: '/bpm/oa/customer-visit'
+        }
+      },
+      {
+        path: 'oa/work-request/create',
+        component: () => import('@/views/bpm/oa/workRequest/create.vue'),
+        name: 'OAWorkRequestCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaWorkRequestCreate'),
+          activeMenu: '/bpm/oa/work-request'
+        }
+      },
+      {
+        path: 'oa/work-request/detail',
+        component: () => import('@/views/bpm/oa/workRequest/detail/index.vue'),
+        name: 'OAWorkRequestDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaWorkRequestDetail'),
+          activeMenu: '/bpm/oa/work-request'
+        }
+      },
+      {
+        path: 'oa/work-report/create',
+        component: () => import('@/views/bpm/oa/workReport/create.vue'),
+        name: 'OAWorkReportCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaWorkReportCreate'),
+          activeMenu: '/bpm/oa/work-report'
+        }
+      },
+      {
+        path: 'oa/work-report/detail',
+        component: () => import('@/views/bpm/oa/workReport/detail.vue'),
+        name: 'OAWorkReportDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaWorkReportDetail'),
+          activeMenu: '/bpm/oa/work-report'
+        }
+      },
+      {
+        path: 'oa/task/create',
+        component: () => import('@/views/bpm/oa/task/create.vue'),
+        name: 'OATaskCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaTaskCreate'),
+          activeMenu: '/bpm/oa/task'
+        }
+      },
+      {
+        path: 'oa/schedule/create',
+        component: () => import('@/views/bpm/oa/schedule/create.vue'),
+        name: 'OAScheduleCreate',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: t('router.oaScheduleCreate'),
+          activeMenu: '/bpm/oa/schedule'
         }
       },
       {

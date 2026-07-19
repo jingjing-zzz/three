@@ -119,22 +119,7 @@
   <ContentWrap>
     <el-table v-loading="loading" :data="list" :table-layout="'auto'">
       <el-table-column :label="t('process.instance.name')" align="center" prop="name" min-width="200px" fixed="left" />
-      <el-table-column :label="t('process.instance.summary')" prop="summary" min-width="180" fixed="left">
-        <template #default="scope">
-          <div class="flex flex-col" v-if="scope.row.summary && scope.row.summary.length > 0">
-            <div v-for="(item, index) in scope.row.summary" :key="index">
-              <el-text type="info"> {{ item.key }} : {{ item.value }} </el-text>
-            </div>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        :label="t('process.instance.category')"
-        align="center"
-        prop="categoryName"
-        min-width="100"
-        fixed="left"
-      />
+
       <el-table-column :label="t('process.instance.processStatus')" prop="status" min-width="200">
         <template #default="scope">
           <!-- 审批中状态 -->

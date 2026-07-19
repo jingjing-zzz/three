@@ -52,7 +52,9 @@
       </el-table-column>
       <el-table-column align="center" fixed="right" :label="t('common.action')" min-width="150">
         <template #default="{ $index }">
-          <el-button @click="handleDelete($index)" link />
+          <el-button @click="handleDelete($index)" link type="danger">
+            <Icon icon="ep:delete" class="mr-5px" /> {{ t('common.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

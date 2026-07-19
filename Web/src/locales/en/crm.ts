@@ -252,11 +252,14 @@ export default {
     relate: 'Relate',
     unrelate: 'Unrelate',
     changeStatus: 'Change Business Status',
+    convertToOrder: 'Convert to Order',
     // Messages
     relateSuccess: 'Relate business successfully',
     unrelateSuccess: 'Unrelate business successfully',
     noSelectBusiness: 'No business selected',
     updateStatusSuccess: 'Update business status successfully',
+    convertToOrderSuccess: 'Converted to order successfully',
+    convertToOrderFailed: 'Failed to convert to order',
     paramError: 'Parameter error, business cannot be empty!',
     // Tab labels
     followUpTab: 'Follow Up Records',
@@ -831,6 +834,105 @@ export default {
     stageName: 'Stage Name',
     count: 'Count',
     amount: 'Amount',
-    ratio: 'Ratio'
-  }
+    ratio: 'Ratio',
+  },
+    // Order domain
+    order: {
+      title: 'Order Management',
+      no: 'Order No.',
+      noPlaceholder: 'Please enter order number',
+      noAutoGenerate: 'Generated automatically',
+      status: 'Order Status',
+      statusPlaceholder: 'Please select order status',
+      statusDraft: 'Draft',
+      statusPendingAudit: 'Pending Review',
+      statusAuditing: 'Under Review',
+      statusApproved: 'Approved',
+      statusRejected: 'Rejected',
+      statusCompleted: 'Completed',
+      statusCancelled: 'Cancelled',
+      submit: 'Submit for Review',
+      submitConfirm: 'Submit this order for review?',
+      submitSuccess: 'Submitted for review',
+      complete: 'Complete Order',
+      completeConfirm: 'Complete this order?',
+      completeSuccess: 'Order completed',
+      customerId: 'Customer',
+      customerIdPlaceholder: 'Please select a customer',
+      customerIdRequired: 'Customer is required',
+      customerName: 'Customer Name',
+      contractId: 'Contract',
+      contractName: 'Contract Name',
+      ownerUserId: 'Owner',
+      ownerUserRequired: 'Owner is required',
+      ownerUserName: 'Owner Name',
+      orderTime: 'Order Time',
+      orderTimePlaceholder: 'Select order time',
+      orderTimeRequired: 'Order time is required',
+      totalProductPrice: 'Product Total',
+      discountPercent: 'Discount (%)',
+      totalPrice: 'Order Total',
+      remark: 'Remark',
+      remarkPlaceholder: 'Please enter a remark',
+      productName: 'Product Name',
+      productNo: 'Product No.',
+      productUnit: 'Unit',
+      productPrice: 'Unit Price',
+      count: 'Quantity',
+      productList: 'Product List',
+      addProduct: 'Add Product',
+      detail: 'Order Details',
+      creatorName: 'Created By',
+      createTime: 'Created At',
+      taxPercent: 'Tax Rate (%)',
+      taxPrice: 'Tax Amount',
+      totalOrders: 'Total Orders',
+      totalAmount: 'Total Amount',
+      pendingAudit: 'Pending Review',
+      approved: 'Approved',
+      statusDistribution: 'Status Distribution',
+      recentOrders: 'Recent Orders',
+      customer: 'Customer'
+    },
+    // Marketing domain
+    marketing: {
+      title: 'Marketing Management',
+      campaign: {
+        title: 'Marketing Campaign', name: 'Campaign Name', namePlaceholder: 'Please enter campaign name',
+        type: { label: 'Campaign Type', sms: 'SMS Marketing', email: 'Email Marketing', wechat: 'WeChat Marketing' },
+        status: { label: 'Campaign Status', draft: 'Draft', active: 'Active', completed: 'Completed', paused: 'Paused' },
+        startTime: 'Start Time', endTime: 'End Time', targetFilter: 'Target Customer Filter', description: 'Description',
+        totalTargetCount: 'Total Targets', sendCount: 'Sent', successCount: 'Successful', failCount: 'Failed'
+      },
+      smsBatch: {
+        title: 'SMS Batch', campaignName: 'Campaign Name', templateName: 'Template Name', content: 'SMS Content',
+        totalCount: 'Total Targets', sendCount: 'Sent', successCount: 'Successful', failCount: 'Failed', campaignId: 'Campaign ID', templateId: 'Template ID',
+        status: { label: 'Status', pending: 'Pending', sending: 'Sending', completed: 'Completed', failed: 'Failed' }
+      },
+      emailBatch: {
+        title: 'Email Batch', campaignName: 'Campaign Name', templateName: 'Template Name', subject: 'Email Subject', content: 'Email Content',
+        totalCount: 'Total Targets', sendCount: 'Sent', successCount: 'Successful', failCount: 'Failed', campaignId: 'Campaign ID', templateId: 'Template ID',
+        status: { label: 'Status', pending: 'Pending', sending: 'Sending', completed: 'Completed', failed: 'Failed' }
+      },
+      customerCare: {
+        title: 'Customer Care Rules', name: 'Rule Name',
+        type: { label: 'Rule Type', birthday: 'Birthday Care', anniversary: 'Anniversary Care', custom: 'Custom Rule' },
+        triggerType: { label: 'Trigger Type', automatic: 'Automatic', manual: 'Manual' },
+        triggerCondition: 'Trigger Condition', sendChannel: { label: 'Send Channel', sms: 'SMS', email: 'Email', wechat: 'WeChat' },
+        templateId: 'Template ID', content: 'Content', subject: 'Subject', status: { label: 'Status', enabled: 'Enabled', disabled: 'Disabled' },
+        executeCount: 'Execution Count', remark: 'Remark'
+      },
+      approval: {
+        title: 'Bulk Send Approval', campaignName: 'Campaign Name', campaignId: 'Campaign ID',
+        type: { label: 'Approval Type', sms: 'SMS Batch', email: 'Email Batch' }, applicant: 'Applicant', targetCount: 'Target Count', contentPreview: 'Content Preview',
+        status: { label: 'Approval Status', pending: 'Pending', approved: 'Approved', rejected: 'Rejected' }, approver: 'Approver', approveRemark: 'Approval Remark',
+        applyTime: 'Applied At', approveTime: 'Approved At', approve: 'Approve', approveConfirm: 'Approve this request?', approveSuccess: 'Approval completed',
+        reject: 'Reject', rejectConfirm: 'Reject this request?', rejectSuccess: 'Request rejected'
+      },
+      sendRecord: {
+        title: 'Send Records', campaignName: 'Campaign Name', batchName: 'Batch Name', type: 'Send Type', typeSms: 'SMS', typeEmail: 'Email',
+        target: 'Recipient', content: 'Content', status: 'Send Status', statusPending: 'Pending', statusSuccess: 'Sent Successfully', statusFailed: 'Send Failed',
+        errorMessage: 'Error Message', sendTime: 'Sent At'
+      }
+    }
 }

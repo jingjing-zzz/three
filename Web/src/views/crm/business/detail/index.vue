@@ -14,6 +14,14 @@
     <el-button v-if="permissionListRef?.validateOwnerUser" type="primary" @click="transfer">
       {{ t('crm.customer.transfer') }}
     </el-button>
+    <el-button
+      v-if="permissionListRef?.validateWrite"
+      :disabled="business.endStatus"
+      type="warning"
+      @click="convertToOrder"
+    >
+      {{ t('crm.business.convertToOrder') }}
+    </el-button>
   </BusinessDetailsHeader>
   <el-col>
     <el-tabs>
@@ -115,6 +123,16 @@ const openStatusForm = () => {
 const transferFormRef = ref<InstanceType<typeof CrmTransferForm>>() // 联系人转移表单 ref
 const transfer = () => {
   transferFormRef.value?.open(business.value.id)
+}
+
+/** 转化为订单 */
+const convertToOrder = async () => {
+  try {
+    await BusinessApi.convertBusinessToOrder(business.value.id)
+    message.success(t('crm.business.convertToOrderSuccess'))
+  } catch {
+    message.error(t('crm.business.convertToOrderFailed'))
+  }
 }
 
 /** 获取操作日志 */

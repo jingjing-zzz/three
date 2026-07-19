@@ -9,6 +9,7 @@ export interface ReceivablePlanVO {
   remindDays: number
   returnType: number
   remindTime: Date
+  overdue?: boolean
   customerId: number
   customerName?: string
   contractId?: number
@@ -71,4 +72,9 @@ export const exportReceivablePlan = async (params) => {
 // 获得待回款提醒数量
 export const getReceivablePlanRemindCount = async () => {
   return await request.get({ url: '/crm/receivable-plan/remind-count' })
+}
+
+// 标记逾期回款计划
+export const markOverdueReceivablePlans = async () => {
+  return await request.put({ url: '/crm/receivable-plan/mark-overdue' })
 }

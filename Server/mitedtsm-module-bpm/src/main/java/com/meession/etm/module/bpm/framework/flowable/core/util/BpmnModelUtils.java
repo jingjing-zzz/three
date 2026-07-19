@@ -121,6 +121,9 @@ public class BpmnModelUtils {
      * @return 候选人策略
      */
     public static Integer parseCandidateStrategy(FlowElement userTask) {
+        if (userTask == null) {
+            return null;
+        }
         Integer candidateStrategy = NumberUtils.parseInt(userTask.getAttributeValue(
                 BpmnModelConstants.NAMESPACE, BpmnModelConstants.USER_TASK_CANDIDATE_STRATEGY));
         // TODO @芋艿 尝试从 ExtensionElement 取. 后续相关扩展是否都可以 存 extensionElement。 如表单权限。 按钮权限

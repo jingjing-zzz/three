@@ -212,4 +212,14 @@ public interface CrmBusinessService {
      */
     PageResult<CrmBusinessDO> getBusinessPageByDate(CrmStatisticsFunnelReqVO pageVO);
 
+    /**
+     * 将商机转化为订单。
+     *
+     * @param businessId 商机编号
+     * @param userId 操作用户编号
+     * @param contractId 关联合同编号
+     * @return 商机编号
+     */
+    Long convertToOrder(Long businessId, Long userId, Long contractId);
+
 }

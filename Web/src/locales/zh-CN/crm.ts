@@ -257,11 +257,14 @@ export default {
     relate: '关联',
     unrelate: '解除关联',
     changeStatus: '变更商机状态',
+    convertToOrder: '转化为订单',
     // 提示消息
     relateSuccess: '关联商机成功',
     unrelateSuccess: '取关商机成功',
     noSelectBusiness: '未选择商机',
     updateStatusSuccess: '更新商机状态成功',
+    convertToOrderSuccess: '转化为订单成功',
+    convertToOrderFailed: '转化为订单失败',
     paramError: '参数错误，商机不能为空！',
     // Tab 标签
     followUpTab: '跟进记录',
@@ -837,6 +840,105 @@ export default {
     stageName: '阶段名称',
     count: '数量',
     amount: '金额',
-    ratio: '占比'
-  }
+    ratio: '占比',
+  },
+    // 订单域
+    order: {
+      title: '订单管理',
+      no: '订单编号',
+      noPlaceholder: '请输入订单编号',
+      noAutoGenerate: '系统自动生成',
+      status: '订单状态',
+      statusPlaceholder: '请选择订单状态',
+      statusDraft: '草稿',
+      statusPendingAudit: '待审核',
+      statusAuditing: '审核中',
+      statusApproved: '审核通过',
+      statusRejected: '审核不通过',
+      statusCompleted: '已完成',
+      statusCancelled: '已取消',
+      submit: '提交审核',
+      submitConfirm: '确定提交审核？',
+      submitSuccess: '提交审核成功',
+      complete: '完成订单',
+      completeConfirm: '确定完成订单？',
+      completeSuccess: '订单完成成功',
+      customerId: '客户',
+      customerIdPlaceholder: '请选择客户',
+      customerIdRequired: '客户不能为空',
+      customerName: '客户名称',
+      contractId: '合同',
+      contractName: '合同名称',
+      ownerUserId: '负责人',
+      ownerUserRequired: '负责人不能为空',
+      ownerUserName: '负责人姓名',
+      orderTime: '下单时间',
+      orderTimePlaceholder: '选择下单时间',
+      orderTimeRequired: '下单时间不能为空',
+      totalProductPrice: '产品总金额',
+      discountPercent: '整单折扣(%)',
+      totalPrice: '订单总金额',
+      remark: '备注',
+      remarkPlaceholder: '请输入备注',
+      productName: '产品名称',
+      productNo: '产品编号',
+      productUnit: '产品单位',
+      productPrice: '产品单价',
+      count: '数量',
+      productList: '产品列表',
+      addProduct: '添加产品',
+      detail: '订单详情',
+      creatorName: '创建人',
+      createTime: '创建时间',
+      taxPercent: '税率(%)',
+      taxPrice: '税额',
+      totalOrders: '订单总数',
+      totalAmount: '订单总额',
+      pendingAudit: '待审核',
+      approved: '审核通过',
+      statusDistribution: '状态分布',
+      recentOrders: '最近订单',
+      customer: '客户'
+    },
+    // 营销域
+    marketing: {
+      title: '营销管理',
+      campaign: {
+        title: '营销活动', name: '活动名称', namePlaceholder: '请输入活动名称',
+        type: { label: '活动类型', sms: '短信营销', email: '邮件营销', wechat: '微信营销' },
+        status: { label: '活动状态', draft: '草稿', active: '进行中', completed: '已完成', paused: '已暂停' },
+        startTime: '开始时间', endTime: '结束时间', targetFilter: '目标客户筛选条件', description: '活动描述',
+        totalTargetCount: '目标客户总数', sendCount: '已发送数量', successCount: '发送成功数量', failCount: '发送失败数量'
+      },
+      smsBatch: {
+        title: '短信群发批次', campaignName: '活动名称', templateName: '模板名称', content: '短信内容',
+        totalCount: '目标总数', sendCount: '已发送数', successCount: '成功数', failCount: '失败数', campaignId: '活动ID', templateId: '模板ID',
+        status: { label: '状态', pending: '待发送', sending: '发送中', completed: '已完成', failed: '发送失败' }
+      },
+      emailBatch: {
+        title: '邮件群发批次', campaignName: '活动名称', templateName: '模板名称', subject: '邮件主题', content: '邮件内容',
+        totalCount: '目标总数', sendCount: '已发送数', successCount: '成功数', failCount: '失败数', campaignId: '活动ID', templateId: '模板ID',
+        status: { label: '状态', pending: '待发送', sending: '发送中', completed: '已完成', failed: '发送失败' }
+      },
+      customerCare: {
+        title: '客户关怀规则', name: '规则名称',
+        type: { label: '规则类型', birthday: '生日关怀', anniversary: '纪念日关怀', custom: '自定义规则' },
+        triggerType: { label: '触发类型', automatic: '自动触发', manual: '手动触发' },
+        triggerCondition: '触发条件', sendChannel: { label: '发送渠道', sms: '短信', email: '邮件', wechat: '微信' },
+        templateId: '模板ID', content: '内容', subject: '主题', status: { label: '状态', enabled: '启用', disabled: '禁用' },
+        executeCount: '执行次数', remark: '备注'
+      },
+      approval: {
+        title: '群发审批', campaignName: '活动名称', campaignId: '活动ID',
+        type: { label: '审批类型', sms: '短信群发', email: '邮件群发' }, applicant: '申请人', targetCount: '目标数量', contentPreview: '内容预览',
+        status: { label: '审批状态', pending: '待审批', approved: '已通过', rejected: '已拒绝' }, approver: '审批人', approveRemark: '审批意见',
+        applyTime: '申请时间', approveTime: '审批时间', approve: '通过', approveConfirm: '确定通过该审批吗？', approveSuccess: '审批通过成功',
+        reject: '拒绝', rejectConfirm: '确定拒绝该审批吗？', rejectSuccess: '审批拒绝成功'
+      },
+      sendRecord: {
+        title: '发送记录', campaignName: '活动名称', batchName: '批次名称', type: '发送类型', typeSms: '短信', typeEmail: '邮件',
+        target: '接收方', content: '发送内容', status: '发送状态', statusPending: '待发送', statusSuccess: '发送成功', statusFailed: '发送失败',
+        errorMessage: '错误信息', sendTime: '发送时间'
+      }
+    }
 }

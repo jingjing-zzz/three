@@ -26,6 +26,7 @@
               :placeholder="t('common.selectTime')"
               type="datetime"
               value-format="x"
+              :disabled-date="disabledPastDate"
             />
           </el-form-item>
           <el-form-item :label="t('oa.leave.endTime')" prop="endTime">
@@ -35,6 +36,8 @@
               :placeholder="t('common.selectTime')"
               type="datetime"
               value-format="x"
+              :disabled-date="disabledPastDate"
+              :disabled-time="disabledEndTime"
             />
           </el-form-item>
           <el-form-item :label="t('oa.leave.reason')" prop="reason">
@@ -190,6 +193,42 @@ const daysDifference = () => {
   const oneDay = 24 * 60 * 60 * 1000 // 一天的毫秒数
   const diffTime = Math.abs(Number(formData.value.endTime) - Number(formData.value.startTime))
   return Math.floor(diffTime / oneDay)
+}
+
+// 禁用过去日期
+const disabledPastDate = (time: Date) => {
+  return time.getTime() < Date.now() - 8.64e7
+}
+
+// 禁用结束时间早于开始时间
+const disabledEndTime = (date: Date) => {
+  if (!formData.value.startTime) {
+    return {
+      disabledHours: () => [],
+      disabledMinutes: () => [],
+      disabledSeconds: () => []
+    }
+  }
+  const startDate = new Date(Number(formData.value.startTime))
+  const currentDate = new Date(date)
+  
+  const disabledHours: number[] = []
+  const disabledMinutes: number[] = []
+  const disabledSeconds: number[] = []
+  
+  if (currentDate < startDate) {
+    return {
+      disabledHours: () => Array.from({ length: 24 }, (_, i) => i),
+      disabledMinutes: () => [],
+      disabledSeconds: () => []
+    }
+  }
+  
+  return {
+    disabledHours,
+    disabledMinutes,
+    disabledSeconds
+  }
 }
 
 /** 获取请假数据，用于重新发起时自动填充 */

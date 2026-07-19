@@ -224,4 +224,12 @@ public class CrmBusinessController {
         return success(true);
     }
 
+    @PostMapping("/convert-to-order")
+    @Operation(summary = "商机转化为订单")
+    @PreAuthorize("@ss.hasPermission('crm:business:update')")
+    public CommonResult<Long> convertToOrder(@RequestParam("businessId") Long businessId,
+                                             @RequestParam(value = "contractId", required = false) Long contractId) {
+        return success(businessService.convertToOrder(businessId, getLoginUserId(), contractId));
+    }
+
 }

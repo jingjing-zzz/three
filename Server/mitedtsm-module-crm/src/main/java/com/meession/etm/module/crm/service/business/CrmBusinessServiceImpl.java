@@ -20,6 +20,7 @@ import com.meession.etm.module.crm.dal.mysql.business.CrmBusinessProductMapper;
 import com.meession.etm.module.crm.enums.common.CrmBizTypeEnum;
 import com.meession.etm.module.crm.enums.permission.CrmPermissionLevelEnum;
 import com.meession.etm.module.crm.framework.permission.core.annotations.CrmPermission;
+import com.meession.etm.module.crm.mq.message.business.CrmBusinessConvertOrderMessage;
 import com.meession.etm.module.crm.service.contact.CrmContactBusinessService;
 import com.meession.etm.module.crm.service.contact.CrmContactService;
 import com.meession.etm.module.crm.service.contract.CrmContractService;
@@ -33,6 +34,7 @@ import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import jakarta.annotation.Resource;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +85,8 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
 
     @Resource
     private AdminUserApi adminUserApi;
+    @Resource
+    private ApplicationContext applicationContext;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -397,6 +401,19 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
     @Override
     public PageResult<CrmBusinessDO> getBusinessPageByDate(CrmStatisticsFunnelReqVO pageVO) {
         return businessMapper.selectPage(pageVO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CrmPermission(bizType = CrmBizTypeEnum.CRM_BUSINESS, bizId = "#businessId", level = CrmPermissionLevelEnum.WRITE)
+    public Long convertToOrder(Long businessId, Long userId, Long contractId) {
+        validateBusinessExists(businessId);
+        CrmBusinessConvertOrderMessage message = new CrmBusinessConvertOrderMessage();
+        message.setBusinessId(businessId);
+        message.setUserId(userId);
+        message.setContractId(contractId);
+        applicationContext.publishEvent(message);
+        return businessId;
     }
 
 }
