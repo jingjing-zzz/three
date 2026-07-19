@@ -1,0 +1,159 @@
+[[1;34mINFO[m] Error stacktraces are turned on.
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1mReactor Build Order:[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] mitedtsm-dependencies                                              [pom]
+[[1;34mINFO[m] mitedtsm                                                           [pom]
+[[1;34mINFO[m] mitedtsm-framework                                                 [pom]
+[[1;34mINFO[m] mitedtsm-common                                                    [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-web                                   [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-security                              [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-mybatis                               [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-redis                                 [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-mq                                    [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-job                                   [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-test                                  [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-tenant                            [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-websocket                             [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-monitor                               [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-protection                            [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-ip                                [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-excel                                 [jar]
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-data-permission                   [jar]
+[[1;34mINFO[m] mitedtsm-module-infra                                              [jar]
+[[1;34mINFO[m] mitedtsm-module-system                                             [jar]
+[[1;34mINFO[m] mitedtsm-module-member                                             [jar]
+[[1;34mINFO[m] mitedtsm-module-report                                             [jar]
+[[1;34mINFO[m] mitedtsm-module-bpm                                                [jar]
+[[1;34mINFO[m] mitedtsm-module-pay                                                [jar]
+[[1;34mINFO[m] mitedtsm-module-mp                                                 [jar]
+[[1;34mINFO[m] mitedtsm-module-mall                                               [pom]
+[[1;34mINFO[m] mitedtsm-module-product                                            [jar]
+[[1;34mINFO[m] mitedtsm-module-trade-api                                          [jar]
+[[1;34mINFO[m] mitedtsm-module-promotion                                          [jar]
+[[1;34mINFO[m] mitedtsm-module-trade                                              [jar]
+[[1;34mINFO[m] mitedtsm-module-statistics                                         [jar]
+[[1;34mINFO[m] mitedtsm-module-crm                                                [jar]
+[[1;34mINFO[m] mitedtsm-module-erp                                                [jar]
+[[1;34mINFO[m] mitedtsm-module-ai                                                 [jar]
+[[1;34mINFO[m] mitedtsm-module-iot                                                [pom]
+[[1;34mINFO[m] mitedtsm-module-iot-core                                           [jar]
+[[1;34mINFO[m] mitedtsm-module-iot-biz                                            [jar]
+[[1;34mINFO[m] mitedtsm-server                                                    [jar]
+[[1;34mINFO[m] mitedtsm-module-iot-gateway                                        [jar]
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/codehaus/mojo/maven-metadata.xml
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-metadata.xml
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 16 kBProgress (1): 20 kBProgress (1): 21 kBProgress (2): 21 kB | 4.1 kBProgress (2): 21 kB | 8.2 kBProgress (2): 21 kB | 12 kB Progress (2): 21 kB | 14 kB                           Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-metadata.xml[90m (14 kB at 21 kB/s)[0m
+Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/codehaus/mojo/maven-metadata.xml[90m (21 kB at 30 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-deploy-plugin/3.1.2/maven-deploy-plugin-3.1.2.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 9.6 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-deploy-plugin/3.1.2/maven-deploy-plugin-3.1.2.pom[90m (9.6 kB at 44 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-deploy-plugin/3.1.2/maven-deploy-plugin-3.1.2.jar
+Progress (1): 2.3/40 kBProgress (1): 5.0/40 kBProgress (1): 7.7/40 kBProgress (1): 10/40 kB Progress (1): 13/40 kBProgress (1): 16/40 kBProgress (1): 19/40 kBProgress (1): 21/40 kBProgress (1): 24/40 kBProgress (1): 27/40 kBProgress (1): 30/40 kBProgress (1): 32/40 kBProgress (1): 35/40 kBProgress (1): 38/40 kBProgress (1): 40 kB                      Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-deploy-plugin/3.1.2/maven-deploy-plugin-3.1.2.jar[90m (40 kB at 202 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-site-plugin/3.12.1/maven-site-plugin-3.12.1.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 16 kBProgress (1): 20 kB                   Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-site-plugin/3.12.1/maven-site-plugin-3.12.1.pom[90m (20 kB at 97 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/36/maven-plugins-36.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 9.9 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/36/maven-plugins-36.pom[90m (9.9 kB at 52 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/maven-parent/36/maven-parent-36.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 16 kBProgress (1): 20 kBProgress (1): 25 kBProgress (1): 29 kBProgress (1): 33 kBProgress (1): 37 kBProgress (1): 41 kBProgress (1): 45 kBProgress (1): 45 kB                   Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/maven-parent/36/maven-parent-36.pom[90m (45 kB at 234 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/apache/26/apache-26.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 16 kBProgress (1): 20 kBProgress (1): 21 kB                   Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/apache/26/apache-26.pom[90m (21 kB at 103 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-site-plugin/3.12.1/maven-site-plugin-3.12.1.jar
+Progress (1): 3.8/119 kBProgress (1): 7.8/119 kBProgress (1): 12/119 kB Progress (1): 16/119 kBProgress (1): 20/119 kBProgress (1): 24/119 kBProgress (1): 28/119 kBProgress (1): 32/119 kBProgress (1): 37/119 kBProgress (1): 41/119 kBProgress (1): 45/119 kBProgress (1): 49/119 kBProgress (1): 53/119 kBProgress (1): 57/119 kBProgress (1): 61/119 kBProgress (1): 65/119 kBProgress (1): 69/119 kBProgress (1): 73/119 kBProgress (1): 77/119 kBProgress (1): 81/119 kBProgress (1): 85/119 kBProgress (1): 89/119 kBProgress (1): 93/119 kBProgress (1): 97/119 kBProgress (1): 101/119 kBProgress (1): 106/119 kBProgress (1): 110/119 kBProgress (1): 114/119 kBProgress (1): 118/119 kBProgress (1): 119 kB                        Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-site-plugin/3.12.1/maven-site-plugin-3.12.1.jar[90m (119 kB at 334 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 9.1 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.pom[90m (9.1 kB at 37 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/34/maven-plugins-34.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 11 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/34/maven-plugins-34.pom[90m (11 kB at 59 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.jar
+Progress (1): 4.1/41 kBProgress (1): 7.7/41 kBProgress (1): 11/41 kB Progress (1): 15/41 kBProgress (1): 20/41 kBProgress (1): 24/41 kBProgress (1): 28/41 kBProgress (1): 32/41 kBProgress (1): 36/41 kBProgress (1): 40/41 kBProgress (1): 41 kB                      Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-antrun-plugin/3.1.0/maven-antrun-plugin-3.1.0.jar[90m (41 kB at 203 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-assembly-plugin/3.7.1/maven-assembly-plugin-3.7.1.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 15 kB                   Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-assembly-plugin/3.7.1/maven-assembly-plugin-3.7.1.pom[90m (15 kB at 68 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom
+Progress (1): 4.1 kBProgress (1): 7.4 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom[90m (7.4 kB at 42 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-assembly-plugin/3.7.1/maven-assembly-plugin-3.7.1.jar
+Progress (1): 4.1/240 kBProgress (1): 7.7/240 kBProgress (1): 12/240 kB Progress (1): 16/240 kBProgress (1): 20/240 kBProgress (1): 24/240 kBProgress (1): 28/240 kBProgress (1): 32/240 kBProgress (1): 36/240 kBProgress (1): 40/240 kBProgress (1): 45/240 kBProgress (1): 49/240 kBProgress (1): 53/240 kBProgress (1): 57/240 kBProgress (1): 61/240 kBProgress (1): 65/240 kBProgress (1): 69/240 kBProgress (1): 73/240 kBProgress (1): 77/240 kBProgress (1): 81/240 kBProgress (1): 86/240 kBProgress (1): 90/240 kBProgress (1): 94/240 kBProgress (1): 98/240 kBProgress (1): 102/240 kBProgress (1): 106/240 kBProgress (1): 110/240 kBProgress (1): 114/240 kBProgress (1): 118/240 kBProgress (1): 122/240 kBProgress (1): 126/240 kBProgress (1): 131/240 kBProgress (1): 135/240 kBProgress (1): 139/240 kBProgress (1): 143/240 kBProgress (1): 147/240 kBProgress (1): 151/240 kBProgress (1): 155/240 kBProgress (1): 159/240 kBProgress (1): 163/240 kBProgress (1): 167/240 kBProgress (1): 172/240 kBProgress (1): 176/240 kBProgress (1): 180/240 kBProgress (1): 184/240 kBProgress (1): 188/240 kBProgress (1): 192/240 kBProgress (1): 196/240 kBProgress (1): 200/240 kBProgress (1): 204/240 kBProgress (1): 208/240 kBProgress (1): 213/240 kBProgress (1): 217/240 kBProgress (1): 221/240 kBProgress (1): 225/240 kBProgress (1): 229/240 kBProgress (1): 233/240 kBProgress (1): 237/240 kBProgress (1): 240 kB                        Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-assembly-plugin/3.7.1/maven-assembly-plugin-3.7.1.jar[90m (240 kB at 482 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-dependency-plugin/3.7.0/maven-dependency-plugin-3.7.0.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 12 kB Progress (1): 16 kBProgress (1): 19 kB                   Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-dependency-plugin/3.7.0/maven-dependency-plugin-3.7.0.pom[90m (19 kB at 78 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-dependency-plugin/3.7.0/maven-dependency-plugin-3.7.0.jar
+Progress (1): 4.1/207 kBProgress (1): 7.7/207 kBProgress (1): 12/207 kB Progress (1): 16/207 kBProgress (1): 20/207 kBProgress (1): 24/207 kBProgress (1): 28/207 kBProgress (1): 32/207 kBProgress (1): 36/207 kBProgress (1): 40/207 kBProgress (1): 45/207 kBProgress (1): 49/207 kBProgress (1): 53/207 kBProgress (1): 57/207 kBProgress (1): 61/207 kBProgress (1): 65/207 kBProgress (1): 69/207 kBProgress (1): 73/207 kBProgress (1): 77/207 kBProgress (1): 81/207 kBProgress (1): 86/207 kBProgress (1): 90/207 kBProgress (1): 94/207 kBProgress (1): 98/207 kBProgress (1): 102/207 kBProgress (1): 106/207 kBProgress (1): 110/207 kBProgress (1): 114/207 kBProgress (1): 118/207 kBProgress (1): 122/207 kBProgress (1): 126/207 kBProgress (1): 131/207 kBProgress (1): 135/207 kBProgress (1): 139/207 kBProgress (1): 143/207 kBProgress (1): 147/207 kBProgress (1): 151/207 kBProgress (1): 155/207 kBProgress (1): 159/207 kBProgress (1): 163/207 kBProgress (1): 167/207 kBProgress (1): 172/207 kBProgress (1): 176/207 kBProgress (1): 180/207 kBProgress (1): 184/207 kBProgress (1): 188/207 kBProgress (1): 192/207 kBProgress (1): 196/207 kBProgress (1): 200/207 kBProgress (1): 204/207 kBProgress (1): 207 kB                        Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-dependency-plugin/3.7.0/maven-dependency-plugin-3.7.0.jar[90m (207 kB at 518 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 9.8 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.pom[90m (9.8 kB at 56 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/release/maven-release/3.0.1/maven-release-3.0.1.pom
+Progress (1): 4.1 kBProgress (1): 8.2 kBProgress (1): 11 kB                    Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/release/maven-release/3.0.1/maven-release-3.0.1.pom[90m (11 kB at 57 kB/s)[0m
+[90mDownloading from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.jar
+Progress (1): 3.2/61 kBProgress (1): 7.3/61 kBProgress (1): 11/61 kB Progress (1): 15/61 kBProgress (1): 20/61 kBProgress (1): 24/61 kBProgress (1): 28/61 kBProgress (1): 32/61 kBProgress (1): 36/61 kBProgress (1): 40/61 kBProgress (1): 44/61 kBProgress (1): 48/61 kBProgress (1): 52/61 kBProgress (1): 56/61 kBProgress (1): 61/61 kBProgress (1): 61 kB                      Downloaded[90m from [0mcentral[90m: https://repo.maven.apache.org/maven2/[0morg/apache/maven/plugins/maven-release-plugin/3.0.1/maven-release-plugin-3.0.1.jar[90m (61 kB at 287 kB/s)[0m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1mReactor Summary for mitedtsm 2026.01-SNAPSHOT:[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] mitedtsm-dependencies .............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm ........................................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-framework ................................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-common .................................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-web ................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-security .............. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-mybatis ............... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-redis ................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-mq .................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-job ................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-test .................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-tenant ............ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-websocket ............. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-monitor ............... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-protection ............ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-ip ................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-excel ................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-spring-boot-starter-biz-data-permission ... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-infra .............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-system ............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-member ............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-report ............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-bpm ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-pay ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-mp ................................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-mall ............................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-product ............................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-trade-api .......................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-promotion .......................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-trade .............................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-statistics ......................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-crm ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-erp ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-ai ................................. [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-iot ................................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-iot-core ........................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-iot-biz ............................ [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-server .................................... [1;33mSKIPPED[m
+[[1;34mINFO[m] mitedtsm-module-iot-gateway ........................ [1;33mSKIPPED[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  5.740 s
+[[1;34mINFO[m] Finished at: 2026-07-14T10:15:43+08:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] No plugin found for prefix 'spring-boot' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (/home/sar/.m2/repository), central (https://repo.maven.apache.org/maven2)] -> [1m[Help 1][m
+[1;31morg.apache.maven.plugin.prefix.NoPluginFoundForPrefixException[m: [1;31mNo plugin found for prefix 'spring-boot' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories [local (/home/sar/.m2/repository), central (https://repo.maven.apache.org/maven2)][m
+    [1mat[m org.apache.maven.plugin.prefix.internal.DefaultPluginPrefixResolver.resolve ([1mDefaultPluginPrefixResolver.java:122[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoDescriptorCreator.findPluginForPrefix ([1mMojoDescriptorCreator.java:247[m)
+    [1mat[m org.apache.maven.lifecycle.internal.MojoDescriptorCreator.getMojoDescriptor ([1mMojoDescriptorCreator.java:209[m)
+    [1mat[m org.apache.maven.lifecycle.internal.DefaultLifecycleTaskSegmentCalculator.calculateTaskSegments ([1mDefaultLifecycleTaskSegmentCalculator.java:94[m)
+    [1mat[m org.apache.maven.lifecycle.internal.DefaultLifecycleTaskSegmentCalculator.calculateTaskSegments ([1mDefaultLifecycleTaskSegmentCalculator.java:76[m)
+    [1mat[m org.apache.maven.lifecycle.internal.LifecycleStarter.execute ([1mLifecycleStarter.java:84[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:261[m)
+    [1mat[m org.apache.maven.DefaultMaven.doExecute ([1mDefaultMaven.java:173[m)
+    [1mat[m org.apache.maven.DefaultMaven.execute ([1mDefaultMaven.java:101[m)
+    [1mat[m org.apache.maven.cli.MavenCli.execute ([1mMavenCli.java:919[m)
+    [1mat[m org.apache.maven.cli.MavenCli.doMain ([1mMavenCli.java:285[m)
+    [1mat[m org.apache.maven.cli.MavenCli.main ([1mMavenCli.java:207[m)
+    [1mat[m jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 ([1mNative Method[m)
+    [1mat[m jdk.internal.reflect.NativeMethodAccessorImpl.invoke ([1mNativeMethodAccessorImpl.java:77[m)
+    [1mat[m jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke ([1mDelegatingMethodAccessorImpl.java:43[m)
+    [1mat[m java.lang.reflect.Method.invoke ([1mMethod.java:569[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced ([1mLauncher.java:283[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.launch ([1mLauncher.java:226[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode ([1mLauncher.java:407[m)
+    [1mat[m org.codehaus.plexus.classworlds.launcher.Launcher.main ([1mLauncher.java:348[m)
+[[1;31mERROR[m] 
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/NoPluginFoundForPrefixException
