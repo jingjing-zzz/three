@@ -25,7 +25,7 @@ public class MarketingApprovalServiceImpl implements MarketingApprovalService {
     @Transactional(rollbackFor = Exception.class)
     public Long createApproval(MarketingApprovalSaveReqVO createReqVO) {
         MarketingApprovalDO approval = BeanUtils.toBean(createReqVO, MarketingApprovalDO.class);
-        approval.setStatus(createReqVO.getStatus() != null ? createReqVO.getStatus() : 1);
+        approval.setStatus(createReqVO.getStatus() != null ? createReqVO.getStatus() : 0); // 默认待审批
         approvalMapper.insert(approval);
         return approval.getId();
     }

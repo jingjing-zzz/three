@@ -26,7 +26,7 @@ public class MarketingCampaignServiceImpl implements MarketingCampaignService {
     @Transactional(rollbackFor = Exception.class)
     public Long createCampaign(MarketingCampaignSaveReqVO createReqVO) {
         MarketingCampaignDO campaign = BeanUtils.toBean(createReqVO, MarketingCampaignDO.class);
-        campaign.setStatus(createReqVO.getStatus() != null ? createReqVO.getStatus() : 1);
+        campaign.setStatus(createReqVO.getStatus() != null ? createReqVO.getStatus() : 0); // 默认草稿
         campaign.setTotalTargetCount(0);
         campaign.setSendCount(0);
         campaign.setSuccessCount(0);
