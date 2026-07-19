@@ -47,6 +47,11 @@ public class CrmPermissionAspect {
     public void doBefore(JoinPoint joinPoint, CrmPermission crmPermission) {
         // 1.1 获取相关属性值
         Map<String, Object> expressionValues = parseExpressions(joinPoint, crmPermission);
+        log.warn("[CRM权限] 方法={} bizId={} bizType={} level={}",
+                joinPoint.getSignature().getName(),
+                expressionValues.get(crmPermission.bizId()),
+                crmPermission.bizType().length > 0 ? crmPermission.bizType()[0].getType() : crmPermission.bizTypeValue(),
+                crmPermission.level().getLevel());
         Integer bizType = StrUtil.isEmpty(crmPermission.bizTypeValue()) ?
                 crmPermission.bizType()[0].getType() : (Integer) expressionValues.get(crmPermission.bizTypeValue()); // 模块类型
         // 1.2 处理兼容多个 bizId 的情况
@@ -88,6 +93,8 @@ public class CrmPermissionAspect {
         // 2. 只考虑自身的权限
         Long userId = getUserId();
         CrmPermissionDO userPermission = CollUtil.findOne(bizPermissions, permission -> ObjUtil.equal(permission.getUserId(), userId));
+        log.warn("[CRM权限校验] userId={} userLevel={} requiredLevel={}", userId,
+                userPermission != null ? userPermission.getLevel() : "null", permissionLevel);
         if (userPermission != null) {
             // 2.1 明确被移除（NONE）的用户，直接拒绝所有访问
             if (CrmPermissionLevelEnum.isNone(userPermission.getLevel())) {
