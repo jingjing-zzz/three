@@ -241,9 +241,8 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
                 permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
                         .setLevel(transferReqBO.getOldOwnerPermissionLevel()));
             } else {
-                // 移除时标记为 NONE（而非删除），用于后续查询中排除该用户（如下属视图）
-                permissionMapper.updateById(new CrmPermissionDO().setId(oldPermission.getId())
-                        .setLevel(CrmPermissionLevelEnum.NONE.getLevel()));
+                // 移除时直接删除权限记录，原负责人不再出现在"我参与的"列表中
+                permissionMapper.deleteById(oldPermission.getId());
             }
         }
     }

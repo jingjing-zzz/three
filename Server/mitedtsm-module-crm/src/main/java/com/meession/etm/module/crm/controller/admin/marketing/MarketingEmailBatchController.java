@@ -6,6 +6,8 @@ import com.meession.etm.framework.common.util.object.BeanUtils;
 import com.meession.etm.module.crm.controller.admin.marketing.vo.email.MarketingEmailBatchPageReqVO;
 import com.meession.etm.module.crm.controller.admin.marketing.vo.email.MarketingEmailBatchRespVO;
 import com.meession.etm.module.crm.controller.admin.marketing.vo.email.MarketingEmailBatchSaveReqVO;
+import com.meession.etm.module.crm.controller.admin.marketing.vo.email.MarketingEmailSendDirectReqVO;
+import com.meession.etm.module.crm.controller.admin.marketing.vo.email.MarketingEmailSendDirectRespVO;
 import com.meession.etm.module.crm.dal.dataobject.marketing.MarketingEmailBatchDO;
 import com.meession.etm.module.crm.service.marketing.MarketingEmailBatchService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,6 +78,14 @@ public class MarketingEmailBatchController {
     public CommonResult<Boolean> sendEmailBatch(@RequestParam("id") Long id) {
         emailBatchService.sendEmailBatch(id);
         return success(true);
+    }
+
+    @PostMapping("/send-direct")
+    @Operation(summary = "快速发送邮件（不预先创建批次，支持手动输入或从客户选择收件人）")
+    @PreAuthorize("@ss.hasPermission('crm:marketing:email-send:send')")
+    public CommonResult<MarketingEmailSendDirectRespVO> sendDirectEmail(
+            @Valid @RequestBody MarketingEmailSendDirectReqVO reqVO) {
+        return success(emailBatchService.sendDirectEmail(reqVO));
     }
 
 }

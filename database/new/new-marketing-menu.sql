@@ -14,7 +14,7 @@ ON DUPLICATE KEY UPDATE `name`='营销管理', `parent_id`=2397, `type`=1, `path
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5047, '营销活动', '', 2, 1, 5080, 'campaign', '', 'crm/marketing/campaign/index', 'MarketingCampaign', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=1, `path`='campaign';
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=1, `path`='campaign', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5048, '营销活动查询', 'crm:marketing:campaign:query', 3, 1, 5047, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:campaign:query';
@@ -32,8 +32,8 @@ ON DUPLICATE KEY UPDATE `permission`='crm:marketing:campaign:delete';
 -- 三级菜单：短信群发批次
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (5052, '短信群发批次', '', 2, 2, 5080, 'sms-batch', 'ep:message', 'crm/marketing/smsBatch/index', 'MarketingSmsBatch', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=2, `path`='sms-batch';
+VALUES (5052, '短信群发批次', '', 2, 2, 5080, 'sms-batch', '', 'crm/marketing/smsBatch/index', 'MarketingSmsBatch', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=2, `path`='sms-batch', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5053, '短信群发批次查询', 'crm:marketing:sms-batch:query', 3, 1, 5052, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:sms-batch:query';
@@ -52,7 +52,7 @@ ON DUPLICATE KEY UPDATE `permission`='crm:marketing:sms-batch:delete';
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5057, '邮件群发批次', '', 2, 3, 5080, 'email-batch', '', 'crm/marketing/emailBatch/index', 'MarketingEmailBatch', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=3, `path`='email-batch';
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=3, `path`='email-batch', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5058, '邮件群发批次查询', 'crm:marketing:email-batch:query', 3, 1, 5057, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:email-batch:query';
@@ -70,8 +70,8 @@ ON DUPLICATE KEY UPDATE `permission`='crm:marketing:email-batch:delete';
 -- 三级菜单：客户关怀规则
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (5062, '客户关怀规则', '', 2, 4, 5080, 'customer-care', 'ep:heart', 'crm/marketing/customerCare/index', 'MarketingCustomerCare', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=4, `path`='customer-care';
+VALUES (5062, '客户关怀规则', '', 2, 4, 5080, 'customer-care', '', 'crm/marketing/customerCare/index', 'MarketingCustomerCare', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=4, `path`='customer-care', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5063, '客户关怀规则查询', 'crm:marketing:customer-care:query', 3, 1, 5062, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:customer-care:query';
@@ -89,8 +89,8 @@ ON DUPLICATE KEY UPDATE `permission`='crm:marketing:customer-care:delete';
 -- 三级菜单：群发审批
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (5067, '群发审批', '', 2, 5, 5080, 'approval', 'ep:check-circle', 'crm/marketing/approval/index', 'MarketingApproval', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=5, `path`='approval';
+VALUES (5067, '群发审批', '', 2, 5, 5080, 'approval', '', 'crm/marketing/approval/index', 'MarketingApproval', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=5, `path`='approval', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5068, '群发审批查询', 'crm:marketing:approval:query', 3, 1, 5067, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:approval:query';
@@ -108,8 +108,8 @@ ON DUPLICATE KEY UPDATE `permission`='crm:marketing:approval:delete';
 -- 三级菜单：发送记录
 -- =============================================
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
-VALUES (5072, '发送记录', '', 2, 6, 5080, 'send-record', 'ep:document', 'crm/marketing/sendRecord/index', 'MarketingSendRecord', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
-ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=6, `path`='send-record';
+VALUES (5072, '发送记录', '', 2, 6, 5080, 'send-record', '', 'crm/marketing/sendRecord/index', 'MarketingSendRecord', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
+ON DUPLICATE KEY UPDATE `parent_id`=5080, `sort`=6, `path`='send-record', `icon`='';
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `visible`, `keep_alive`, `always_show`, `creator`, `create_time`, `updater`, `update_time`, `deleted`)
 VALUES (5073, '发送记录查询', 'crm:marketing:send-record:query', 3, 1, 5072, '', '', '', '', 0, b'1', b'1', b'1', '1', NOW(), '1', NOW(), b'0')
 ON DUPLICATE KEY UPDATE `permission`='crm:marketing:send-record:query';

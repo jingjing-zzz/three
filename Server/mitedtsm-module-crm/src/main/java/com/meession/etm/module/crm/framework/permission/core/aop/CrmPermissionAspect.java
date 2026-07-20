@@ -68,7 +68,19 @@ public class CrmPermissionAspect {
     private void validatePermission(Integer bizType, List<CrmPermissionDO> bizPermissions, Integer permissionLevel) {
         // 1. 如果是超级管理员则直接通过
         if (CrmPermissionUtils.isCrmAdmin()) {
-            return;
+            // 例外：超管作为团队成员被设为只读权限时，写操作不绕过权限校验
+            // 场景：客户转移后原负责人（超管）选择只读，则不能修改客户信息
+            if (CrmPermissionLevelEnum.isWrite(permissionLevel)) {
+                Long userId = getUserId();
+                CrmPermissionDO userPermission = CollUtil.findOne(bizPermissions,
+                        permission -> ObjUtil.equal(permission.getUserId(), userId));
+                if (userPermission == null || !CrmPermissionLevelEnum.isRead(userPermission.getLevel())) {
+                    return; // 超管不在团队中，或权限不是只读 → 绕过
+                }
+                // 超管权限是只读，需要写权限 → 不绕过，继续走正常校验（会被拒绝）
+            } else {
+                return; // 非写权限（读操作），超管绕过
+            }
         }
         // 特殊：没有数据权限的情况，针对 READ 的特殊处理
         if (CollUtil.isEmpty(bizPermissions)) {

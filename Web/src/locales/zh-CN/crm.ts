@@ -926,6 +926,37 @@ export default {
         totalCount: '目标总数', sendCount: '已发送数', successCount: '成功数', failCount: '失败数', campaignId: '活动ID', templateId: '模板ID',
         status: { label: '状态', pending: '待发送', sending: '发送中', completed: '已完成', failed: '发送失败' }
       },
+      emailSend: {
+        title: '邮件发送',
+        recipients: '收件人邮箱',
+        recipientsPlaceholder: '输入邮箱地址后回车添加，或点击"从客户选择"按钮选择客户邮箱',
+        addFromCustomer: '从客户选择',
+        subject: '邮件主题',
+        content: '邮件内容',
+        campaignName: '活动名称（可选）',
+        send: '发送邮件',
+        sending: '发送中...',
+        sendConfirm: '确认发送该邮件吗？',
+        sendSuccess: '发送成功',
+        sendResult: '发送结果：共 {total} 封，成功 {success} 封，失败 {fail} 封',
+        customerSelect: {
+          title: '选择客户',
+          searchPlaceholder: '输入客户名称搜索',
+          name: '客户名称',
+          email: '邮箱',
+          mobile: '手机号',
+          ownerUserName: '负责人',
+          onlyWithEmail: '仅显示有邮箱的客户',
+          confirm: '添加选中客户邮箱',
+          noEmailTip: '所选客户中没有邮箱的客户将被忽略',
+          selectedCount: '已选 {count} 个客户'
+        },
+        validation: {
+          emailsRequired: '请添加至少一个收件人邮箱',
+          subjectRequired: '请输入邮件主题',
+          contentRequired: '请输入邮件内容'
+        }
+      },
       customerCare: {
         title: '客户关怀规则', name: '规则名称',
         type: { label: '规则类型', birthday: '生日关怀', anniversary: '纪念日关怀', custom: '自定义规则' },

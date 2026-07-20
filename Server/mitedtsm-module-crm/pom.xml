@@ -67,6 +67,12 @@
             <artifactId>mitedtsm-spring-boot-starter-excel</artifactId>
         </dependency>
 
+        <!-- 邮件发送：营销管理邮件批次真实发送 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- Test 测试相关 -->
         <dependency>
             <groupId>com.meession.etm</groupId>

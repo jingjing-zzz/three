@@ -920,6 +920,37 @@ export default {
         totalCount: 'Total Targets', sendCount: 'Sent', successCount: 'Successful', failCount: 'Failed', campaignId: 'Campaign ID', templateId: 'Template ID',
         status: { label: 'Status', pending: 'Pending', sending: 'Sending', completed: 'Completed', failed: 'Failed' }
       },
+      emailSend: {
+        title: 'Send Email',
+        recipients: 'Recipients',
+        recipientsPlaceholder: 'Type an email and press Enter, or click "Add from Customer" to select customer emails',
+        addFromCustomer: 'Add from Customer',
+        subject: 'Subject',
+        content: 'Content',
+        campaignName: 'Campaign Name (optional)',
+        send: 'Send Email',
+        sending: 'Sending...',
+        sendConfirm: 'Confirm to send this email?',
+        sendSuccess: 'Sent successfully',
+        sendResult: 'Result: {total} total, {success} succeeded, {fail} failed',
+        customerSelect: {
+          title: 'Select Customer',
+          searchPlaceholder: 'Search by customer name',
+          name: 'Customer Name',
+          email: 'Email',
+          mobile: 'Mobile',
+          ownerUserName: 'Owner',
+          onlyWithEmail: 'Only show customers with email',
+          confirm: 'Add Selected Customer Emails',
+          noEmailTip: 'Customers without email will be ignored',
+          selectedCount: '{count} customer(s) selected'
+        },
+        validation: {
+          emailsRequired: 'Please add at least one recipient email',
+          subjectRequired: 'Please enter the email subject',
+          contentRequired: 'Please enter the email content'
+        }
+      },
       customerCare: {
         title: 'Customer Care Rules', name: 'Rule Name',
         type: { label: 'Rule Type', birthday: 'Birthday Care', anniversary: 'Anniversary Care', custom: 'Custom Rule' },

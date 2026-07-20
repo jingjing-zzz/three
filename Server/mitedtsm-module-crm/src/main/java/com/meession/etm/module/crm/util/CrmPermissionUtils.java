@@ -55,10 +55,9 @@ public class CrmPermissionUtils {
             query.eq(ownerUserIdField, userId);
         }
         // 场景二：我参与的数据（我有读或写权限，并且不是负责人）
+        // 注意：超管不再绕过此场景的权限过滤，以保证转移时选择"移除"后，原负责人（含超管）
+        // 不会在"我参与的"列表中继续看到该客户。超管如需查看全部数据，请使用"全部"或不指定场景。
         if (CrmSceneTypeEnum.isInvolved(sceneType)) {
-            if (CrmPermissionUtils.isCrmAdmin()) { // 特殊逻辑：如果是超管，直接查询所有，不过滤数据权限
-                return;
-            }
             query.innerJoin(CrmPermissionDO.class, on -> on.eq(CrmPermissionDO::getBizType, bizType)
                     .eq(CrmPermissionDO::getBizId, bizId)
                     .in(CrmPermissionDO::getLevel, CrmPermissionLevelEnum.READ.getLevel(), CrmPermissionLevelEnum.WRITE.getLevel())

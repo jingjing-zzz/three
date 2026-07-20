@@ -1,4 +1,4 @@
-CREATE TABLE `crm_business_quotation_snapshot` (
+CREATE TABLE IF NOT EXISTS `crm_business_quotation_snapshot` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '编号',
   `business_id` BIGINT NOT NULL COMMENT '商机编号',
   `quotation_id` BIGINT NOT NULL COMMENT '报价编号',

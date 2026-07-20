@@ -25,9 +25,8 @@ public class TDengineTableInitRunner implements ApplicationRunner {
             // 初始化设备消息表
             deviceMessageService.defineDeviceMessageStable();
         } catch (Exception ex) {
-            // 初始化失败时打印错误消息并退出系统
-            log.error("[run][TDengine初始化设备消息表结构失败，系统无法正常运行，即将退出]", ex);
-            System.exit(1);
+            // 初始化失败时仅打印警告，不强制退出系统，避免本地无 TDengine 时阻塞其他模块启动
+            log.warn("[run][TDengine初始化设备消息表结构失败，IoT 物联网模块相关功能将不可用，其他模块不受影响]", ex);
         }
     }
 
